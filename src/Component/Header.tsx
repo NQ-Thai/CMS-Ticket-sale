@@ -5,14 +5,11 @@ function Header() {
         <div>
             <header className="header">
                 <img className="image-logo" src={logo} alt="" />
-                <div className="search-bar">
-                    {/* <form className="search-form d-flex align-items-center" action="#">
-                        <input type="text" placeholder="Search" />
-                        <button type="submit" title="Search">
-                            <i className="bi bi-search" />
-                        </button>
-                    </form> */}
-                </div>
+
+                <input className="search" type="text" placeholder="Search" />
+                <button type="submit" title="Search">
+                    <i className="bi bi-search" />
+                </button>
             </header>
         </div>
     );
