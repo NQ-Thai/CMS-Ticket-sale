@@ -33,10 +33,10 @@ code {
 
 /* SideBar */
 
-.header .image-logo {
+/* .header .image-logo {
     width: 133px;
     height: 58px;
-}
+} */
 
 /* .sidebar .image-div {
     width: 133px;
@@ -482,15 +482,15 @@ a:hover {
   # Header
   --------------------------------------------------------------*/
 
-.header {
+/* .header {
     position: relative;
     transition: all 0.5s;
     z-index: 300;
     height: 70px;
-    background-color: #fff;
+    background-color: #f8f9fa;
     padding-left: 33px;
     padding-top: 17px;
-}
+} */
 
 .header .toggle-sidebar-btn {
     font-size: 32px;
@@ -530,8 +530,8 @@ a:hover {
     }
 }
 
-.header .search-form {
-    width: 100%;
+.header .search {
+    width: 40%;
 }
 
 .header .search-form input {
@@ -636,12 +636,13 @@ a:hover {
     top: 77px;
     left: 0;
     bottom: 0;
+    background-color: #f8f9fa;
     width: Hug (252px);
     z-index: 996;
     transition: all 0.3s;
     padding: 20px;
     /* box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1); */
-    background-color: #fff;
+    /* background-color: #fff; */
 }
 
 @media (max-width: 1199px) {
@@ -693,7 +694,7 @@ a:hover {
 .sidebar-nav .nav-heading {
     font-size: 11px;
     text-transform: uppercase;
-    color: #899bbd;
+    /* color: #899bbd; */
     font-weight: 600;
     margin: 10px 0 5px 15px;
 }
@@ -718,7 +719,7 @@ a:hover {
 /* check */
 .sidebar-nav .nav-link.collapsed {
     color: #1e0d03;
-    background: #fff;
+    background: #f8f9fa;
 }
 /* check */
 .sidebar-nav .nav-link.collapsed i {
@@ -1209,7 +1210,6 @@ a:hover {
 
 /* Content */
 .content {
-    padding-left: 300px;
     font-family: Montserrat;
     font-size: 36px;
     font-weight: 700;
@@ -1217,4 +1217,77 @@ a:hover {
     letter-spacing: 0em;
     text-align: left;
     color: #1e0d03;
+}
+
+/* Search */
+.header .search {
+    height: 40px;
+    background-color: #ede6e6;
+    padding-left: 100px;
+}
+
+.header .mail-icon {
+    margin-left: 350px;
+    padding: 0 24px 24px 0;
+    width: 24px;
+    height: 24px;
+    opacity: 10px;
+}
+
+.header .bell-icon {
+    padding: 0 24px 24px 0;
+    width: 24px;
+    height: 24px;
+    opacity: 0.800000011920929px;
+}
+
+.header .img-avata {
+    padding: 0 0 13px 0;
+    width: 48px;
+    height: 48px;
+}
+
+/* Antd */
+.container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.top {
+    background-color: white;
+    height: 80px;
+    padding-left: 33px;
+    padding-top: 17px;
+}
+.image-logo {
+    width: 133px;
+    height: 58px;
+}
+
+.icon {
+    display: inline;
+    margin-left: 385px;
+}
+
+.icon .mail-icon {
+    width: 24px;
+    height: 24px;
+    opacity: 10px;
+}
+
+.icon .bell-icon {
+    margin: 0 0 0 27px;
+    opacity: 0.800000011920929px;
+    width: 24px;
+    height: 24px;
+}
+
+.icon .img-avata {
+    margin: 0 0 15px 24px;
+    width: 48px;
+    height: 48px;
+}
+.sider {
+    background-color: wheat;
+    /* margin-top: 15px; */
 }

@@ -1,12 +1,21 @@
-import Header from '../../Component/Header';
+import { Layout } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import Top from '../../Component/Header';
 import NavBar from '../../Component/NavBar';
 
 function Home() {
     return (
-        <div>
-            <Header />
-            <NavBar />
-        </div>
+        <>
+            <Layout>
+                <Top />
+            </Layout>
+            <Layout className="container">
+                <NavBar />
+                <Layout>
+                    <Content className="content">Hello</Content>
+                </Layout>
+            </Layout>
+        </>
     );
 }
 
