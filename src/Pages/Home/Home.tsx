@@ -5,17 +5,17 @@ import NavBar from '../../Component/NavBar';
 
 function Home() {
     return (
-        <>
+        <div>
             <Layout>
                 <Top />
             </Layout>
             <Layout className="container">
                 <NavBar />
                 <Layout>
-                    <Content className="content">Hello</Content>
+                    <Content className="content">Thống kê</Content>
                 </Layout>
             </Layout>
-        </>
+        </div>
     );
 }
 

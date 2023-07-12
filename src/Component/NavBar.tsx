@@ -1,18 +1,29 @@
 import { Menu } from 'antd';
 import Sider from 'antd/es/layout/Sider';
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
+    const navigate = useNavigate();
     return (
-        // <Layout className="container">
         <Sider
             width={265}
             className="sider"
             style={{
-                backgroundColor: 'white',
-                paddingTop: '59px',
+                backgroundColor: 'rgb(249, 247, 247)',
+                paddingTop: '40px',
+                paddingLeft: '25px',
             }}
         >
             <Menu
+                style={{
+                    backgroundColor: 'rgb(249, 247, 247)',
+                }}
+                mode="inline"
+                // selectedKeys={['/trangchu']}
+                theme="light"
+                onClick={(item) => {
+                    navigate(item.key);
+                }}
                 items={[
                     {
                         label: 'Trang chủ',
@@ -92,15 +103,16 @@ function NavBar() {
                                 />
                             </svg>
                         ),
+                        children: [
+                            {
+                                label: 'Gói sự kiện',
+                                key: '/goisukien',
+                            },
+                        ],
                     },
                 ]}
             />
         </Sider>
-
-        // <Layout>
-        //     <Content>Hello</Content>
-        // </Layout>
-        /* </Layout> */
     );
 
     // <aside className="sidebar">

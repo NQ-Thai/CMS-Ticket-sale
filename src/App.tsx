@@ -3,7 +3,7 @@ import './App.css';
 import Doisoatve from './Pages/Doisoatve';
 import Goidichvu from './Pages/Goidichvu';
 import Home from './Pages/Home/Home';
-import Quanlive from './Pages/Quanlive';
+import Quanlive from './Pages/Quanlive/Quanlive';
 import Trangchu from './Pages/Trangchu';
 
 function App() {
