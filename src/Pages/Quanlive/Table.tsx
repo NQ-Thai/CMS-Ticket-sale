@@ -1,5 +1,7 @@
 import { Space, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { BsFillCircleFill } from 'react-icons/bs';
+import { SlOptionsVertical } from 'react-icons/sl';
 
 interface DataType {
     key: string;
@@ -7,6 +9,9 @@ interface DataType {
     bookingCode: string;
     soVe: string;
     tinhTrang: string[];
+    ngaySuDung: string;
+    ngayXuatVe: string;
+    congCheckIn: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -14,7 +19,7 @@ const columns: ColumnsType<DataType> = [
         title: 'STT',
         dataIndex: 'stt',
         key: 'stt',
-        render: (text) => <a>{text}</a>,
+        // render: (text) => <a>{text}</a>,
     },
     {
         title: 'Booking Code',
@@ -34,12 +39,12 @@ const columns: ColumnsType<DataType> = [
             <>
                 {tinhTrang.map((tag) => {
                     let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
+                    if (tag === 'Hết hạn') {
+                        color = 'red';
+                    } else if (tag === 'Chưa sử dụng') color = 'green';
                     return (
                         <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
+                            <BsFillCircleFill /> {tag.toUpperCase()}
                         </Tag>
                     );
                 })}
@@ -47,11 +52,26 @@ const columns: ColumnsType<DataType> = [
         ),
     },
     {
-        title: 'Action',
+        title: 'Ngày sử dụng',
+        key: 'ngaySuDung',
+        dataIndex: 'ngaySuDung',
+    },
+    {
+        title: 'Ngày xuất vé',
+        key: 'ngayXuatVe',
+        dataIndex: 'ngayXuatVe',
+    },
+    {
+        title: 'Cổng check-in',
+        key: 'congCheckIn',
+        dataIndex: 'congCheckIn',
+    },
+    {
+        title: ' ',
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
-                <a>Delete</a>
+                <SlOptionsVertical onClick={() => {}} />
             </Space>
         ),
     },
@@ -64,6 +84,9 @@ const data: DataType[] = [
         bookingCode: 'ALTFGHJU',
         soVe: '123456789034',
         tinhTrang: ['Đã sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
     },
     {
         key: '2',
@@ -71,6 +94,9 @@ const data: DataType[] = [
         bookingCode: 'ALFDSGTR',
         soVe: '123456789054',
         tinhTrang: ['Chưa sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
     },
     {
         key: '3',
@@ -78,21 +104,94 @@ const data: DataType[] = [
         bookingCode: 'ALFDSGGF',
         soVe: '123456789087',
         tinhTrang: ['Hết hạn'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
+    },
+    {
+        key: '4',
+        stt: '4',
+        bookingCode: 'ALFDSGJK',
+        soVe: '123456789099',
+        tinhTrang: ['Đã sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
+    },
+    {
+        key: '5',
+        stt: '5',
+        bookingCode: 'ALFDSGVC',
+        soVe: '123456789023',
+        tinhTrang: ['Đã sử dụngn'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
+    },
+    {
+        key: '6',
+        stt: '6',
+        bookingCode: 'ALFDSGMN',
+        soVe: '123456789012',
+        tinhTrang: ['Đã sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
+    },
+    {
+        key: '7',
+        stt: '7',
+        bookingCode: 'ALFDSGBV',
+        soVe: '123456789009',
+        tinhTrang: ['Đã sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
+    },
+    {
+        key: '8',
+        stt: '8',
+        bookingCode: 'ALFDSGTR',
+        soVe: '123456789076',
+        tinhTrang: ['Đã sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
+    },
+    {
+        key: '9',
+        stt: '9',
+        bookingCode: 'ALFDSGLK',
+        soVe: '123456789012',
+        tinhTrang: ['Đã sử dụng'],
+        ngaySuDung: '14/04/2023',
+        ngayXuatVe: '14/04/2023',
+        congCheckIn: 'Cổng 1',
     },
 ];
 
-function Tableve() {
+const paginationConfig: TablePaginationConfig = {
+    position: ['bottomCenter'],
+    size: 'small',
+    pageSize: 6,
+    pageSizeOptions: ['6', '12', '18, 26'],
+};
+
+function TableQuanLiVe() {
     return (
         <div>
             <Table
+                className="custom-table"
                 style={{
-                    margin: '20px 20px 0 20px',
+                    margin: '5px 20px 0 20px',
                 }}
                 columns={columns}
                 dataSource={data}
+                pagination={paginationConfig}
+                bordered
             />
         </div>
     );
 }
 
-export default Tableve;
+export default TableQuanLiVe;

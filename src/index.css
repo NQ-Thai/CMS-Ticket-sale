@@ -742,7 +742,7 @@ a:hover {
     text-align: left;
     color: #1e0d03;
     width: 276px;
-    height: 64px;
+    height: 60px;
     padding-top: 5px;
     padding-left: 20px;
 }
@@ -856,4 +856,77 @@ a:hover {
     display: flex;
     justify-content: center;
     margin-top: 16px;
+}
+
+/* Modal */
+.text-modal {
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.side-text {
+    font-family: Montserrat;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    width: 100px;
+    height: 30px;
+    padding-top: 22px;
+    padding-left: 24px;
+}
+
+.text-button {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+    align-items: center;
+}
+
+.button-col1 {
+    /* width: Hug (174px);
+    height: Hug (48px);
+    padding: 11px 24px 11px 24px;
+    border-radius: 8px;
+    text-align: center; */
+}
+
+:where(.css-dev-only-do-not-override-18iukpe).ant-menu-light .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-18iukpe).ant-menu-light > .ant-menu .ant-menu-item-selected {
+    background-color: orange;
+}
+
+:where(.css-dev-only-do-not-override-18iukpe).ant-menu-light .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-18iukpe).ant-menu-light > .ant-menu .ant-menu-item-selected {
+    color: white;
+    font-size: medium;
+}
+
+/* Table */
+.custom-table .ant-table-thead > tr > th {
+    background-color: #f1f4f8; /* Màu nền tiêu đề */
+    color: #1e0d03; /* Màu chữ tiêu đề */
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.text-table {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
 }

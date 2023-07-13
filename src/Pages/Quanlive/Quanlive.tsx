@@ -5,7 +5,7 @@ import { BsFunnel } from 'react-icons/bs';
 import Top from '../../Component/Header';
 import NavBar from '../../Component/NavBar';
 import Search from './Search';
-import Tableve from './Table';
+import TableQuanLiVe from './Table';
 
 function Quanlive() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -21,7 +21,7 @@ function Quanlive() {
                         className="layout-content"
                         style={{
                             backgroundColor: '#FFFFFF',
-                            margin: '0 20px 20px 0',
+                            margin: '0 20px 1px 0',
                         }}
                     >
                         <div className="content">Danh sách vé</div>
@@ -67,17 +67,37 @@ function Quanlive() {
                             </Button>
                         </div>
                         <div>
-                            <Tableve />
+                            <TableQuanLiVe />
                         </div>
                     </Content>
                 </Layout>
                 <Modal
                     open={modalOpen}
                     onCancel={() => setModalOpen(false)}
-                    title={'Lọc vé'}
+                    title={
+                        <div className="text-modal" style={{ textAlign: 'center' }}>
+                            Lọc vé
+                        </div>
+                    }
+                    footer={null}
                     centered
                 >
-                    <Button>Lọc</Button>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                            onClick={() => setModalOpen(false)}
+                            className="button"
+                            type="primary"
+                            style={{
+                                color: '#FF993C',
+                                borderColor: '#FF993C',
+                                height: '40px',
+                                width: '140px',
+                            }}
+                            ghost
+                        >
+                            <span className="text-button">Lọc</span>
+                        </Button>
+                    </div>
                 </Modal>
             </Layout>
         </div>

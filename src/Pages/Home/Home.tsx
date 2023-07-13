@@ -12,7 +12,9 @@ function Home() {
             <Layout className="container">
                 <NavBar />
                 <Layout>
-                    <Content className="content">Thống kê</Content>
+                    <Content>
+                        <div className="content">Thống kê</div>
+                    </Content>
                 </Layout>
             </Layout>
         </div>

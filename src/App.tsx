@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Doisoatve from './Pages/Doisoatve';
-import Goidichvu from './Pages/Goidichvu';
+import Doisoatve from './Pages/Doisoatve/Doisoatve';
+import Goidichvu from './Pages/Goidichvu/Goidichvu';
 import Home from './Pages/Home/Home';
 import Quanlive from './Pages/Quanlive/Quanlive';
 import Trangchu from './Pages/Trangchu';
