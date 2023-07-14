@@ -45,6 +45,7 @@ function Quanlive() {
                                         height: '20px',
                                         width: '20px',
                                         marginRight: '10px',
+                                        verticalAlign: 'middle',
                                     }}
                                 />
                                 <span style={{}} className="text-button">
@@ -75,13 +76,17 @@ function Quanlive() {
                     open={modalOpen}
                     onCancel={() => setModalOpen(false)}
                     title={
-                        <div className="text-modal" style={{ textAlign: 'center' }}>
+                        <div className="modal-title" style={{ textAlign: 'center' }}>
                             Lọc vé
                         </div>
                     }
                     footer={null}
                     centered
                 >
+                    <div>
+                        <span className="modal-text">Từ ngày</span>
+                        <span className="modal-text">Đến ngày</span>
+                    </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button
                             onClick={() => setModalOpen(false)}

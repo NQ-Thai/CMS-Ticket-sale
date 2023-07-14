@@ -782,12 +782,14 @@ a:hover {
 /* Antd */
 .container {
     height: 87vh;
+    background-color: #ffffff;
 }
 
 .top {
     height: 70px;
     padding-left: 33px;
     padding-top: 17px;
+    padding-right: 0;
 }
 .image-logo {
     width: 115px;
@@ -796,7 +798,7 @@ a:hover {
 
 .icon {
     display: inline;
-    margin-left: 510px;
+    margin-left: 525px;
 }
 
 .icon .mail-icon {
@@ -845,6 +847,16 @@ a:hover {
     align-items: center;
 }
 
+.text-table-button {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #ff993c;
+}
+
 .button .icon-button {
     width: 20px;
     height: 18px;
@@ -859,16 +871,28 @@ a:hover {
 }
 
 /* Modal */
-.text-modal {
+.modal-title {
     font-family: Montserrat;
     font-size: 24px;
     font-weight: 700;
     line-height: 30px;
     letter-spacing: 0em;
     text-align: left;
+    color: #1e0d03;
 }
 
-.side-text {
+.modal-text {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e0d03;
+}
+
+/* Side Đối soát vé */
+.side-title {
     font-family: Montserrat;
     font-size: 23px;
     font-weight: 700;
@@ -877,8 +901,51 @@ a:hover {
     text-align: left;
     width: 100px;
     height: 30px;
-    padding-top: 22px;
-    padding-left: 24px;
+    padding-top: 15px;
+    padding-left: 20px;
+    margin-bottom: 35px;
+}
+
+.side-text {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e0d03;
+    width: 156px;
+    height: 26px;
+    margin-top: 32px;
+    margin-left: 20px;
+    opacity: 0.800000011920929px;
+}
+
+/* CustomRadio.css */
+.custom-radio .ant-radio-wrapper {
+    background-color: #27aef9;
+    border-color: #27aef9;
+}
+
+.custom-radio .ant-radio-input:focus + .ant-radio-inner {
+    box-shadow: #27aef9;
+}
+
+.custom-radio .ant-radio-checked .ant-radio-inner {
+    background-color: #27aef9;
+    border-color: #27aef9;
+}
+
+.custom-radio .ant-radio-checked::after {
+    border-color: #27aef9;
+}
+
+.custom-radio .ant-radio-inner {
+    padding: auto;
+}
+
+.custom-radio .ant-radio-inner::after {
+    display: none;
 }
 
 .text-button {
@@ -890,17 +957,9 @@ a:hover {
     align-items: center;
 }
 
-.button-col1 {
-    /* width: Hug (174px);
-    height: Hug (48px);
-    padding: 11px 24px 11px 24px;
-    border-radius: 8px;
-    text-align: center; */
-}
-
 :where(.css-dev-only-do-not-override-18iukpe).ant-menu-light .ant-menu-item-selected,
 :where(.css-dev-only-do-not-override-18iukpe).ant-menu-light > .ant-menu .ant-menu-item-selected {
-    background-color: orange;
+    background-color: #ffb800;
 }
 
 :where(.css-dev-only-do-not-override-18iukpe).ant-menu-light .ant-menu-item-selected,
@@ -929,4 +988,12 @@ a:hover {
     line-height: 22px;
     letter-spacing: 0px;
     text-align: left;
+}
+
+.custom-table .ant-table-tbody > tr:nth-child(even) {
+    background-color: #f5f5f5; /* Màu nền cho dòng chẵn */
+}
+
+.custom-table .ant-table-tbody > tr:nth-child(odd) {
+    background-color: #ffffff; /* Màu nền cho dòng lẻ */
 }

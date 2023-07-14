@@ -11,7 +11,12 @@ function Home() {
             </Layout>
             <Layout className="container">
                 <NavBar />
-                <Layout>
+                <Layout
+                    className="layout-content"
+                    style={{
+                        backgroundColor: '#FFFFFF',
+                    }}
+                >
                     <Content>
                         <div className="content">Thống kê</div>
                     </Content>

@@ -11,7 +11,12 @@ function Trangchu() {
             </Layout>
             <Layout className="container">
                 <NavBar />
-                <Layout>
+                <Layout
+                    className="layout-content"
+                    style={{
+                        backgroundColor: '#FFFFFF',
+                    }}
+                >
                     <Content className="content">Thống kê</Content>
                 </Layout>
             </Layout>
