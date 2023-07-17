@@ -72,7 +72,7 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
             <Modal
                 visible={visible}
                 onCancel={onCancel}
-                width={750}
+                width={690}
                 title={
                     <div
                         style={{

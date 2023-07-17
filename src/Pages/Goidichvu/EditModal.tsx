@@ -75,7 +75,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
             <Modal
                 visible={visible}
                 onCancel={onCancel}
-                width={750}
+                width={740}
                 title={
                     <div
                         style={{
