@@ -734,7 +734,6 @@ a:hover {
 
 /* Content */
 .content {
-    font-family: Montserrat;
     font-size: 28px;
     font-weight: bold;
     line-height: 54px;
@@ -745,6 +744,7 @@ a:hover {
     height: 60px;
     padding-top: 5px;
     padding-left: 20px;
+    font: 'Montserrat';
 }
 
 /* Search */
@@ -786,9 +786,9 @@ a:hover {
 }
 
 .top {
-    height: 70px;
+    height: 65px;
     padding-left: 33px;
-    padding-top: 17px;
+    padding-top: 10px;
     padding-right: 0;
 }
 .image-logo {
@@ -838,7 +838,6 @@ a:hover {
 }
 
 .button .text-button {
-    font-family: Montserrat;
     font-size: 18px;
     font-weight: bold;
     line-height: 26px;
@@ -872,7 +871,6 @@ a:hover {
 
 /* Modal */
 .modal-title {
-    font-family: Montserrat;
     font-size: 24px;
     font-weight: 700;
     line-height: 30px;
@@ -882,18 +880,21 @@ a:hover {
 }
 
 .modal-text {
-    font-family: Montserrat;
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
     letter-spacing: 0em;
     text-align: left;
     color: #1e0d03;
+    width: 66px;
+    height: 26px;
+    top: 81px;
+    left: 32px;
+    opacity: 0.699999988079071px;
 }
 
 /* Side Đối soát vé */
 .side-title {
-    font-family: Montserrat;
     font-size: 23px;
     font-weight: 700;
     line-height: 30px;
@@ -907,8 +908,7 @@ a:hover {
 }
 
 .side-text {
-    font-family: Montserrat;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 26px;
     letter-spacing: 0em;
@@ -919,9 +919,21 @@ a:hover {
     margin-top: 32px;
     margin-left: 20px;
     opacity: 0.800000011920929px;
+    font: Montserrat;
+    gap: 12px;
 }
 
 /* CustomRadio.css */
+.custom-radio {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 19.5px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e0d03;
+    opacity: 70%;
+}
+
 .custom-radio .ant-radio-wrapper {
     background-color: #27aef9;
     border-color: #27aef9;
@@ -948,6 +960,57 @@ a:hover {
     display: none;
 }
 
+/* CheckBox */
+.custom-checkbox {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 19.5px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e0d03;
+    opacity: 70%;
+}
+
+.custom-checkbox input[type='checkbox']:checked + span {
+    /* Áp dụng kiểu dáng khi CheckBox được chọn */
+    /* Ví dụ: */
+    color: #fff; /* Màu chữ */
+    background-color: #27aef9; /* Màu nền */
+    /* ... */
+}
+
+/* DatePicker */
+.custom-datepicker .ant-picker-suffix .anticon-calendar svg {
+    color: #ff993c; /* Thay đổi màu sắc tại đây */
+    height: 24px;
+    width: 24px;
+}
+
+/* Required */
+.required {
+    color: #fd5959;
+}
+
+.required-text {
+    size: 12px;
+    line-height: 14.63px;
+    font-weight: 400;
+    color: #1e0d03;
+    font-style: italic;
+    opacity: 40%;
+}
+
+/* DropDown */
+.dropdown-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e0d03;
+    opacity: 70%;
+}
+
 .text-button {
     font-size: 14px;
     font-weight: 700;
@@ -972,7 +1035,6 @@ a:hover {
 .custom-table .ant-table-thead > tr > th {
     background-color: #f1f4f8; /* Màu nền tiêu đề */
     color: #1e0d03; /* Màu chữ tiêu đề */
-    font-family: Montserrat;
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
@@ -996,4 +1058,46 @@ a:hover {
 
 .custom-table .ant-table-tbody > tr:nth-child(odd) {
     background-color: #ffffff; /* Màu nền cho dòng lẻ */
+}
+
+/* Chart */
+.chart-text {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0px;
+    text-align: left;
+    padding-left: 24px;
+}
+
+/* Total */
+.total-div {
+    margin-left: 24px;
+}
+
+.total-text {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
+    opacity: 50%;
+}
+
+.text-dong {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #1e0d03;
+}
+
+.text-price {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e0d03;
 }
