@@ -4,19 +4,16 @@ import {
     Checkbox,
     Col,
     DatePicker,
-    DatePickerProps,
     Dropdown,
     Input,
     MenuProps,
     Modal,
     Row,
-    Select,
     Space,
     TimePicker,
-    TimePickerProps,
     message,
 } from 'antd';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 interface NewModalProps {
     visible: boolean;
@@ -48,29 +45,29 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
     };
 
     //Time Picker
-    const { Option } = Select;
+    // const { Option } = Select;
 
-    type PickerType = 'time' | 'date';
+    // type PickerType = 'time' | 'date';
 
-    const PickerWithType = ({
-        type,
-        onChange,
-    }: {
-        type: PickerType;
-        onChange: TimePickerProps['onChange'] | DatePickerProps['onChange'];
-    }) => {
-        if (type === 'time') return <TimePicker onChange={onChange} />;
-        if (type === 'date') return <DatePicker onChange={onChange} />;
-        return <DatePicker picker={type} onChange={onChange} />;
-    };
+    // const PickerWithType = ({
+    //     type,
+    //     onChange,
+    // }: {
+    //     type: PickerType;
+    //     onChange: TimePickerProps['onChange'] | DatePickerProps['onChange'];
+    // }) => {
+    //     if (type === 'time') return <TimePicker onChange={onChange} />;
+    //     if (type === 'date') return <DatePicker onChange={onChange} />;
+    //     return <DatePicker picker={type} onChange={onChange} />;
+    // };
 
-    const [type, setType] = useState<PickerType>('time');
+    // const [type, setType] = useState<PickerType>('time');
 
     const suffixIconStyle = { fontSize: '24px', width: '24px', height: '24px', color: '#ff993c' };
     return (
         <div>
             <Modal
-                visible={visible}
+                open={visible}
                 onCancel={onCancel}
                 width={690}
                 title={

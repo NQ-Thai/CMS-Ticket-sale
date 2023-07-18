@@ -81,7 +81,7 @@ const TableGoiDichVu: FC = () => {
             render: (_, record) => (
                 <Space size="middle">
                     <Button
-                        onClick={openModal}
+                        onClick={openModalEdit}
                         className="button"
                         type="primary"
                         style={{
@@ -145,14 +145,14 @@ const TableGoiDichVu: FC = () => {
     };
 
     //New Modal
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
 
-    const openModal = () => {
-        setModalVisible(true);
+    const openModalEdit = () => {
+        setModalVisibleEdit(true);
     };
 
-    const closeModal = () => {
-        setModalVisible(false);
+    const closeModalEdit = () => {
+        setModalVisibleEdit(false);
     };
 
     return (
@@ -168,7 +168,7 @@ const TableGoiDichVu: FC = () => {
                 pagination={paginationConfig}
                 bordered
             />
-            <EditModal visible={modalVisible} onCancel={closeModal} />
+            <EditModal visible={modalVisibleEdit} onCancel={closeModalEdit} />
         </div>
     );
 };
