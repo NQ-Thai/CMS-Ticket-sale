@@ -3,6 +3,7 @@ import { Content } from 'antd/es/layout/layout';
 import { DoughnutChart } from '../Component/DonutChart';
 import { DoughnutChart2 } from '../Component/DonutChart2';
 import Top from '../Component/Header';
+import LineChart from '../Component/LineChart';
 import NavBar from '../Component/NavBar';
 
 const Trangchu: React.FC = () => {
@@ -13,8 +14,16 @@ const Trangchu: React.FC = () => {
             </Layout>
             <Layout className="container">
                 <NavBar />
-                <Layout className="layout-content">
-                    <Content style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Layout>
+                    <Content
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: '#FFFFFF',
+                            margin: '0 20px 1px 0',
+                        }}
+                    >
                         <div className="content">Thống kê</div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span
@@ -23,9 +32,15 @@ const Trangchu: React.FC = () => {
                             >
                                 Doanh thu
                             </span>
-                            <DatePicker className="custom-datepicker" />
+                            <DatePicker
+                                style={{ marginRight: '50px' }}
+                                className="custom-datepicker"
+                            />
                         </div>
-                        <div style={{ padding: '80px' }}>{/* Chart line */}</div>
+                        <div style={{ margin: '0 0 5px 24px' }}>
+                            {/* <LineChartComponent /> */}
+                            <LineChart />
+                        </div>
                         <div className="total-div">
                             <span className="total-text">Tổng danh thu theo tuần</span>
                             <div>
@@ -48,7 +63,6 @@ const Trangchu: React.FC = () => {
                                 <div className="chart-div">
                                     <DoughnutChart />
                                 </div>
-                                {/* Chart line */}
                             </div>
                             <div className="chart-column">
                                 <span className="chart-title">Gói sự kiện</span>

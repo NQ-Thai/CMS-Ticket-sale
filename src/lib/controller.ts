@@ -1,3 +1,6 @@
-function controller() {}
+import { collection, getFirestore } from 'firebase/firestore';
+import { app } from './Firebase';
 
-export default controller;
+export const firestore = getFirestore(app);
+
+export const ticketCollection = collection(firestore, 'ticket');

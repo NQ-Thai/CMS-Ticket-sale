@@ -23,7 +23,7 @@ const Doisoatve: React.FC = () => {
             <Layout className="container">
                 <NavBar />
                 <Layout>
-                    <Content className="layout-content">
+                    <Content>
                         <Row>
                             <Col flex="2">
                                 {/* Nội dung cột 1 */}
@@ -45,7 +45,7 @@ const Doisoatve: React.FC = () => {
                                                 backgroundColor: '#FF993C',
                                                 width: '130px',
                                                 height: '40px',
-                                                marginLeft: '200px',
+                                                marginLeft: '180px',
                                             }}
                                         >
                                             <span
@@ -61,13 +61,7 @@ const Doisoatve: React.FC = () => {
                                             </span>
                                         </Button>
                                     </div>
-                                    <div
-                                        style={
-                                            {
-                                                // padding: '50px',
-                                            }
-                                        }
-                                    >
+                                    <div>
                                         <TableDoiSoatVe />
                                     </div>
                                 </div>

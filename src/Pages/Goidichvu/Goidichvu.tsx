@@ -27,7 +27,6 @@ const Goidichvu: FC = () => {
             <Layout className="container">
                 <NavBar />
                 <Layout
-                    className="layout-content"
                     style={{
                         backgroundColor: '#FFFFFF',
                     }}

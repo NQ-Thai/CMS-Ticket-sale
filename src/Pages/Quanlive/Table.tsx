@@ -1,70 +1,72 @@
-import { Space, Table, Tag } from 'antd';
+import { Space, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import { BsFillCircleFill } from 'react-icons/bs';
+import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
+import { ticketCollection } from '../../lib/controller';
 
-interface DataType {
-    key: string;
-    stt: string;
-    bookingCode: string;
-    soVe: string;
-    tinhTrang: string[];
-    ngaySuDung: string;
-    ngayXuatVe: string;
-    congCheckIn: string;
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<NewTicketType> = [
     {
         title: 'STT',
-        dataIndex: 'stt',
-        key: 'stt',
-        // render: (text) => <a>{text}</a>,
+        dataIndex: 'STT',
+        key: 'STT',
     },
     {
         title: 'Booking Code',
-        dataIndex: 'bookingCode',
-        key: 'bookingCode',
+        dataIndex: 'BookingCode',
+        key: 'BookingCode',
     },
     {
         title: 'Số vé',
-        dataIndex: 'soVe',
-        key: 'soVe',
+        dataIndex: 'SoVe',
+        key: 'SoVe',
     },
     {
         title: 'Tình trạng sử dụng',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (_, { tinhTrang }) => (
-            <>
-                {tinhTrang.map((tag) => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'Hết hạn') {
-                        color = 'red';
-                    } else if (tag === 'Chưa sử dụng') color = 'green';
-                    return (
-                        <Tag color={color} key={tag}>
-                            <BsFillCircleFill /> {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
+        key: 'TinhTrangSuDung',
+        dataIndex: 'TinhTrangSuDung',
+        // render: (TinhTrangSuDung: string[] | undefined) => {
+        //     if (!TinhTrangSuDung || TinhTrangSuDung.length === 0) {
+        //         return null; // Hoặc trả về thông báo khi không có dữ liệu
+        //     }
+
+        //     const getColorByTag = (tag: string) => {
+        //         if (tag === 'Hết hạn') {
+        //             return 'red';
+        //         } else if (tag === 'Chưa sử dụng') {
+        //             return 'green';
+        //         } else if (tag === 'Đã sử dụng') {
+        //             return 'gray'; // Hoặc xám
+        //         }
+        //         return 'blue'; // Hoặc màu mặc định nếu không phù hợp với trường hợp nào trên
+        //     };
+
+        //     return (
+        //         <>
+        //             {TinhTrangSuDung.map((tag) => (
+        //                 <Tag color={getColorByTag(tag)} key={tag}>
+        //                     <BsFillCircleFill /> {tag.toUpperCase()}
+        //                 </Tag>
+        //             ))}
+        //         </>
+        //     );
+        // },
     },
+
     {
         title: 'Ngày sử dụng',
-        key: 'ngaySuDung',
-        dataIndex: 'ngaySuDung',
+        key: 'NgaySuDung',
+        dataIndex: 'NgaySuDung',
     },
     {
         title: 'Ngày xuất vé',
-        key: 'ngayXuatVe',
-        dataIndex: 'ngayXuatVe',
+        key: 'NgayXuatVe',
+        dataIndex: 'NgayXuatVe',
     },
     {
         title: 'Cổng check-in',
-        key: 'congCheckIn',
-        dataIndex: 'congCheckIn',
+        key: 'Checkin',
+        dataIndex: 'Checkin',
     },
     {
         title: ' ',
@@ -76,99 +78,16 @@ const columns: ColumnsType<DataType> = [
         ),
     },
 ];
-
-const data: DataType[] = [
-    {
-        key: '1',
-        stt: '1',
-        bookingCode: 'ALTFGHJU',
-        soVe: '123456789034',
-        tinhTrang: ['Đã sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '2',
-        stt: '2',
-        bookingCode: 'ALFDSGTR',
-        soVe: '123456789054',
-        tinhTrang: ['Chưa sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '3',
-        stt: '3',
-        bookingCode: 'ALFDSGGF',
-        soVe: '123456789087',
-        tinhTrang: ['Hết hạn'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '4',
-        stt: '4',
-        bookingCode: 'ALFDSGJK',
-        soVe: '123456789099',
-        tinhTrang: ['Đã sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '5',
-        stt: '5',
-        bookingCode: 'ALFDSGVC',
-        soVe: '123456789023',
-        tinhTrang: ['Đã sử dụngn'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '6',
-        stt: '6',
-        bookingCode: 'ALFDSGMN',
-        soVe: '123456789012',
-        tinhTrang: ['Đã sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '7',
-        stt: '7',
-        bookingCode: 'ALFDSGBV',
-        soVe: '123456789009',
-        tinhTrang: ['Đã sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '8',
-        stt: '8',
-        bookingCode: 'ALFDSGTR',
-        soVe: '123456789076',
-        tinhTrang: ['Đã sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-    {
-        key: '9',
-        stt: '9',
-        bookingCode: 'ALFDSGLK',
-        soVe: '123456789012',
-        tinhTrang: ['Đã sử dụng'],
-        ngaySuDung: '14/04/2023',
-        ngayXuatVe: '14/04/2023',
-        congCheckIn: 'Cổng 1',
-    },
-];
+const getTagColor = (tag: string) => {
+    if (tag === 'Hết hạn') {
+        return 'red';
+    } else if (tag === 'Chưa sử dụng') {
+        return 'green';
+    } else if (tag.length > 5) {
+        return 'geekblue';
+    }
+    return 'green';
+};
 
 const paginationConfig: TablePaginationConfig = {
     position: ['bottomCenter'],
@@ -177,7 +96,37 @@ const paginationConfig: TablePaginationConfig = {
     pageSizeOptions: ['6', '12', '18, 26'],
 };
 
+//Firebase
+
+interface NewTicketType {
+    STT?: string;
+    SoVe?: string;
+    BookingCode?: string;
+    Checkin?: string;
+    NgaySuDung?: string;
+    NgayXuatVe?: string;
+    TinhTrangSuDung?: string[];
+}
+
 function TableQuanLiVe() {
+    const [tickets, setTickets] = useState<NewTicketType[]>([]);
+
+    useEffect(() => {
+        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+            setTickets(
+                snapshot.docs.map((doc, index) => {
+                    const data = doc.data() as NewTicketType; // Cast data to NewTicketType
+                    return {
+                        STT: `${index + 1}`,
+                        ...data,
+                    };
+                }),
+            );
+        });
+    }, []);
+
+    console.log(tickets, 'ticket');
+
     return (
         <div>
             <Table
@@ -186,7 +135,7 @@ function TableQuanLiVe() {
                     margin: '5px 20px 0 20px',
                 }}
                 columns={columns}
-                dataSource={data}
+                dataSource={tickets}
                 pagination={paginationConfig}
                 bordered
             />
