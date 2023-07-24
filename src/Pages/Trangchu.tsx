@@ -21,7 +21,8 @@ const Trangchu: React.FC = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             backgroundColor: '#FFFFFF',
-                            margin: '0 20px 1px 0',
+                            margin: '0 20px 0 0',
+                            borderRadius: '15px',
                         }}
                     >
                         <div className="content">Thống kê</div>

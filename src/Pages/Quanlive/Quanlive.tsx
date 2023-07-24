@@ -11,6 +11,7 @@ import TableQuanLiVe from './Table';
 function Quanlive() {
     // Filter Modal
     const [modalVisibleFilter, setModalVisibleFilter] = useState(false);
+    const [selectedTinhTrang, setSelectedTinhTrang] = useState<string | null>('all');
 
     const openModalFilter = () => {
         setModalVisibleFilter(true);
@@ -18,6 +19,10 @@ function Quanlive() {
 
     const closeModalFilter = () => {
         setModalVisibleFilter(false);
+    };
+
+    const handleRadioChange = (value: string) => {
+        setSelectedTinhTrang(value);
     };
 
     return (
@@ -33,6 +38,7 @@ function Quanlive() {
                         style={{
                             backgroundColor: '#FFFFFF',
                             margin: '0 20px 1px 0',
+                            borderRadius: '15px',
                         }}
                     >
                         <div style={{ font: 'Montserrat' }} className="content">
@@ -49,7 +55,7 @@ function Quanlive() {
                                     borderColor: '#FF993C',
                                     height: '35px',
                                     width: '120px',
-                                    marginLeft: '360px',
+                                    marginLeft: '380px',
                                 }}
                                 ghost
                             >
@@ -61,9 +67,7 @@ function Quanlive() {
                                         verticalAlign: 'middle',
                                     }}
                                 />
-                                <span style={{}} className="text-button">
-                                    Lọc vé
-                                </span>
+                                <span className="text-button">Lọc vé</span>
                             </Button>
                             <Button
                                 className="button"
@@ -80,12 +84,20 @@ function Quanlive() {
                                 <span className="text-button">Xuất file (.csv)</span>
                             </Button>
                         </div>
-                        <div>
-                            <TableQuanLiVe />
+                        <div style={{ marginTop: '5px' }}>
+                            <TableQuanLiVe
+                                selectedTinhTrangProp={selectedTinhTrang} // Truyền state selectedTinhTrang vào TableQuanLiVe
+                                handleRadioChangeProp={handleRadioChange} // Truyền hàm handleRadioChange vào TableQuanLiVe
+                            />
                         </div>
                     </Content>
                 </Layout>
-                <ModalFilter visible={modalVisibleFilter} onCancel={closeModalFilter} />
+                <ModalFilter
+                    visible={modalVisibleFilter}
+                    onCancel={closeModalFilter}
+                    selectedTinhTrangProp={selectedTinhTrang}
+                    handleRadioChangeProp={handleRadioChange}
+                />
             </Layout>
         </div>
     );

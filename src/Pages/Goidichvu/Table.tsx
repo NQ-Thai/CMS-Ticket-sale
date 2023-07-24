@@ -68,7 +68,7 @@ const TableGoiDichVu: FC = () => {
                         } else if (tag === 'Đang áp dụng') color = 'green';
                         return (
                             <Tag color={color} key={tag}>
-                                <BsFillCircleFill /> {tag.toUpperCase()}
+                                <BsFillCircleFill /> {tag}
                             </Tag>
                         );
                     })}

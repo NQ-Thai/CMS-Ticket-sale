@@ -61,7 +61,7 @@ const Doisoatve: React.FC = () => {
                                             </span>
                                         </Button>
                                     </div>
-                                    <div>
+                                    <div style={{ marginTop: '5px' }}>
                                         <TableDoiSoatVe />
                                     </div>
                                 </div>
@@ -129,39 +129,20 @@ const Doisoatve: React.FC = () => {
                                             </Radio.Group>
                                         </div>
                                     </div>
-                                    <div
-                                        style={{
-                                            paddingTop: '10px',
-                                        }}
-                                    >
-                                        <span
-                                            style={{
-                                                font: 'Montserrat',
-                                            }}
-                                            className="side-text"
-                                        >
+                                    <div style={{ paddingTop: '10px' }}>
+                                        <span style={{ font: 'Montserrat' }} className="side-text">
                                             Loại vé
                                         </span>
-                                        <div
-                                            style={{
-                                                display: 'inline',
-                                            }}
-                                        >
+                                        <div style={{ display: 'inline' }}>
                                             <span
-                                                style={{
-                                                    marginLeft: '102px',
-                                                }}
+                                                style={{ marginLeft: '102px' }}
                                                 className="custom-radio"
                                             >
                                                 Vé cổng
                                             </span>
                                         </div>
                                     </div>
-                                    <div
-                                        style={{
-                                            paddingTop: '10px',
-                                        }}
-                                    >
+                                    <div style={{ paddingTop: '10px' }}>
                                         <span
                                             style={{
                                                 font: 'Montserrat',
@@ -171,22 +152,11 @@ const Doisoatve: React.FC = () => {
                                         >
                                             Từ ngày
                                         </span>
-                                        <div
-                                            style={{
-                                                display: 'inline',
-                                            }}
-                                        >
-                                            <DatePicker
-                                                placement={'topLeft'}
-                                                style={{ width: '150px', height: '40px' }}
-                                            />
+                                        <div style={{ display: 'inline' }}>
+                                            <DatePicker className="custom-datepicker" />
                                         </div>
                                     </div>
-                                    <div
-                                        style={{
-                                            paddingTop: '20px',
-                                        }}
-                                    >
+                                    <div style={{ paddingTop: '20px' }}>
                                         <span
                                             style={{
                                                 font: 'Montserrat',
@@ -196,14 +166,8 @@ const Doisoatve: React.FC = () => {
                                         >
                                             Đến ngày
                                         </span>
-                                        <div
-                                            style={{
-                                                display: 'inline',
-                                            }}
-                                        >
-                                            <DatePicker
-                                                style={{ width: '150px', height: '40px' }}
-                                            />
+                                        <div style={{ display: 'inline' }}>
+                                            <DatePicker className="custom-datepicker" />
                                         </div>
                                     </div>
                                     <div

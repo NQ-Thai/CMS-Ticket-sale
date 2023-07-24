@@ -1,13 +1,25 @@
-import { Button, Checkbox, Col, DatePicker, Modal, Radio, Row } from 'antd';
+import { Button, Checkbox, Col, DatePicker, Modal, Radio, RadioChangeEvent, Row } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { FC } from 'react';
 
 interface FilterModalProps {
     visible: boolean;
     onCancel: () => void;
+    selectedTinhTrangProp: string | null; // Truyền props từ component cha
+    handleRadioChangeProp: (value: string) => void; // Truyền props từ component cha
 }
 
-const ModalFilter: FC<FilterModalProps> = ({ visible, onCancel }) => {
+const ModalFilter: FC<FilterModalProps> = ({
+    visible,
+    onCancel,
+    selectedTinhTrangProp,
+    handleRadioChangeProp,
+}) => {
+    // const [selectedTinhTrang, setSelectedTinhTrang] = useState<string | null>(null);
+
+    // const handleRadioChange = (e: RadioChangeEvent) => {
+    //     setSelectedTinhTrang(e.target.value);
+    // };
     // Radio
     // const [value, setValue] = useState(1);
 
@@ -15,6 +27,11 @@ const ModalFilter: FC<FilterModalProps> = ({ visible, onCancel }) => {
     //     console.log('radio checked', e.target.value);
     //     setValue(e.target.value);
     // };
+
+    const onChangeRadio = (e: RadioChangeEvent) => {
+        const value = e.target.value;
+        handleRadioChangeProp(value);
+    };
 
     //Check Box
     const onChangeCheckBox = (checkedValues: CheckboxValueType[]) => {
@@ -91,17 +108,21 @@ const ModalFilter: FC<FilterModalProps> = ({ visible, onCancel }) => {
                         <span className="modal-text">Tình trạng sử dụng</span>
                     </div>
                     <div>
-                        <Radio.Group style={{ marginTop: '5px' }}>
-                            <Radio className="custom-radio" value={1}>
+                        <Radio.Group
+                            style={{ marginTop: '5px' }}
+                            onChange={onChangeRadio}
+                            value={selectedTinhTrangProp}
+                        >
+                            <Radio className="custom-radio" value="all">
                                 Tất cả
                             </Radio>
-                            <Radio className="custom-radio" value={2}>
+                            <Radio className="custom-radio" value="Đã sử dụng">
                                 Đã sử dụng
                             </Radio>
-                            <Radio className="custom-radio" value={3}>
+                            <Radio className="custom-radio" value="Chưa sử dụng">
                                 Chưa sử dụng
                             </Radio>
-                            <Radio className="custom-radio" value={4}>
+                            <Radio className="custom-radio" value="Hết hạn">
                                 Hết hạn
                             </Radio>
                         </Radio.Group>

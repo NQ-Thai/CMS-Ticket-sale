@@ -29,6 +29,8 @@ const Goidichvu: FC = () => {
                 <Layout
                     style={{
                         backgroundColor: '#FFFFFF',
+                        margin: '0 20px 1px 0',
+                        borderRadius: '15px',
                     }}
                 >
                     <Content>
@@ -43,7 +45,7 @@ const Goidichvu: FC = () => {
                                     borderColor: '#FF993C',
                                     height: '34px',
                                     width: '140px',
-                                    marginLeft: '380px',
+                                    marginLeft: '365px',
                                 }}
                                 ghost
                             >
@@ -73,7 +75,7 @@ const Goidichvu: FC = () => {
                                 </span>
                             </Button>
                         </div>
-                        <div>
+                        <div style={{ marginTop: '10px' }}>
                             <TableGoiDichVu />
                         </div>
                     </Content>

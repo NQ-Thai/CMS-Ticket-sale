@@ -1,9 +1,69 @@
-import { Space, Table } from 'antd';
+import { RadioChangeEvent, Space, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { BsFillCircleFill } from 'react-icons/bs';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { ticketCollection } from '../../lib/controller';
+
+//Firebase
+interface NewTicketType {
+    STT?: string;
+    SoVe?: string;
+    BookingCode?: string;
+    Checkin?: string;
+    NgaySuDung?: string;
+    NgayXuatVe?: string;
+    TinhTrangSuDung: string[];
+}
+
+interface TableQuanLiVeProps {
+    // Thêm các props cần thiết tại đây
+    selectedTinhTrangProp: string | null;
+    handleRadioChangeProp: (value: string) => void;
+}
+
+const renderStatus = (TinhTrangSuDung: string) => (
+    <span
+        style={{
+            display: 'inline-block',
+            padding: '5px 10px',
+            borderRadius: '5px',
+            color:
+                TinhTrangSuDung === 'Hết hạn'
+                    ? '#FD5959'
+                    : TinhTrangSuDung === 'Chưa sử dụng'
+                    ? '#03AC00'
+                    : '#919DBA',
+            border: `1px solid ${
+                TinhTrangSuDung === 'Hết hạn'
+                    ? '#FD5959'
+                    : TinhTrangSuDung === 'Chưa sử dụng'
+                    ? '#03AC00'
+                    : '#919DBA'
+            }`,
+            background:
+                TinhTrangSuDung === 'Hết hạn'
+                    ? '#FFEDED'
+                    : TinhTrangSuDung === 'Chưa sử dụng'
+                    ? '#E6FFE6'
+                    : '#F5F5F5',
+        }}
+    >
+        <BsFillCircleFill
+            style={{
+                marginRight: '5px',
+                color:
+                    TinhTrangSuDung === 'Hết hạn'
+                        ? '#FD5959'
+                        : TinhTrangSuDung === 'Chưa sử dụng'
+                        ? '#03AC00'
+                        : '#919DBA',
+            }}
+        />
+        {TinhTrangSuDung}
+    </span>
+);
 
 const columns: ColumnsType<NewTicketType> = [
     {
@@ -25,32 +85,7 @@ const columns: ColumnsType<NewTicketType> = [
         title: 'Tình trạng sử dụng',
         key: 'TinhTrangSuDung',
         dataIndex: 'TinhTrangSuDung',
-        // render: (TinhTrangSuDung: string[] | undefined) => {
-        //     if (!TinhTrangSuDung || TinhTrangSuDung.length === 0) {
-        //         return null; // Hoặc trả về thông báo khi không có dữ liệu
-        //     }
-
-        //     const getColorByTag = (tag: string) => {
-        //         if (tag === 'Hết hạn') {
-        //             return 'red';
-        //         } else if (tag === 'Chưa sử dụng') {
-        //             return 'green';
-        //         } else if (tag === 'Đã sử dụng') {
-        //             return 'gray'; // Hoặc xám
-        //         }
-        //         return 'blue'; // Hoặc màu mặc định nếu không phù hợp với trường hợp nào trên
-        //     };
-
-        //     return (
-        //         <>
-        //             {TinhTrangSuDung.map((tag) => (
-        //                 <Tag color={getColorByTag(tag)} key={tag}>
-        //                     <BsFillCircleFill /> {tag.toUpperCase()}
-        //                 </Tag>
-        //             ))}
-        //         </>
-        //     );
-        // },
+        render: renderStatus,
     },
 
     {
@@ -78,6 +113,7 @@ const columns: ColumnsType<NewTicketType> = [
         ),
     },
 ];
+
 const getTagColor = (tag: string) => {
     if (tag === 'Hết hạn') {
         return 'red';
@@ -92,40 +128,49 @@ const getTagColor = (tag: string) => {
 const paginationConfig: TablePaginationConfig = {
     position: ['bottomCenter'],
     size: 'small',
-    pageSize: 6,
-    pageSizeOptions: ['6', '12', '18, 26'],
+    pageSize: 5,
+    pageSizeOptions: ['5', '15', '20, 25'],
 };
 
-//Firebase
-
-interface NewTicketType {
-    STT?: string;
-    SoVe?: string;
-    BookingCode?: string;
-    Checkin?: string;
-    NgaySuDung?: string;
-    NgayXuatVe?: string;
-    TinhTrangSuDung?: string[];
-}
-
-function TableQuanLiVe() {
+function TableQuanLiVe({ selectedTinhTrangProp, handleRadioChangeProp }: TableQuanLiVeProps) {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
+
+    const [selectedTinhTrang, setSelectedTinhTrang] = useState<string>('all'); // State để lưu giá trị radio được chọn
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
             setTickets(
                 snapshot.docs.map((doc, index) => {
-                    const data = doc.data() as NewTicketType; // Cast data to NewTicketType
-                    return {
+                    const data = doc.data();
+                    const newData: NewTicketType = {
                         STT: `${index + 1}`,
-                        ...data,
+                        SoVe: data.SoVe || '', // Giá trị mặc định nếu SoVe không tồn tại trong dữ liệu
+                        BookingCode: data.BookingCode || '', // Giá trị mặc định nếu BookingCode không tồn tại trong dữ liệu
+                        Checkin: data.Checkin || '', // Giá trị mặc định nếu Checkin không tồn tại trong dữ liệu
+                        NgaySuDung: data.NgaySuDung || '', // Giá trị mặc định nếu NgaySuDung không tồn tại trong dữ liệu
+                        NgayXuatVe: data.NgayXuatVe || '', // Giá trị mặc định nếu NgayXuatVe không tồn tại trong dữ liệu
+                        TinhTrangSuDung: data.TinhTrangSuDung || [], // Giá trị mặc định nếu TinhTrangSuDung không tồn tại trong dữ liệu
                     };
+                    return newData;
                 }),
             );
         });
     }, []);
 
     console.log(tickets, 'ticket');
+
+    // Hàm lọc dữ liệu khi radio thay đổi
+    const handleRadioChange = (e: RadioChangeEvent) => {
+        const value = e.target.value;
+        setSelectedTinhTrang(value);
+        handleRadioChangeProp(value);
+    };
+
+    // Lọc dữ liệu dựa trên giá trị selectedTinhTrangProp và kiểm tra selectedTinhTrangProp khác null
+    const filteredTickets =
+        selectedTinhTrangProp !== null && selectedTinhTrangProp !== 'all'
+            ? tickets.filter((ticket) => ticket.TinhTrangSuDung.includes(selectedTinhTrangProp))
+            : tickets;
 
     return (
         <div>
@@ -135,7 +180,7 @@ function TableQuanLiVe() {
                     margin: '5px 20px 0 20px',
                 }}
                 columns={columns}
-                dataSource={tickets}
+                dataSource={filteredTickets}
                 pagination={paginationConfig}
                 bordered
             />

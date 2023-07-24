@@ -27,11 +27,11 @@ const columns: ColumnsType<NewTicketType> = [
         dataIndex: 'SoVe',
         key: 'SoVe',
     },
-    {
-        title: 'Tên sự kiện',
-        dataIndex: 'TenSuKien',
-        key: 'TenSuKien',
-    },
+    // {
+    //     title: 'Tên sự kiện',
+    //     dataIndex: 'TenSuKien',
+    //     key: 'TenSuKien',
+    // },
     {
         title: 'Ngày sử dụng',
         key: 'NgaySuDung',
@@ -71,8 +71,8 @@ const columns: ColumnsType<NewTicketType> = [
 const paginationConfig: TablePaginationConfig = {
     position: ['bottomCenter'],
     size: 'small',
-    pageSize: 5,
-    pageSizeOptions: ['5', '10', '15', '20'],
+    pageSize: 7,
+    pageSizeOptions: ['7', '14', '21', '28'],
 };
 
 function TableDoiSoatVe() {
