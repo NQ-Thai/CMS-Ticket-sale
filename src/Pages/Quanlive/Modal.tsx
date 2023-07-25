@@ -5,8 +5,8 @@ import { FC } from 'react';
 interface FilterModalProps {
     visible: boolean;
     onCancel: () => void;
-    selectedTinhTrangProp: string | null; // Truyền props từ component cha
-    handleRadioChangeProp: (value: string) => void; // Truyền props từ component cha
+    selectedTinhTrangProp: string | null;
+    handleRadioChangeProp: (value: string) => void;
 }
 
 const ModalFilter: FC<FilterModalProps> = ({
@@ -15,19 +15,6 @@ const ModalFilter: FC<FilterModalProps> = ({
     selectedTinhTrangProp,
     handleRadioChangeProp,
 }) => {
-    // const [selectedTinhTrang, setSelectedTinhTrang] = useState<string | null>(null);
-
-    // const handleRadioChange = (e: RadioChangeEvent) => {
-    //     setSelectedTinhTrang(e.target.value);
-    // };
-    // Radio
-    // const [value, setValue] = useState(1);
-
-    // const onChangeRadio = (e: RadioChangeEvent) => {
-    //     console.log('radio checked', e.target.value);
-    //     setValue(e.target.value);
-    // };
-
     const onChangeRadio = (e: RadioChangeEvent) => {
         const value = e.target.value;
         handleRadioChangeProp(value);

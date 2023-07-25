@@ -9,79 +9,41 @@ import { Link } from 'react-router-dom';
 
 const NavBar: FC = () => {
     return (
-        <Sider
-            width={265}
-            className="sider"
-            style={{
-                backgroundColor: 'rgb(249, 247, 247)',
-                paddingTop: '40px',
-                paddingLeft: '25px',
-            }}
-        >
+        <Sider width={265} className="sider" style={{ backgroundColor: 'rgb(249, 247, 247)' }}>
             <Menu
-                style={{
-                    backgroundColor: 'rgb(249, 247, 247)',
-                }}
+                style={{ backgroundColor: 'rgb(249, 247, 247)', paddingRight: '20px' }}
                 mode="inline"
                 theme="light"
             >
                 <Menu.Item
+                    style={{ height: '50px' }}
                     key="/trangchu"
-                    icon={
-                        <FiHome
-                            className="nav-icon"
-                            style={{
-                                width: '24px',
-                                height: '24px',
-                            }}
-                        />
-                    }
+                    icon={<FiHome className="nav-icon" />}
                 >
                     <Link to="/trangchu">Trang chủ</Link>
                 </Menu.Item>
                 <Menu.Item
+                    style={{ height: '50px' }}
                     key="/quanlive"
-                    icon={
-                        <BsTicketPerforated
-                            className="nav-icon"
-                            style={{
-                                width: '24px',
-                                height: '24px',
-                            }}
-                        />
-                    }
+                    icon={<BsTicketPerforated className="nav-icon" />}
                 >
                     <Link to="/quanlive">Quản lý vé</Link>
                 </Menu.Item>
                 <Menu.Item
+                    style={{ height: '50px' }}
                     key="/doisoatve"
-                    icon={
-                        <RiFileList3Line
-                            className="nav-icon"
-                            style={{
-                                width: '24px',
-                                height: '24px',
-                            }}
-                        />
-                    }
+                    icon={<RiFileList3Line className="nav-icon" />}
                 >
                     <Link to="/doisoatve">Đối soát vé</Link>
                 </Menu.Item>
                 <Menu.SubMenu
+                    style={{ height: '50px' }}
                     key="/goidichvu"
                     title="Cài đặt"
-                    icon={
-                        <IoSettingsOutline
-                            className="nav-icon"
-                            style={{
-                                width: '24px',
-                                height: '24px',
-                            }}
-                        />
-                    }
+                    icon={<IoSettingsOutline className="nav-icon" />}
                 >
-                    <Menu.Item>
-                        <Link to="/goidichvu">Gói sự kiện</Link>
+                    <Menu.Item style={{ height: '40px' }}>
+                        <Link to="/goidichvu">Gói dịch vụ</Link>
                     </Menu.Item>
                 </Menu.SubMenu>
             </Menu>

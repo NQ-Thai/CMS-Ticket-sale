@@ -2260,6 +2260,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@firebase/app@npm:^0.9.15":
+  version: 0.9.15
+  resolution: "@firebase/app@npm:0.9.15"
+  dependencies:
+    "@firebase/component": 0.6.4
+    "@firebase/logger": 0.4.0
+    "@firebase/util": 1.9.3
+    idb: 7.1.1
+    tslib: ^2.1.0
+  checksum: 2f76cd36328949acc959d9433237935e8f0741b9646ec862021e6e277b9b25c62a7c85a8154d390c34c844ff054bb1cac412c03ec05157c38e50f77679553a8a
+  languageName: node
+  linkType: hard
+
 "@firebase/auth-compat@npm:0.4.3":
   version: 0.4.3
   resolution: "@firebase/auth-compat@npm:0.4.3"
@@ -2397,6 +2410,24 @@ __metadata:
   peerDependencies:
     "@firebase/app": 0.x
   checksum: e78c9df6dbfbe7d1ced4c3b808f26176e5a84c0e769fba01f917104102084923742fabd0273d30afd2f44d502994c62eebb8294d2b929e496e77cb8dbbfdaf5d
+  languageName: node
+  linkType: hard
+
+"@firebase/firestore@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@firebase/firestore@npm:4.1.0"
+  dependencies:
+    "@firebase/component": 0.6.4
+    "@firebase/logger": 0.4.0
+    "@firebase/util": 1.9.3
+    "@firebase/webchannel-wrapper": 0.10.1
+    "@grpc/grpc-js": ~1.8.17
+    "@grpc/proto-loader": ^0.6.13
+    node-fetch: 2.6.7
+    tslib: ^2.1.0
+  peerDependencies:
+    "@firebase/app": 0.x
+  checksum: 25eacce62f072c7086c61415fc663d7d2ac1771eab51523400f25b0cc34281f7465239738cf8a17b6e3eeaa37fce13d50e7e63631c005ae2afe304a9160a506c
   languageName: node
   linkType: hard
 
@@ -2770,6 +2801,16 @@ __metadata:
     "@grpc/proto-loader": ^0.7.0
     "@types/node": ">=12.12.47"
   checksum: 90260dec594f2704d6ac6800d88a8fbbda872cc347d692a8bb88f73ed12035c60dd98c98569c5cfab508f1cdbf380ecc107e32a24f412952a7796148993dfc3a
+  languageName: node
+  linkType: hard
+
+"@grpc/grpc-js@npm:~1.8.17":
+  version: 1.8.19
+  resolution: "@grpc/grpc-js@npm:1.8.19"
+  dependencies:
+    "@grpc/proto-loader": ^0.7.0
+    "@types/node": ">=12.12.47"
+  checksum: a1dcda766cf9a2a1c40366a4c1bfcfc8bde29d962651add76e77d091e383e90abbc9a48fcf18bb61b55d8dc3adf0b1316cccdfc7d616011c62f1e08e92b57728
   languageName: node
   linkType: hard
 
@@ -7353,6 +7394,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^2.30.0":
+  version: 2.30.0
+  resolution: "date-fns@npm:2.30.0"
+  dependencies:
+    "@babel/runtime": ^7.21.0
+  checksum: f7be01523282e9bb06c0cd2693d34f245247a29098527d4420628966a2d9aad154bd0e90a6b1cf66d37adcb769cd108cf8a7bd49d76db0fb119af5cdd13644f4
+  languageName: node
+  linkType: hard
+
 "dayjs@npm:^1.11.1":
   version: 1.11.9
   resolution: "dayjs@npm:1.11.9"
@@ -10181,7 +10231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:^9.0.21, immer@npm:^9.0.7":
+"immer@npm:9.0.21, immer@npm:^9.0.21, immer@npm:^9.0.7":
   version: 9.0.21
   resolution: "immer@npm:9.0.21"
   checksum: 70e3c274165995352f6936695f0ef4723c52c92c92dd0e9afdfe008175af39fa28e76aafb3a2ca9d57d1fb8f796efc4dd1e1cc36f18d33fa5b74f3dfb0375432
@@ -12787,6 +12837,8 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.22.5
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
+    "@firebase/app": ^0.9.15
+    "@firebase/firestore": ^4.1.0
     "@fortawesome/fontawesome-free": ^6.4.0
     "@fortawesome/fontawesome-svg-core": ^6.4.0
     "@fortawesome/free-solid-svg-icons": ^6.4.0
@@ -12811,6 +12863,7 @@ __metadata:
     bootstrap-icons: ^1.10.5
     chart.js: ^4.3.0
     core-js-pure: ^3.31.0
+    date-fns: ^2.30.0
     eslint: ^8.44.0
     eslint-config-react-app: latest
     eslint-plugin-flowtype: ^8.0.3
@@ -12821,8 +12874,11 @@ __metadata:
     react-dom: ^18.2.0
     react-icons: ^4.10.1
     react-redux: ^8.1.1
+    react-redux-firebase: ^3.11.0
     react-router-dom: ^6.14.1
     react-scripts: 5.0.1
+    redux-firestore: ^2.0.1
+    redux-thunk: ^2.4.2
     typescript: ^4.4.2
     web-vitals: ^2.1.0
   languageName: unknown
@@ -14571,7 +14627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -15518,6 +15574,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-redux-firebase@npm:^3.11.0":
+  version: 3.11.0
+  resolution: "react-redux-firebase@npm:3.11.0"
+  dependencies:
+    hoist-non-react-statics: ^3.3.2
+    lodash: ^4.17.21
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^16.3.0 || ^17.0.0
+  checksum: b8e3e673c7929d057febd4ad22c135e27b3b078c991195ea5a3f2cc3cff9417bda3a97b1c40dfdbb96ee3921fb72f259db92080b90a2a85e7188d51a4963c4ac
+  languageName: node
+  linkType: hard
+
 "react-redux@npm:^8.1.1":
   version: 8.1.1
   resolution: "react-redux@npm:8.1.1"
@@ -15762,6 +15831,26 @@ __metadata:
   dependencies:
     esprima: ~4.0.0
   checksum: 39a1426e377727cfb47a0e24e95c1cf78d969fbc388dc1e0fa1e2ef8a8756450cefb8b0c2598f63b85f1a331986fca7604c0db798427a5775a1dbdb9c1291979
+  languageName: node
+  linkType: hard
+
+"reduce-reducers@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "reduce-reducers@npm:1.0.4"
+  checksum: 9b3648fa505a3ac7834cd8150ec98f9915e4020c8df0e9a4eddb5d3615814067943913f2582d0be4763ad6583209c0cf7ad3cc1021745b9b8e6ace768d49f6a9
+  languageName: node
+  linkType: hard
+
+"redux-firestore@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "redux-firestore@npm:2.0.1"
+  dependencies:
+    immer: 9.0.21
+    lodash: ^4.17.21
+    reduce-reducers: ^1.0.4
+  peerDependencies:
+    firebase: ^9.0.0
+  checksum: 5ad3aff9e3c7ad4b7618ea5b2435153ff33d798dad4427050eda205a934e6c23a6423860ecb880354929eaeb43cf44c6131776c37ad58f672d45ac2980c509c7
   languageName: node
   linkType: hard
 

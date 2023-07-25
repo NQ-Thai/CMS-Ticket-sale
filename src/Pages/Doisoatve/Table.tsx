@@ -1,5 +1,6 @@
 import { Space, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { format } from 'date-fns';
 import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ticketCollection } from '../../lib/controller';
@@ -10,7 +11,7 @@ interface NewTicketType {
     SoVe?: string;
     TenSuKien?: string;
     Checkin?: string;
-    NgaySuDung?: string;
+    NgaySuDung?: Date;
     LoaiVe?: string;
     TrangThai?: string;
 }
@@ -36,7 +37,9 @@ const columns: ColumnsType<NewTicketType> = [
         title: 'Ngày sử dụng',
         key: 'NgaySuDung',
         dataIndex: 'NgaySuDung',
+        render: (date: Date) => format(date, 'dd/MM/yyyy'),
     },
+
     {
         title: 'Loại vé',
         key: 'LoaiVe',
@@ -58,7 +61,6 @@ const columns: ColumnsType<NewTicketType> = [
                     style={{
                         fontStyle: 'italic',
                         color: TrangThai === 'Chưa đối soát' ? '#A5A8B1' : 'green',
-                        // Thêm các CSS tùy chỉnh khác tại đây dựa vào giá trị của trạng thái
                     }}
                 >
                     {TrangThai}
@@ -83,9 +85,11 @@ function TableDoiSoatVe() {
             onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
                 setTickets(
                     snapshot.docs.map((doc, index) => {
+                        const data = doc.data();
                         return {
                             STT: `${index + 1}`,
-                            ...doc.data(),
+                            ...data,
+                            NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
                         };
                     }),
                 );
@@ -93,7 +97,6 @@ function TableDoiSoatVe() {
         [],
     );
 
-    // console.log(tickets, 'ticket');
     return (
         <div>
             <Table
@@ -101,7 +104,7 @@ function TableDoiSoatVe() {
                 size="small"
                 style={{
                     font: 'Montserrat',
-                    margin: '5px 20px 0 20px',
+                    margin: '10px 20px 0 20px',
                 }}
                 columns={columns}
                 dataSource={tickets}

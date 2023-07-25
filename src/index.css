@@ -798,7 +798,7 @@ a:hover {
 
 .icon {
     display: inline;
-    margin-left: 525px;
+    margin-left: 540px;
 }
 
 .icon .mail-icon {
@@ -822,7 +822,7 @@ a:hover {
     height: 40px;
 }
 .sider {
-    background-color: rgb(249, 247, 247);
+    padding: 40px 0 0 25px;
 }
 
 .content {
@@ -831,6 +831,8 @@ a:hover {
 
 .nav-icon {
     margin-right: 12px;
+    width: 24px;
+    height: 24px;
 }
 .button {
     width: Hug (127px);
@@ -1035,7 +1037,11 @@ a:hover {
 :where(.css-dev-only-do-not-override-18iukpe).ant-menu-light .ant-menu-item-selected,
 :where(.css-dev-only-do-not-override-18iukpe).ant-menu-light > .ant-menu .ant-menu-item-selected {
     color: white;
-    font-size: medium;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
 }
 
 .ant-menu-item-selected {
@@ -1151,6 +1157,6 @@ a:hover {
 
 /* Layout Content */
 .layout-content {
-    background-color: #ffffff;
+    /* background-color: yellowgreen; */
     margin-right: 50px;
 }

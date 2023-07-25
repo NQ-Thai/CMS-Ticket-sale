@@ -44,25 +44,6 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
         onClick: handleMenuClick,
     };
 
-    //Time Picker
-    // const { Option } = Select;
-
-    // type PickerType = 'time' | 'date';
-
-    // const PickerWithType = ({
-    //     type,
-    //     onChange,
-    // }: {
-    //     type: PickerType;
-    //     onChange: TimePickerProps['onChange'] | DatePickerProps['onChange'];
-    // }) => {
-    //     if (type === 'time') return <TimePicker onChange={onChange} />;
-    //     if (type === 'date') return <DatePicker onChange={onChange} />;
-    //     return <DatePicker picker={type} onChange={onChange} />;
-    // };
-
-    // const [type, setType] = useState<PickerType>('time');
-
     const suffixIconStyle = { fontSize: '24px', width: '24px', height: '24px', color: '#ff993c' };
     return (
         <div>

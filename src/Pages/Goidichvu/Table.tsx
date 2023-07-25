@@ -1,79 +1,113 @@
-import { Button, Space, Table, Tag } from 'antd';
+import { Button, Space, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import { FC, useState } from 'react';
+import { format } from 'date-fns';
+import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
+import { FC, useEffect, useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
 import { LiaEditSolid } from 'react-icons/lia';
+import { ticketPackageCollection } from '../../lib/controller';
 import EditModal from './EditModal';
 
-interface DataType {
-    key: string;
-    stt: string;
-    maGoi: string;
-    tenGoiVe: string;
-    ngayApDung: string;
-    ngayHetHan: string;
-    giaVe: string;
-    giaCombo: string;
-    tinhTrang: string[];
+//Firebase
+interface NewTicketPackageType {
+    STT?: string;
+    MaGoi?: string;
+    TenGoiVe?: string;
+    NgayApDung?: Date;
+    NgayHetHan?: Date;
+    GiaDon?: string;
+    GiaCombo?: string;
+    TinhTrangSuDung?: string;
 }
 
+const renderStatus = (TinhTrangSuDung: string) => (
+    <span
+        style={{
+            display: 'inline-block',
+            padding: '5px 10px',
+            borderRadius: '5px',
+            color:
+                TinhTrangSuDung === 'Đang áp dụng'
+                    ? '#03AC00'
+                    : TinhTrangSuDung === 'Tắt'
+                    ? '#FD5959'
+                    : '#919DBA',
+            border: `1px solid ${
+                TinhTrangSuDung === 'Đang áp dụng'
+                    ? '#03AC00'
+                    : TinhTrangSuDung === 'Tắt'
+                    ? '#FD5959'
+                    : '#919DBA'
+            }`,
+            background:
+                TinhTrangSuDung === 'Đang áp dụng'
+                    ? '#E6FFE6'
+                    : TinhTrangSuDung === 'Tắt'
+                    ? '#FFEDED'
+                    : '#F5F5F5',
+        }}
+    >
+        <BsFillCircleFill
+            style={{
+                marginRight: '5px',
+                color:
+                    TinhTrangSuDung === 'Đang áp dụng'
+                        ? '#03AC00'
+                        : TinhTrangSuDung === 'Tắt'
+                        ? '#FD5959'
+                        : '#919DBA',
+            }}
+        />
+        {TinhTrangSuDung}
+    </span>
+);
+
 const TableGoiDichVu: FC = () => {
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<NewTicketPackageType> = [
         {
             title: 'STT',
-            dataIndex: 'stt',
-            key: 'stt',
-            // render: (text) => <a>{text}</a>,
+            dataIndex: 'STT',
+            key: 'STT',
         },
         {
             title: 'Mã gói',
-            dataIndex: 'maGoi',
-            key: 'maGoi',
+            dataIndex: 'MaGoi',
+            key: 'MaGoi',
         },
         {
             title: 'Tên gói vé',
-            dataIndex: 'tenGoiVe',
-            key: 'tenGoiVe',
+            dataIndex: 'TenGoiVe',
+            key: 'TenGoiVe',
+            width: 95,
         },
         {
             title: 'Ngày áp dụng',
-            key: 'ngayApDung',
-            dataIndex: 'ngayApDung',
+            key: 'NgayApDung',
+            dataIndex: 'NgayApDung',
+            render: (date: Date) => format(date, 'dd/MM/yyyy HH:mm:ss'),
         },
         {
             title: 'Ngày hết hạn',
-            key: 'ngayHetHan',
-            dataIndex: 'ngayHetHan',
+            key: 'NgayHetHan',
+            dataIndex: 'NgayHetHan',
+            render: (date: Date) => format(date, 'dd/MM/yyyy HH:mm:ss'),
         },
         {
             title: 'Giá vé (VNĐ/Vé)',
-            key: 'giaVe',
-            dataIndex: 'giaVe',
+            key: 'GiaDon',
+            dataIndex: 'GiaDon',
         },
         {
             title: 'Giá Combo (VNĐ/Combo)',
-            key: 'giaCombo',
-            dataIndex: 'giaCombo',
+            key: 'GiaCombo',
+            dataIndex: 'GiaCombo',
         },
         {
             title: 'Tình trạng sử dụng',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tinhTrang }) => (
-                <>
-                    {tinhTrang.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'Tắt') {
-                            color = 'red';
-                        } else if (tag === 'Đang áp dụng') color = 'green';
-                        return (
-                            <Tag color={color} key={tag}>
-                                <BsFillCircleFill /> {tag}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            key: 'TinhTrangSuDung',
+            dataIndex: 'TinhTrangSuDung',
+            width: 160,
+            render: renderStatus,
         },
         {
             title: ' ',
@@ -111,31 +145,6 @@ const TableGoiDichVu: FC = () => {
         },
     ];
 
-    const data: DataType[] = [
-        {
-            key: '1',
-            stt: '1',
-            maGoi: 'ALT20230501',
-            tenGoiVe: 'Gói gia đinh',
-            ngayApDung: '14/04/2023\n08:00:00',
-            ngayHetHan: '14/04/2023\n23:00:00',
-            giaVe: '90.000 VNĐ',
-            giaCombo: '360.000 VNĐ/4 Vé',
-            tinhTrang: ['Đang áp dụng'],
-        },
-        {
-            key: '2',
-            stt: '2',
-            maGoi: 'ALT20230501',
-            tenGoiVe: 'Gói sự kiện',
-            ngayApDung: '14/04/2023\n08:00:00',
-            ngayHetHan: '14/04/2023\n23:00:00',
-            giaVe: '20.000 VNĐ',
-            giaCombo: ' ',
-            tinhTrang: ['Tắt'],
-        },
-    ];
-
     //Chuyển trang
     const paginationConfig: TablePaginationConfig = {
         position: ['bottomCenter'],
@@ -155,6 +164,29 @@ const TableGoiDichVu: FC = () => {
         setModalVisibleEdit(false);
     };
 
+    const [ticketPackage, setticketPackage] = useState<NewTicketPackageType[]>([]);
+
+    useEffect(
+        () =>
+            onSnapshot(
+                ticketPackageCollection,
+                (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+                    setticketPackage(
+                        snapshot.docs.map((doc, index) => {
+                            const data = doc.data();
+                            return {
+                                STT: `${index + 1}`,
+                                ...data,
+                                NgayApDung: data.NgayApDung ? data.NgayApDung.toDate() : null,
+                                NgayHetHan: data.NgayHetHan ? data.NgayHetHan.toDate() : null,
+                            };
+                        }),
+                    );
+                },
+            ),
+        [],
+    );
+
     return (
         <div>
             <Table
@@ -162,9 +194,10 @@ const TableGoiDichVu: FC = () => {
                 className="custom-table"
                 style={{
                     margin: '5px 20px 0 20px',
+                    height: '437px',
                 }}
                 columns={columns}
-                dataSource={data}
+                dataSource={ticketPackage}
                 pagination={paginationConfig}
                 bordered
             />
