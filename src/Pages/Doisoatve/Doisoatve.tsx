@@ -7,10 +7,26 @@ import TableDoiSoatVe from './Table';
 const Doisoatve: React.FC = () => {
     //Radio
     const [value, setValue] = useState(1);
+    const [filterValue, setFilterValue] = useState(1);
+
+    const [fromDate, setFromDate] = useState<any>(null);
+    const [toDate, setToDate] = useState<any>(null);
+
+    const handleFilterClick = () => {
+        setFilterValue(value);
+    };
 
     const onChange = (e: RadioChangeEvent) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
+    };
+
+    const handleFromDateChange = (date: any) => {
+        setFromDate(date);
+    };
+
+    const handleToDateChange = (date: any) => {
+        setToDate(date);
     };
 
     return (
@@ -55,7 +71,11 @@ const Doisoatve: React.FC = () => {
                                     </Button>
                                 </div>
                                 <div style={{ marginTop: '5px' }}>
-                                    <TableDoiSoatVe />
+                                    <TableDoiSoatVe
+                                        selectedRadioValue={filterValue}
+                                        fromDate={fromDate}
+                                        toDate={toDate}
+                                    />
                                 </div>
                             </div>
                         </Col>
@@ -146,7 +166,11 @@ const Doisoatve: React.FC = () => {
                                         Từ ngày
                                     </span>
                                     <div style={{ display: 'inline' }}>
-                                        <DatePicker className="custom-datepicker" />
+                                        <DatePicker
+                                            className="custom-datepicker"
+                                            value={fromDate}
+                                            onChange={handleFromDateChange}
+                                        />
                                     </div>
                                 </div>
                                 <div style={{ paddingTop: '20px' }}>
@@ -160,7 +184,11 @@ const Doisoatve: React.FC = () => {
                                         Đến ngày
                                     </span>
                                     <div style={{ display: 'inline' }}>
-                                        <DatePicker className="custom-datepicker" />
+                                        <DatePicker
+                                            className="custom-datepicker"
+                                            value={toDate}
+                                            onChange={handleToDateChange}
+                                        />
                                     </div>
                                 </div>
                                 <div
@@ -171,6 +199,7 @@ const Doisoatve: React.FC = () => {
                                     }}
                                 >
                                     <Button
+                                        onClick={handleFilterClick}
                                         className="button"
                                         type="primary"
                                         style={{

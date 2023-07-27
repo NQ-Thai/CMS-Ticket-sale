@@ -16,6 +16,12 @@ interface NewTicketType {
     TrangThai?: string;
 }
 
+interface TableDoiSoatVeProps {
+    selectedRadioValue: number;
+    fromDate: any;
+    toDate: any;
+}
+
 const columns: ColumnsType<NewTicketType> = [
     {
         title: 'STT',
@@ -60,7 +66,7 @@ const columns: ColumnsType<NewTicketType> = [
                     className="text-table"
                     style={{
                         fontStyle: 'italic',
-                        color: TrangThai === 'Chưa đối soát' ? '#A5A8B1' : 'green',
+                        color: TrangThai === 'Chưa đối soát' ? '#A5A8B1' : '#FD5959',
                     }}
                 >
                     {TrangThai}
@@ -77,25 +83,54 @@ const paginationConfig: TablePaginationConfig = {
     pageSizeOptions: ['7', '14', '21', '28'],
 };
 
-function TableDoiSoatVe() {
+function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVeProps) {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
 
-    useEffect(
-        () =>
-            onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
-                setTickets(
-                    snapshot.docs.map((doc, index) => {
-                        const data = doc.data();
-                        return {
-                            STT: `${index + 1}`,
-                            ...data,
-                            NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
-                        };
-                    }),
-                );
-            }),
-        [],
-    );
+    useEffect(() => {
+        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+            setTickets(
+                snapshot.docs.map((doc, index) => {
+                    const data = doc.data();
+                    return {
+                        STT: `${index + 1}`,
+                        ...data,
+                        NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
+                    };
+                }),
+            );
+        });
+    }, []);
+
+    // Filter the data based on the selected radio value and date range
+    const filteredDateTickets =
+        selectedRadioValue === 1
+            ? tickets // Show all tickets
+            : tickets
+                  .filter(
+                      (ticket) =>
+                          selectedRadioValue === 2
+                              ? ticket.TrangThai === 'Đã đối soát' // Show tickets with TrangThai === 'Đã đối soát'
+                              : ticket.TrangThai === 'Chưa đối soát', // Show tickets with TrangThai === 'Chưa đối soát'
+                  )
+                  .filter((ticket) => {
+                      if (fromDate && toDate && ticket.NgaySuDung) {
+                          // Kiểm tra ticket.NgaySuDung có giá trị không
+                          const ticketDate = new Date(ticket.NgaySuDung);
+                          return ticketDate >= fromDate && ticketDate <= toDate;
+                      }
+                      return true;
+                  });
+
+    // Filter the data based on the selected radio value
+    const filteredTickets =
+        selectedRadioValue === 1
+            ? tickets // Show all tickets
+            : tickets.filter(
+                  (ticket) =>
+                      selectedRadioValue === 2
+                          ? ticket.TrangThai === 'Đã đối soát' // Show tickets with TrangThai === 'Đã đối soát'
+                          : ticket.TrangThai === 'Chưa đối soát', // Show tickets with TrangThai === 'Chưa đối soát'
+              );
 
     return (
         <div>
@@ -107,7 +142,7 @@ function TableDoiSoatVe() {
                     margin: '10px 20px 0 20px',
                 }}
                 columns={columns}
-                dataSource={tickets}
+                dataSource={filteredTickets}
                 pagination={paginationConfig}
                 bordered
             />

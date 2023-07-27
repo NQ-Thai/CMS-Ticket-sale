@@ -1,6 +1,6 @@
 import { Button, Checkbox, Col, DatePicker, Modal, Radio, RadioChangeEvent, Row } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 interface FilterModalProps {
     visible: boolean;
@@ -15,9 +15,20 @@ const ModalFilter: FC<FilterModalProps> = ({
     selectedTinhTrangProp,
     handleRadioChangeProp,
 }) => {
+    const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>('all');
+
+    // Hàm xử lý sự kiện khi nhấn nút "Lọc"
+    const handleFilterClick = () => {
+        // Gọi hàm handleRadioChangeProp để cập nhật giá trị selectedTinhTrangProp trên component cha
+        handleRadioChangeProp(selectedTinhTrangModal);
+
+        // Đóng modal sau khi nhấn nút "Lọc"
+        onCancel();
+    };
+
     const onChangeRadio = (e: RadioChangeEvent) => {
         const value = e.target.value;
-        handleRadioChangeProp(value);
+        setSelectedTinhTrangModal(value);
     };
 
     //Check Box
@@ -98,7 +109,7 @@ const ModalFilter: FC<FilterModalProps> = ({
                         <Radio.Group
                             style={{ marginTop: '5px' }}
                             onChange={onChangeRadio}
-                            value={selectedTinhTrangProp}
+                            value={selectedTinhTrangModal}
                         >
                             <Radio className="custom-radio" value="all">
                                 Tất cả
@@ -161,7 +172,7 @@ const ModalFilter: FC<FilterModalProps> = ({
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button
-                        onClick={onCancel}
+                        onClick={handleFilterClick}
                         className="button"
                         type="primary"
                         style={{

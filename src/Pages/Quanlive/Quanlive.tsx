@@ -8,16 +8,12 @@ import TableQuanLiVe from './Table';
 
 function Quanlive() {
     const searchRef = useRef<HTMLInputElement | null>(null);
-    //Search
-    const [searchValue, setSearchValue] = useState<string>('');
-
-    const handleSearchChange = (value: string) => {
-        setSearchValue(value);
-    };
 
     // Filter Modal
     const [modalVisibleFilter, setModalVisibleFilter] = useState(false);
-    const [selectedTinhTrang, setSelectedTinhTrang] = useState<string | null>('all');
+
+    // State mới để lưu trạng thái của radio được chọn trong Modal
+    const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>('all');
 
     const openModalFilter = () => {
         setModalVisibleFilter(true);
@@ -28,7 +24,7 @@ function Quanlive() {
     };
 
     const handleRadioChange = (value: string) => {
-        setSelectedTinhTrang(value);
+        setSelectedTinhTrangModal(value);
     };
 
     return (
@@ -88,9 +84,8 @@ function Quanlive() {
                     </div>
                     <div style={{ marginTop: '5px' }}>
                         <TableQuanLiVe
-                            selectedTinhTrangProp={selectedTinhTrang}
+                            selectedTinhTrangProp={selectedTinhTrangModal}
                             handleRadioChangeProp={handleRadioChange}
-                            searchValue={searchValue}
                         />
                     </div>
                 </Content>
@@ -98,7 +93,7 @@ function Quanlive() {
             <ModalFilter
                 visible={modalVisibleFilter}
                 onCancel={closeModalFilter}
-                selectedTinhTrangProp={selectedTinhTrang}
+                selectedTinhTrangProp={selectedTinhTrangModal}
                 handleRadioChangeProp={handleRadioChange}
             />
         </div>

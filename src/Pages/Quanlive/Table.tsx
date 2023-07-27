@@ -1,4 +1,4 @@
-import { RadioChangeEvent, Space, Table } from 'antd';
+import { Space, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { format } from 'date-fns';
 import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
@@ -16,11 +16,6 @@ interface NewTicketType {
     NgaySuDung?: Date;
     NgayXuatVe?: Date;
     TinhTrangSuDung: string;
-}
-
-//Search
-interface TableQuanLiVeProps {
-    searchValue: string;
 }
 
 interface TableQuanLiVeProps {
@@ -154,14 +149,8 @@ const paginationConfig: TablePaginationConfig = {
     pageSizeOptions: ['5', '15', '20, 25'],
 };
 
-function TableQuanLiVe({
-    selectedTinhTrangProp,
-    handleRadioChangeProp,
-    searchValue,
-}: TableQuanLiVeProps) {
+function TableQuanLiVe({ selectedTinhTrangProp }: TableQuanLiVeProps) {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
-
-    const [selectedTinhTrang, setSelectedTinhTrang] = useState<string>('all');
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
@@ -182,28 +171,11 @@ function TableQuanLiVe({
 
     console.log(tickets, 'ticket');
 
-    // Hàm lọc dữ liệu khi radio thay đổi
-    const handleRadioChange = (e: RadioChangeEvent) => {
-        const value = e.target.value;
-        setSelectedTinhTrang(value);
-        handleRadioChangeProp(value);
-    };
-
     // Lọc dữ liệu dựa trên giá trị selectedTinhTrangProp và kiểm tra selectedTinhTrangProp khác null
     const filteredTickets =
         selectedTinhTrangProp !== null && selectedTinhTrangProp !== 'all'
             ? tickets.filter((ticket) => ticket.TinhTrangSuDung.includes(selectedTinhTrangProp))
             : tickets;
-
-    // Hàm lọc dữ liệu dựa trên giá trị selectedTinhTrangProp, kiểm tra selectedTinhTrangProp khác null, và searchValue
-    const SearchTickets = tickets.filter((ticket) => {
-        const isTinhTrangMatch =
-            selectedTinhTrangProp === null ||
-            selectedTinhTrangProp === 'all' ||
-            ticket.TinhTrangSuDung.includes(selectedTinhTrangProp);
-        const isSearchMatch = ticket.SoVe?.includes(searchValue);
-        return isTinhTrangMatch && isSearchMatch;
-    });
 
     return (
         <div>
