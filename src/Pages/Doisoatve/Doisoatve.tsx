@@ -2,7 +2,7 @@ import { Button, Col, DatePicker, Layout, Radio, RadioChangeEvent, Row, Space } 
 import { Content } from 'antd/es/layout/layout';
 import { useState } from 'react';
 import Search from '../Quanlive/Search';
-import TableDoiSoatVe from './Table';
+import TableDoiSoatVe from './Table'; // Thêm import kiểu NewTicketType
 
 const Doisoatve: React.FC = () => {
     //Radio
@@ -142,7 +142,7 @@ const Doisoatve: React.FC = () => {
                                         </Radio.Group>
                                     </div>
                                 </div>
-                                <div style={{ paddingTop: '10px' }}>
+                                <div style={{ paddingTop: '20px' }}>
                                     <span style={{ font: 'Montserrat' }} className="side-text">
                                         Loại vé
                                     </span>
@@ -155,7 +155,7 @@ const Doisoatve: React.FC = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div style={{ paddingTop: '10px' }}>
+                                <div style={{ marginTop: '30px' }}>
                                     <span
                                         style={{
                                             font: 'Montserrat',
@@ -173,7 +173,7 @@ const Doisoatve: React.FC = () => {
                                         />
                                     </div>
                                 </div>
-                                <div style={{ paddingTop: '20px' }}>
+                                <div style={{ marginTop: '30px' }}>
                                     <span
                                         style={{
                                             font: 'Montserrat',

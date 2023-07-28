@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { ticketCollection } from '../../lib/controller';
 
 //Firebase
-interface NewTicketType {
+export interface NewTicketType {
     STT?: string;
     SoVe?: string;
     TenSuKien?: string;
@@ -15,6 +15,8 @@ interface NewTicketType {
     LoaiVe?: string;
     TrangThai?: string;
 }
+
+export const tickets: NewTicketType[] = [];
 
 interface TableDoiSoatVeProps {
     selectedRadioValue: number;
@@ -85,52 +87,43 @@ const paginationConfig: TablePaginationConfig = {
 
 function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVeProps) {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
+    const [filteredData, setFilteredData] = useState<NewTicketType[]>([]);
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
-            setTickets(
-                snapshot.docs.map((doc, index) => {
-                    const data = doc.data();
-                    return {
-                        STT: `${index + 1}`,
-                        ...data,
-                        NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
-                    };
-                }),
-            );
+            const ticketsData = snapshot.docs.map((doc, index) => {
+                const data = doc.data();
+                return {
+                    STT: `${index + 1}`,
+                    ...data,
+                    NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
+                };
+            });
+            setTickets(ticketsData);
         });
     }, []);
 
-    // Filter the data based on the selected radio value and date range
-    const filteredDateTickets =
-        selectedRadioValue === 1
-            ? tickets // Show all tickets
-            : tickets
-                  .filter(
-                      (ticket) =>
-                          selectedRadioValue === 2
-                              ? ticket.TrangThai === 'Đã đối soát' // Show tickets with TrangThai === 'Đã đối soát'
-                              : ticket.TrangThai === 'Chưa đối soát', // Show tickets with TrangThai === 'Chưa đối soát'
-                  )
-                  .filter((ticket) => {
-                      if (fromDate && toDate && ticket.NgaySuDung) {
-                          // Kiểm tra ticket.NgaySuDung có giá trị không
-                          const ticketDate = new Date(ticket.NgaySuDung);
-                          return ticketDate >= fromDate && ticketDate <= toDate;
-                      }
-                      return true;
-                  });
-
-    // Filter the data based on the selected radio value
-    const filteredTickets =
-        selectedRadioValue === 1
-            ? tickets // Show all tickets
-            : tickets.filter(
-                  (ticket) =>
+    useEffect(() => {
+        // Thêm một useEffect mới để lọc dữ liệu khi ngày hoặc trạng thái radio thay đổi
+        const filteredByRadio =
+            selectedRadioValue === 1
+                ? tickets // Sử dụng prop 'tickets' để lọc dữ liệu
+                : tickets.filter((ticket) =>
                       selectedRadioValue === 2
-                          ? ticket.TrangThai === 'Đã đối soát' // Show tickets with TrangThai === 'Đã đối soát'
-                          : ticket.TrangThai === 'Chưa đối soát', // Show tickets with TrangThai === 'Chưa đối soát'
-              );
+                          ? ticket.TrangThai === 'Đã đối soát'
+                          : ticket.TrangThai === 'Chưa đối soát',
+                  );
+
+        const filteredByDate = filteredByRadio.filter((ticket) => {
+            if (fromDate && toDate && ticket.NgaySuDung) {
+                const ticketDate = new Date(ticket.NgaySuDung);
+                return ticketDate >= fromDate && ticketDate <= toDate;
+            }
+            return true;
+        });
+
+        setFilteredData(filteredByDate); // Set the filtered data based on date and radio selection
+    }, [selectedRadioValue, fromDate, toDate, tickets]);
 
     return (
         <div>
@@ -142,7 +135,7 @@ function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVe
                     margin: '10px 20px 0 20px',
                 }}
                 columns={columns}
-                dataSource={filteredTickets}
+                dataSource={filteredData}
                 pagination={paginationConfig}
                 bordered
             />
