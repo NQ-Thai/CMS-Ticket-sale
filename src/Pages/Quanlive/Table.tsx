@@ -21,6 +21,7 @@ interface NewTicketType {
 interface TableQuanLiVeProps {
     selectedTinhTrangProp: string | null;
     handleRadioChangeProp: (value: string) => void;
+    searchValue: string;
 }
 
 const renderStatus = (TinhTrangSuDung: string | undefined) => {
@@ -149,8 +150,10 @@ const paginationConfig: TablePaginationConfig = {
     pageSizeOptions: ['5', '15', '20, 25'],
 };
 
-function TableQuanLiVe({ selectedTinhTrangProp }: TableQuanLiVeProps) {
+function TableQuanLiVe({ selectedTinhTrangProp, searchValue }: TableQuanLiVeProps) {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
+
+    const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
@@ -171,10 +174,17 @@ function TableQuanLiVe({ selectedTinhTrangProp }: TableQuanLiVeProps) {
 
     console.log(tickets, 'ticket');
 
-    // Lọc dữ liệu dựa trên giá trị selectedTinhTrangProp và kiểm tra selectedTinhTrangProp khác null
+    // Filter the tickets based on the searchValue
     const filteredTickets =
-        selectedTinhTrangProp !== null && selectedTinhTrangProp !== 'all'
-            ? tickets.filter((ticket) => ticket.TinhTrangSuDung.includes(selectedTinhTrangProp))
+        searchValue !== '' || selectedTinhTrangProp !== 'all'
+            ? tickets.filter((ticket) => {
+                  const isMatchedSearch =
+                      searchValue === '' || ticket.SoVe?.startsWith(searchValue);
+                  const isMatchedTinhTrang =
+                      selectedTinhTrangProp === 'all' ||
+                      ticket.TinhTrangSuDung === selectedTinhTrangProp;
+                  return isMatchedSearch && isMatchedTinhTrang;
+              })
             : tickets;
 
     // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc

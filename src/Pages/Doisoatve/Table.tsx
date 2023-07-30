@@ -22,6 +22,7 @@ interface TableDoiSoatVeProps {
     selectedRadioValue: number;
     fromDate: any;
     toDate: any;
+    searchValue: string;
 }
 
 const columns: ColumnsType<NewTicketType> = [
@@ -85,9 +86,16 @@ const paginationConfig: TablePaginationConfig = {
     pageSizeOptions: ['7', '14', '21', '28'],
 };
 
-function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVeProps) {
+const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
+    selectedRadioValue,
+    fromDate,
+    toDate,
+    searchValue,
+}) => {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
     const [filteredData, setFilteredData] = useState<NewTicketType[]>([]);
+
+    const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
@@ -128,14 +136,22 @@ function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVe
             return true;
         });
 
+        // Lọc theo số vé nếu có searchValue
+        const filteredBySearchValue = searchValue
+            ? filteredByDate.filter((ticket) => ticket.SoVe?.startsWith(searchValue))
+            : filteredByDate;
+
+        // Cập nhật lại giá trị của biến đếm dựa trên số lượng kết quả sau khi lọc
+        setSttCounter(filteredBySearchValue.length > 0 ? 1 : 0);
+
         // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
-        const newDataWithSTT = filteredByDate.map((ticket, index) => ({
+        const newDataWithSTT = filteredBySearchValue.map((ticket, index) => ({
             ...ticket,
-            STT: `${index + 1}`,
+            STT: `${sttCounter + index}`, // Gán giá trị STT bằng sttCounter + index
         }));
 
-        setFilteredData(newDataWithSTT);
-    }, [selectedRadioValue, fromDate, toDate, tickets]);
+        setFilteredData(newDataWithSTT); // Cập nhật filteredData với dữ liệu sau khi lọc
+    }, [selectedRadioValue, fromDate, toDate, tickets, searchValue, sttCounter]);
 
     return (
         <div>
@@ -153,6 +169,6 @@ function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVe
             />
         </div>
     );
-}
+};
 
 export default TableDoiSoatVe;

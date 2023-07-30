@@ -1,7 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import { makeStyles } from '@mui/styles';
-import { useState } from 'react';
 
 const useStyles = makeStyles({
     textField: {
@@ -20,14 +19,14 @@ const useStyles = makeStyles({
     search: {},
 });
 
-const SearchGoidichvu: React.FC = () => {
+interface SearchGoidichvuProps {
+    searchValue: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchGoidichvu: React.FC<SearchGoidichvuProps> = ({ searchValue, onChange }) => {
     const classes = useStyles();
 
-    const [searchValue, setSearchValue] = useState<string>('');
-
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(event.target.value);
-    };
     return (
         <TextField
             style={{
@@ -37,8 +36,7 @@ const SearchGoidichvu: React.FC = () => {
             className={classes.textField}
             id="searchve"
             placeholder="Tìm bằng số vé"
-            value={searchValue}
-            onChange={handleSearchChange}
+            onChange={onChange}
             InputProps={{
                 endAdornment: <SearchIcon />,
             }}

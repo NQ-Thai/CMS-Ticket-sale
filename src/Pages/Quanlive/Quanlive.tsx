@@ -3,7 +3,7 @@ import { Content } from 'antd/es/layout/layout';
 import { useRef, useState } from 'react';
 import { BsFunnel } from 'react-icons/bs';
 import ModalFilter from './Modal';
-import Search from './Search';
+import SearchQuanlive from './Search';
 import TableQuanLiVe from './Table';
 
 function Quanlive() {
@@ -14,6 +14,12 @@ function Quanlive() {
 
     // State mới để lưu trạng thái của radio được chọn trong Modal
     const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>('all');
+
+    const [searchValue, setSearchValue] = useState<string>('');
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    };
 
     const openModalFilter = () => {
         setModalVisibleFilter(true);
@@ -42,7 +48,7 @@ function Quanlive() {
                         Danh sách vé
                     </div>
                     <div>
-                        <Search />
+                        <SearchQuanlive searchValue={searchValue} onChange={handleSearchChange} />
 
                         <Button
                             onClick={openModalFilter}
@@ -86,6 +92,7 @@ function Quanlive() {
                         <TableQuanLiVe
                             selectedTinhTrangProp={selectedTinhTrangModal}
                             handleRadioChangeProp={handleRadioChange}
+                            searchValue={searchValue}
                         />
                     </div>
                 </Content>

@@ -2,7 +2,7 @@ import { Button, Space, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { format } from 'date-fns';
 import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
 import { LiaEditSolid } from 'react-icons/lia';
 import { ticketPackageCollection } from '../../lib/controller';
@@ -18,6 +18,10 @@ interface NewTicketPackageType {
     GiaDon?: string;
     GiaCombo?: string;
     TinhTrangSuDung?: string;
+}
+
+interface TableGoidichvuProps {
+    searchValue: string;
 }
 
 const renderStatus = (TinhTrangSuDung: string) => (
@@ -62,7 +66,7 @@ const renderStatus = (TinhTrangSuDung: string) => (
     </span>
 );
 
-const TableGoiDichVu: FC = () => {
+function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
     const columns: ColumnsType<NewTicketPackageType> = [
         {
             title: 'STT',
@@ -187,6 +191,22 @@ const TableGoiDichVu: FC = () => {
         [],
     );
 
+    // Filter the tickets based on the searchValue
+    const filteredTickets =
+        searchValue !== ''
+            ? ticketPackage.filter(
+                  (ticketPackage) =>
+                      ticketPackage.MaGoi?.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+                      ticketPackage.TenGoiVe?.toLowerCase().includes(searchValue.toLowerCase()),
+              )
+            : ticketPackage;
+
+    // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
+    const newDataWithSTT = filteredTickets.map((ticketPackage, index) => ({
+        ...ticketPackage,
+        STT: `${index + 1}`,
+    }));
+
     return (
         <div>
             <Table
@@ -197,13 +217,13 @@ const TableGoiDichVu: FC = () => {
                     height: '437px',
                 }}
                 columns={columns}
-                dataSource={ticketPackage}
+                dataSource={newDataWithSTT}
                 pagination={paginationConfig}
                 bordered
             />
             <EditModal visible={modalVisibleEdit} onCancel={closeModalEdit} />
         </div>
     );
-};
+}
 
 export default TableGoiDichVu;

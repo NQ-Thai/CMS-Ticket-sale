@@ -9,6 +9,12 @@ const Goidichvu: FC = () => {
     // Add Modal
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [searchValue, setSearchValue] = useState<string>('');
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    };
+
     const openModal = () => {
         setModalVisible(true);
     };
@@ -29,7 +35,7 @@ const Goidichvu: FC = () => {
                 <Content>
                     <div className="content">Danh sách gói vé</div>
                     <div>
-                        <SearchGoidichvu />
+                        <SearchGoidichvu searchValue={searchValue} onChange={handleSearchChange} />
                         <Button
                             className="button"
                             type="primary"
@@ -69,7 +75,7 @@ const Goidichvu: FC = () => {
                         </Button>
                     </div>
                     <div style={{ marginTop: '10px' }}>
-                        <TableGoiDichVu />
+                        <TableGoiDichVu searchValue={searchValue} />
                     </div>
                 </Content>
             </Layout>

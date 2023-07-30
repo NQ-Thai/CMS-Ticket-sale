@@ -12,6 +12,12 @@ const Doisoatve: React.FC = () => {
     const [fromDate, setFromDate] = useState<any>(null);
     const [toDate, setToDate] = useState<any>(null);
 
+    const [searchValue, setSearchValue] = useState<string>('');
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    };
+
     const handleFilterClick = () => {
         setFilterValue(value);
     };
@@ -46,7 +52,10 @@ const Doisoatve: React.FC = () => {
                             >
                                 <div className="content">Đối soát vé</div>
                                 <div>
-                                    <SearchDoisoatve />
+                                    <SearchDoisoatve
+                                        searchValue={searchValue}
+                                        onChange={handleSearchChange}
+                                    />
                                     <Button
                                         className="button-col1"
                                         type="primary"
@@ -75,6 +84,7 @@ const Doisoatve: React.FC = () => {
                                         selectedRadioValue={filterValue}
                                         fromDate={fromDate}
                                         toDate={toDate}
+                                        searchValue={searchValue}
                                     />
                                 </div>
                             </div>
