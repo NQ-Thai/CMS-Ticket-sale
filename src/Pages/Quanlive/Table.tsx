@@ -177,6 +177,12 @@ function TableQuanLiVe({ selectedTinhTrangProp }: TableQuanLiVeProps) {
             ? tickets.filter((ticket) => ticket.TinhTrangSuDung.includes(selectedTinhTrangProp))
             : tickets;
 
+    // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
+    const newDataWithSTT = filteredTickets.map((ticket, index) => ({
+        ...ticket,
+        STT: `${index + 1}`,
+    }));
+
     return (
         <div>
             <Table
@@ -186,7 +192,7 @@ function TableQuanLiVe({ selectedTinhTrangProp }: TableQuanLiVeProps) {
                     height: '437px',
                 }}
                 columns={columns}
-                dataSource={filteredTickets}
+                dataSource={newDataWithSTT}
                 pagination={paginationConfig}
                 bordered
             />

@@ -1,8 +1,8 @@
 import { Button, Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { FC, useState } from 'react';
-import Search from '../Quanlive/Search';
 import NewModal from './NewModal';
+import SearchGoidichvu from './Search';
 import TableGoiDichVu from './Table';
 
 const Goidichvu: FC = () => {
@@ -29,7 +29,7 @@ const Goidichvu: FC = () => {
                 <Content>
                     <div className="content">Danh sách gói vé</div>
                     <div>
-                        <Search />
+                        <SearchGoidichvu />
                         <Button
                             className="button"
                             type="primary"

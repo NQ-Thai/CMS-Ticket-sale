@@ -1,7 +1,7 @@
 import { Button, Col, DatePicker, Layout, Radio, RadioChangeEvent, Row, Space } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { useState } from 'react';
-import Search from '../Quanlive/Search';
+import SearchDoisoatve from './Search';
 import TableDoiSoatVe from './Table'; // Thêm import kiểu NewTicketType
 
 const Doisoatve: React.FC = () => {
@@ -46,7 +46,7 @@ const Doisoatve: React.FC = () => {
                             >
                                 <div className="content">Đối soát vé</div>
                                 <div>
-                                    <Search />
+                                    <SearchDoisoatve />
                                     <Button
                                         className="button-col1"
                                         type="primary"
@@ -92,7 +92,7 @@ const Doisoatve: React.FC = () => {
                                 style={{
                                     background: '#FFFFFF',
                                     width: '330px',
-                                    height: '87vh',
+                                    height: '88vh',
 
                                     margin: '0 20px 0 0',
                                     borderRadius: '15px',
@@ -170,6 +170,7 @@ const Doisoatve: React.FC = () => {
                                             className="custom-datepicker"
                                             value={fromDate}
                                             onChange={handleFromDateChange}
+                                            placement="topLeft"
                                         />
                                     </div>
                                 </div>
@@ -188,6 +189,7 @@ const Doisoatve: React.FC = () => {
                                             className="custom-datepicker"
                                             value={toDate}
                                             onChange={handleToDateChange}
+                                            placement="topLeft"
                                         />
                                     </div>
                                 </div>

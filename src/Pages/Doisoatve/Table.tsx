@@ -104,7 +104,7 @@ function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVe
     }, []);
 
     useEffect(() => {
-        // Thêm một useEffect mới để lọc dữ liệu khi ngày hoặc trạng thái radio thay đổi
+        // Thêm một useEffect mới để lọc dữ liệu khi radio thay đổi hoặc ngày thay đổi
         const filteredByRadio =
             selectedRadioValue === 1
                 ? tickets // Sử dụng prop 'tickets' để lọc dữ liệu
@@ -117,12 +117,24 @@ function TableDoiSoatVe({ selectedRadioValue, fromDate, toDate }: TableDoiSoatVe
         const filteredByDate = filteredByRadio.filter((ticket) => {
             if (fromDate && toDate && ticket.NgaySuDung) {
                 const ticketDate = new Date(ticket.NgaySuDung);
-                return ticketDate >= fromDate && ticketDate <= toDate;
+                // Để bao gồm cả ngày fromDate và toDate, ta sẽ so sánh từ 00:00:00 đến 23:59:59 của các ngày
+                const fromDateStart = new Date(fromDate);
+                const toDateEnd = new Date(toDate);
+                toDateEnd.setHours(23, 59, 59);
+
+                return ticketDate >= fromDateStart && ticketDate <= toDateEnd;
             }
+            // If fromDate or toDate is not selected, include all tickets
             return true;
         });
 
-        setFilteredData(filteredByDate); // Set the filtered data based on date and radio selection
+        // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
+        const newDataWithSTT = filteredByDate.map((ticket, index) => ({
+            ...ticket,
+            STT: `${index + 1}`,
+        }));
+
+        setFilteredData(newDataWithSTT);
     }, [selectedRadioValue, fromDate, toDate, tickets]);
 
     return (
