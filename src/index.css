@@ -976,8 +976,8 @@ a:hover {
 .custom-checkbox input[type='checkbox']:checked + span {
     /* Áp dụng kiểu dáng khi CheckBox được chọn */
     /* Ví dụ: */
-    color: #fff; /* Màu chữ */
-    background-color: #27aef9; /* Màu nền */
+    color: #fff;
+    background-color: #27aef9;
     /* ... */
 }
 

@@ -5,15 +5,18 @@ import { BsTicketPerforated } from 'react-icons/bs';
 import { FiHome } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { RiFileList3Line } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const NavBar: FC = () => {
+    const location = useLocation();
+
     return (
         <Sider width={265} className="sider" style={{ backgroundColor: 'rgb(249, 247, 247)' }}>
             <Menu
                 style={{ backgroundColor: 'rgb(249, 247, 247)', paddingRight: '20px' }}
                 mode="inline"
                 theme="light"
+                selectedKeys={[location.pathname]} // Set the selectedKeys to the current location pathname
             >
                 <Menu.Item
                     style={{ height: '50px' }}

@@ -1,4 +1,5 @@
 import { Button, Layout } from 'antd';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { Content } from 'antd/es/layout/layout';
 import { useRef, useState } from 'react';
 import { BsFunnel } from 'react-icons/bs';
@@ -9,11 +10,16 @@ import TableQuanLiVe from './Table';
 function Quanlive() {
     const searchRef = useRef<HTMLInputElement | null>(null);
 
+    const [filteredCheckboxes, setFilteredCheckboxes] = useState<CheckboxValueType[]>([]);
+
     // Filter Modal
     const [modalVisibleFilter, setModalVisibleFilter] = useState(false);
 
     // State mới để lưu trạng thái của radio được chọn trong Modal
     const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>('all');
+    const [selectedCheckboxesQuanlive, setSelectedCheckboxesQuanlive] = useState<
+        CheckboxValueType[]
+    >([]);
 
     const [searchValue, setSearchValue] = useState<string>('');
 
@@ -31,6 +37,15 @@ function Quanlive() {
 
     const handleRadioChange = (value: string) => {
         setSelectedTinhTrangModal(value);
+    };
+
+    const handleCheckboxChange = (checkedValues: CheckboxValueType[]) => {
+        setFilteredCheckboxes(checkedValues); // Cập nhật trạng thái filteredCheckboxes
+    };
+
+    const handleFilterClick = () => {
+        closeModalFilter();
+        setFilteredCheckboxes(selectedCheckboxesQuanlive);
     };
 
     return (
@@ -91,8 +106,9 @@ function Quanlive() {
                     <div style={{ marginTop: '5px' }}>
                         <TableQuanLiVe
                             selectedTinhTrangProp={selectedTinhTrangModal}
-                            handleRadioChangeProp={handleRadioChange}
+                            handleRadioChangeProp={setSelectedTinhTrangModal}
                             searchValue={searchValue}
+                            selectedCheckboxes={filteredCheckboxes} // Truyền giá trị của filteredCheckboxes vào TableQuanLiVe
                         />
                     </div>
                 </Content>
@@ -102,6 +118,8 @@ function Quanlive() {
                 onCancel={closeModalFilter}
                 selectedTinhTrangProp={selectedTinhTrangModal}
                 handleRadioChangeProp={handleRadioChange}
+                selectedCheckboxesProp={selectedCheckboxesQuanlive} // Truyền giá trị của filteredCheckboxes vào ModalFilter
+                handleCheckboxChangeProp={handleCheckboxChange} // Truyền callback để cập nhật trạng thái filteredCheckboxes
             />
         </div>
     );

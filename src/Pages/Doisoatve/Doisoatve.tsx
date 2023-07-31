@@ -152,7 +152,7 @@ const Doisoatve: React.FC = () => {
                                         </Radio.Group>
                                     </div>
                                 </div>
-                                <div style={{ paddingTop: '20px' }}>
+                                <div style={{ marginTop: '30px' }}>
                                     <span style={{ font: 'Montserrat' }} className="side-text">
                                         Loại vé
                                     </span>
@@ -165,7 +165,7 @@ const Doisoatve: React.FC = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div style={{ marginTop: '30px' }}>
+                                <div style={{ marginTop: '40px' }}>
                                     <span
                                         style={{
                                             font: 'Montserrat',

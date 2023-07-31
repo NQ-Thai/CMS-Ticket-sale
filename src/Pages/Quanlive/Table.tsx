@@ -1,4 +1,5 @@
 import { Space, Table } from 'antd';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { format } from 'date-fns';
 import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
@@ -22,6 +23,7 @@ interface TableQuanLiVeProps {
     selectedTinhTrangProp: string | null;
     handleRadioChangeProp: (value: string) => void;
     searchValue: string;
+    selectedCheckboxes: CheckboxValueType[];
 }
 
 const renderStatus = (TinhTrangSuDung: string | undefined) => {
@@ -150,7 +152,12 @@ const paginationConfig: TablePaginationConfig = {
     pageSizeOptions: ['5', '15', '20, 25'],
 };
 
-function TableQuanLiVe({ selectedTinhTrangProp, searchValue }: TableQuanLiVeProps) {
+function TableQuanLiVe({
+    selectedTinhTrangProp,
+    handleRadioChangeProp,
+    searchValue,
+    selectedCheckboxes,
+}: TableQuanLiVeProps) {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
 
     const [sttCounter, setSttCounter] = useState<number>(1);
@@ -174,18 +181,21 @@ function TableQuanLiVe({ selectedTinhTrangProp, searchValue }: TableQuanLiVeProp
 
     console.log(tickets, 'ticket');
 
-    // Filter the tickets based on the searchValue
-    const filteredTickets =
-        searchValue !== '' || selectedTinhTrangProp !== 'all'
-            ? tickets.filter((ticket) => {
-                  const isMatchedSearch =
-                      searchValue === '' || ticket.SoVe?.startsWith(searchValue);
-                  const isMatchedTinhTrang =
-                      selectedTinhTrangProp === 'all' ||
-                      ticket.TinhTrangSuDung === selectedTinhTrangProp;
-                  return isMatchedSearch && isMatchedTinhTrang;
-              })
-            : tickets;
+    // Filter the tickets based on the searchValue, selectedTinhTrangProp, and selectedCheckboxes received as props
+    const filteredTickets = tickets.filter((ticket) => {
+        const isMatchedSearch = searchValue === '' || ticket.SoVe?.startsWith(searchValue);
+        const isMatchedTinhTrang =
+            selectedTinhTrangProp === 'all' || ticket.TinhTrangSuDung === selectedTinhTrangProp;
+        const isMatchedCheckbox =
+            selectedCheckboxes.length === 0 || selectedCheckboxes.includes(ticket.Checkin || '');
+
+        // Handle the "Tất cả" checkbox case separately
+        if (selectedCheckboxes.includes('all')) {
+            return isMatchedSearch && isMatchedTinhTrang;
+        } else {
+            return isMatchedSearch && isMatchedTinhTrang && isMatchedCheckbox;
+        }
+    });
 
     // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
     const newDataWithSTT = filteredTickets.map((ticket, index) => ({

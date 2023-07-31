@@ -1,4 +1,5 @@
 import { Button, Checkbox, Col, DatePicker, Modal, Radio, RadioChangeEvent, Row } from 'antd';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { FC, useState } from 'react';
 
@@ -7,6 +8,8 @@ interface FilterModalProps {
     onCancel: () => void;
     selectedTinhTrangProp: string | null;
     handleRadioChangeProp: (value: string) => void;
+    selectedCheckboxesProp: CheckboxValueType[];
+    handleCheckboxChangeProp: (checkedValues: CheckboxValueType[]) => void;
 }
 
 const ModalFilter: FC<FilterModalProps> = ({
@@ -14,15 +17,22 @@ const ModalFilter: FC<FilterModalProps> = ({
     onCancel,
     selectedTinhTrangProp,
     handleRadioChangeProp,
+    selectedCheckboxesProp,
+    handleCheckboxChangeProp,
 }) => {
-    const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>('all');
+    // Sử dụng giá trị prop để khởi tạo trạng thái cục bộ
+    const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>(
+        selectedTinhTrangProp ?? 'all',
+    );
 
-    // Hàm xử lý sự kiện khi nhấn nút "Lọc"
+    // Sử dụng giá trị prop để khởi tạo trạng thái cục bộ
+    const [selectedCheckboxes, setSelectedCheckboxes] = useState<CheckboxValueType[]>(
+        selectedCheckboxesProp ?? 'all',
+    );
+
     const handleFilterClick = () => {
-        // Gọi hàm handleRadioChangeProp để cập nhật giá trị selectedTinhTrangProp trên component cha
         handleRadioChangeProp(selectedTinhTrangModal);
-
-        // Đóng modal sau khi nhấn nút "Lọc"
+        handleCheckboxChangeProp(selectedCheckboxes); // Truyền giá trị của selectedCheckboxes về thành phần cha
         onCancel();
     };
 
@@ -31,10 +41,31 @@ const ModalFilter: FC<FilterModalProps> = ({
         setSelectedTinhTrangModal(value);
     };
 
-    //Check Box
+    // Sự kiện khi Checkbox thay đổi
     const onChangeCheckBox = (checkedValues: CheckboxValueType[]) => {
-        console.log('checked = ', checkedValues);
+        // Check if the "Tất cả" checkbox is checked
+        const isAllChecked = checkedValues.includes('all');
+
+        // If "Tất cả" checkbox is checked, set all other checkboxes to an empty array
+        const selectedCheckboxes = isAllChecked ? ['all'] : checkedValues;
+
+        setSelectedCheckboxes(selectedCheckboxes); // Cập nhật trạng thái cục bộ của selectedCheckboxes
+        console.log('checked = ', checkedValues); // Ghi log các giá trị checkbox đã chọn
     };
+
+    // ...
+
+    // Sự kiện khi "Tất cả" checkbox thay đổi
+    const onChangeCheckAll = (e: CheckboxChangeEvent) => {
+        const checked = e.target.checked;
+        const checkboxesWithoutAll = selectedCheckboxes.filter((checkbox) => checkbox !== 'all');
+        const selectedCheckboxesAfterCheckAll = checked
+            ? ['all', ...checkboxesWithoutAll]
+            : checkboxesWithoutAll;
+
+        setSelectedCheckboxes(selectedCheckboxesAfterCheckAll);
+    };
+
     return (
         <div>
             <Modal
@@ -134,35 +165,41 @@ const ModalFilter: FC<FilterModalProps> = ({
                         <Checkbox.Group
                             style={{ width: '100%', marginTop: '8px' }}
                             onChange={onChangeCheckBox}
+                            value={selectedCheckboxes}
                         >
                             <Row>
                                 <Col span={8}>
-                                    <Checkbox className="custom-checkbox" value="A">
+                                    <Checkbox
+                                        className="custom-checkbox"
+                                        value="all"
+                                        onChange={onChangeCheckAll}
+                                        checked={selectedCheckboxes.includes('all')}
+                                    >
                                         Tất cả
                                     </Checkbox>
                                 </Col>
                                 <Col span={8}>
-                                    <Checkbox className="custom-checkbox" value="B">
+                                    <Checkbox className="custom-checkbox" value="Cổng 1">
                                         Cổng 1
                                     </Checkbox>
                                 </Col>
                                 <Col span={8}>
-                                    <Checkbox className="custom-checkbox" value="C">
+                                    <Checkbox className="custom-checkbox" value="Cổng 2">
                                         Cổng 2
                                     </Checkbox>
                                 </Col>
                                 <Col span={8}>
-                                    <Checkbox className="custom-checkbox" value="D">
+                                    <Checkbox className="custom-checkbox" value="Cổng 3">
                                         Cổng 3
                                     </Checkbox>
                                 </Col>
                                 <Col span={8}>
-                                    <Checkbox className="custom-checkbox" value="E">
+                                    <Checkbox className="custom-checkbox" value="Cổng 4">
                                         Cổng 4
                                     </Checkbox>
                                 </Col>
                                 <Col span={8}>
-                                    <Checkbox className="custom-checkbox" value="F">
+                                    <Checkbox className="custom-checkbox" value="Cổng 5">
                                         Cổng 5
                                     </Checkbox>
                                 </Col>
