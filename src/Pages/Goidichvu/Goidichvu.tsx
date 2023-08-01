@@ -42,9 +42,9 @@ const Goidichvu: FC = () => {
                             style={{
                                 color: '#FF993C',
                                 borderColor: '#FF993C',
-                                height: '34px',
-                                width: '140px',
-                                marginLeft: '365px',
+                                height: '36px',
+                                width: '150px',
+                                marginLeft: '355px',
                             }}
                             ghost
                         >
@@ -57,7 +57,7 @@ const Goidichvu: FC = () => {
                             style={{
                                 backgroundColor: '#FF993C',
                                 width: '120px',
-                                height: '34px',
+                                height: '36px',
                                 margin: '0 0 3px 24px',
                             }}
                         >

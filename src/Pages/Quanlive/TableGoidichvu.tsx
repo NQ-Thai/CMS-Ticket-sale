@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { format } from 'date-fns';
@@ -7,16 +7,19 @@ import { useEffect, useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { ticketCollection } from '../../lib/controller';
+import ModalEditQuanlive from './ModalEdit';
 
 //Firebase
-interface NewTicketType {
+export interface NewTicketType {
+    id?: string;
     STT?: string;
     SoVe?: string;
     BookingCode?: string;
     Checkin?: string;
     NgaySuDung?: Date;
-    NgayXuatVe?: Date;
+    HanSuDung?: Date;
     TinhTrangSuDung: string;
+    TenSuKien: string;
 }
 
 interface TableQuanLiVeProps {
@@ -70,108 +73,144 @@ const renderStatus = (TinhTrangSuDung: string | undefined) => {
         </span>
     );
 };
-
-const columns: ColumnsType<NewTicketType> = [
-    {
-        title: 'STT',
-        dataIndex: 'STT',
-        key: 'STT',
-    },
-    {
-        title: 'Booking Code',
-        dataIndex: 'BookingCode',
-        key: 'BookingCode',
-    },
-    {
-        title: 'Số vé',
-        dataIndex: 'SoVe',
-        key: 'SoVe',
-    },
-    {
-        title: 'Tình trạng sử dụng',
-        key: 'TinhTrangSuDung',
-        dataIndex: 'TinhTrangSuDung',
-        render: renderStatus,
-    },
-
-    {
-        title: 'Ngày sử dụng',
-        key: 'NgaySuDung',
-        dataIndex: 'NgaySuDung',
-        render: (date: Date | string) => {
-            if (date instanceof Date) {
-                return format(date, 'dd/MM/yyyy');
-            } else {
-                return date;
-            }
-        },
-    },
-    {
-        title: 'Ngày xuất vé',
-        key: 'NgayXuatVe',
-        dataIndex: 'NgayXuatVe',
-        render: (date: Date | string) => {
-            if (date instanceof Date) {
-                return format(date, 'dd/MM/yyyy');
-            } else {
-                return date;
-            }
-        },
-    },
-    {
-        title: 'Cổng check-in',
-        key: 'Checkin',
-        dataIndex: 'Checkin',
-    },
-    {
-        title: ' ',
-        key: 'action',
-        render: (_, record) => (
-            <Space size="middle">
-                <SlOptionsVertical onClick={() => {}} />
-            </Space>
-        ),
-    },
-];
-
-const getTagColor = (tag: string) => {
-    if (tag === 'Hết hạn') {
-        return 'red';
-    } else if (tag === 'Chưa sử dụng') {
-        return 'green';
-    } else if (tag.length > 5) {
-        return 'geekblue';
-    }
-    return 'green';
-};
-
-const paginationConfig: TablePaginationConfig = {
-    position: ['bottomCenter'],
-    size: 'small',
-    pageSize: 5,
-    pageSizeOptions: ['5', '15', '20, 25'],
-};
-
-function TableQuanLiVe({
+function TableGoidichvu({
     selectedTinhTrangProp,
     handleRadioChangeProp,
     searchValue,
     selectedCheckboxes,
 }: TableQuanLiVeProps) {
+    const columns: ColumnsType<NewTicketType> = [
+        {
+            title: 'STT',
+            dataIndex: 'STT',
+            key: 'STT',
+        },
+        {
+            title: 'Booking Code',
+            dataIndex: 'BookingCode',
+            key: 'BookingCode',
+            width: '40px',
+        },
+        {
+            title: 'Số vé',
+            dataIndex: 'SoVe',
+            key: 'SoVe',
+        },
+        {
+            title: 'Tên sự kiện',
+            dataIndex: 'TenSuKien',
+            key: 'TenSuKien',
+        },
+        {
+            title: 'Tình trạng sử dụng',
+            key: 'TinhTrangSuDung',
+            dataIndex: 'TinhTrangSuDung',
+            render: renderStatus,
+        },
+
+        {
+            title: 'Ngày sử dụng',
+            key: 'NgaySuDung',
+            width: '136px',
+            dataIndex: 'NgaySuDung',
+            render: (date: Date | string) => {
+                if (date instanceof Date) {
+                    return format(date, 'dd/MM/yyyy');
+                } else {
+                    return date;
+                }
+            },
+        },
+        {
+            title: 'Hạn sử dụng',
+            key: 'HanSuDung',
+            dataIndex: 'HanSuDung',
+            render: (date: Date | string) => {
+                if (date instanceof Date) {
+                    return format(date, 'dd/MM/yyyy');
+                } else {
+                    return date;
+                }
+            },
+        },
+        {
+            title: 'Cổng check-in',
+            key: 'Checkin',
+            dataIndex: 'Checkin',
+        },
+        {
+            title: ' ',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button
+                        onClick={() => openModalEdit(record, record.id ? record.id : '')}
+                        className="modalEdit"
+                        type="primary"
+                        style={{
+                            color: 'black',
+                            borderColor: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                        ghost
+                    >
+                        <SlOptionsVertical onClick={() => {}} />
+                    </Button>
+                </Space>
+            ),
+        },
+    ];
+
+    const getTagColor = (tag: string) => {
+        if (tag === 'Hết hạn') {
+            return 'red';
+        } else if (tag === 'Chưa sử dụng') {
+            return 'green';
+        } else if (tag.length > 5) {
+            return 'geekblue';
+        }
+        return 'green';
+    };
+
+    const paginationConfig: TablePaginationConfig = {
+        position: ['bottomCenter'],
+        size: 'small',
+        pageSize: 4,
+        pageSizeOptions: ['4', '8', '12', '16'],
+    };
+
+    const [newHanSuDung, setNewHanSuDung] = useState<Date | null>(null);
+
+    //New Modal
+    const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
+    const [selectedRowData, setSelectedRowData] = useState<NewTicketType | null>(null); // Thêm state để lưu trữ thông tin của dòng được chọn
+
+    const openModalEdit = (rowData: NewTicketType, id: string) => {
+        setSelectedRowData({ ...rowData, id }); // Bao gồm trường id vào selectedRowData
+        setModalVisibleEdit(true);
+    };
+
+    const closeModalEdit = () => {
+        setSelectedRowData(null); // Reset giá trị của selectedRowData khi đóng Modal
+        setModalVisibleEdit(false);
+    };
+
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
 
     const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
-        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData>) => {
             setTickets(
                 snapshot.docs.map((doc, index) => {
                     const data = doc.data();
                     return {
+                        id: doc.id,
                         STT: `${index + 1}`,
                         ...data,
                         NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
-                        NgayXuatVe: data.NgayXuatVe ? data.NgayXuatVe.toDate() : null,
+                        HanSuDung: data.HanSuDung ? data.HanSuDung.toDate() : null,
                         TinhTrangSuDung: data.TinhTrangSuDung || '',
                     };
                 }) as NewTicketType[],
@@ -216,8 +255,13 @@ function TableQuanLiVe({
                 pagination={paginationConfig}
                 bordered
             />
+            <ModalEditQuanlive
+                visible={modalVisibleEdit}
+                onCancel={closeModalEdit}
+                selectedRowData={selectedRowData}
+            />
         </div>
     );
 }
 
-export default TableQuanLiVe;
+export default TableGoidichvu;

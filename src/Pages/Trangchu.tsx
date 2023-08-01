@@ -27,7 +27,7 @@ const Trangchu: React.FC = () => {
                         >
                             Doanh thu
                         </span>
-                        <DatePicker style={{ marginRight: '50px' }} className="custom-datepicker" />
+                        <DatePicker style={{ marginRight: '35px' }} className="custom-datepicker" />
                     </div>
                     <div style={{ margin: '0 0 5px 24px' }}>
                         {/* <LineChartComponent /> */}

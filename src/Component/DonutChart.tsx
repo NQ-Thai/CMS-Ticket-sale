@@ -2,10 +2,9 @@ import { ArcElement, Chart as ChartJS } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement);
-// ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const data = {
-    labels: ['Red', 'Blue'],
+    labels: [],
     datasets: [
         {
             label: 'data 1',

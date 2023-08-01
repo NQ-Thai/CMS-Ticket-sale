@@ -839,6 +839,10 @@ a:hover {
     height: Fixed (48px);
 }
 
+.modalEdit {
+    width: 43px;
+}
+
 .button .text-button {
     font-size: 18px;
     font-weight: bold;
@@ -1049,6 +1053,17 @@ a:hover {
     background-color: #ffb800; /* Thay thế "your_desired_color" bằng mã màu bạn muốn sử dụng */
 }
 
+.ant-menu-light .ant-menu-item.selected-menu-item,
+.ant-menu-light > .ant-menu .ant-menu-item.selected-menu-item {
+    background-color: #ffb800;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
 /* Table */
 .custom-table .ant-table-thead > tr > th {
     background-color: #f1f4f8; /* Màu nền tiêu đề */
@@ -1160,4 +1175,10 @@ a:hover {
 .layout-content {
     /* background-color: yellowgreen; */
     margin-right: 50px;
+}
+
+/* Styles for the selected option */
+.selected {
+    color: #ff993c;
+    text-decoration: underline 3px;
 }

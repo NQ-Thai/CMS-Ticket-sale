@@ -9,7 +9,8 @@ import { ticketPackageCollection } from '../../lib/controller';
 import EditModal from './EditModal';
 
 //Firebase
-interface NewTicketPackageType {
+export interface NewTicketPackageType {
+    id?: string;
     STT?: string;
     MaGoi?: string;
     TenGoiVe?: string;
@@ -17,6 +18,7 @@ interface NewTicketPackageType {
     NgayHetHan?: Date;
     GiaDon?: string;
     GiaCombo?: string;
+    SoVeCombo?: string;
     TinhTrangSuDung?: string;
 }
 
@@ -100,12 +102,19 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
             title: 'Giá vé (VNĐ/Vé)',
             key: 'GiaDon',
             dataIndex: 'GiaDon',
+            render: (giaDon: string) => (giaDon ? `${giaDon} VNĐ` : ''),
         },
         {
             title: 'Giá Combo (VNĐ/Combo)',
             key: 'GiaCombo',
             dataIndex: 'GiaCombo',
+            render: (giaDon: string, record: NewTicketPackageType) => {
+                const giaCombo = record.GiaCombo;
+                const soVeCombo = record.SoVeCombo;
+                return giaDon && giaCombo && soVeCombo ? `${giaCombo} VNĐ/${soVeCombo} vé` : '';
+            },
         },
+
         {
             title: 'Tình trạng sử dụng',
             key: 'TinhTrangSuDung',
@@ -119,7 +128,7 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
             render: (_, record) => (
                 <Space size="middle">
                     <Button
-                        onClick={openModalEdit}
+                        onClick={() => openModalEdit(record, record.id ? record.id : '')}
                         className="button"
                         type="primary"
                         style={{
@@ -153,18 +162,21 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
     const paginationConfig: TablePaginationConfig = {
         position: ['bottomCenter'],
         size: 'small',
-        pageSize: 6,
-        pageSizeOptions: ['6', '12', '18, 26'],
+        pageSize: 5,
+        pageSizeOptions: ['5', '10', '15', '20'],
     };
 
     //New Modal
     const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
+    const [selectedRowData, setSelectedRowData] = useState<NewTicketPackageType | null>(null); // Thêm state để lưu trữ thông tin của dòng được chọn
 
-    const openModalEdit = () => {
+    const openModalEdit = (rowData: NewTicketPackageType, id: string) => {
+        setSelectedRowData({ ...rowData, id }); // Bao gồm trường id vào selectedRowData
         setModalVisibleEdit(true);
     };
 
     const closeModalEdit = () => {
+        setSelectedRowData(null); // Reset giá trị của selectedRowData khi đóng Modal
         setModalVisibleEdit(false);
     };
 
@@ -172,22 +184,20 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
 
     useEffect(
         () =>
-            onSnapshot(
-                ticketPackageCollection,
-                (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
-                    setticketPackage(
-                        snapshot.docs.map((doc, index) => {
-                            const data = doc.data();
-                            return {
-                                STT: `${index + 1}`,
-                                ...data,
-                                NgayApDung: data.NgayApDung ? data.NgayApDung.toDate() : null,
-                                NgayHetHan: data.NgayHetHan ? data.NgayHetHan.toDate() : null,
-                            };
-                        }),
-                    );
-                },
-            ),
+            onSnapshot(ticketPackageCollection, (snapshot: QuerySnapshot<DocumentData>) => {
+                setticketPackage(
+                    snapshot.docs.map((doc, index) => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            STT: `${index + 1}`,
+                            ...data,
+                            NgayApDung: data.NgayApDung ? data.NgayApDung.toDate() : null,
+                            NgayHetHan: data.NgayHetHan ? data.NgayHetHan.toDate() : null,
+                        };
+                    }),
+                );
+            }),
         [],
     );
 
@@ -217,11 +227,15 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
                     height: '437px',
                 }}
                 columns={columns}
-                dataSource={newDataWithSTT}
+                dataSource={newDataWithSTT} // Truyền dữ liệu từ Firestore vào bảng
                 pagination={paginationConfig}
                 bordered
             />
-            <EditModal visible={modalVisibleEdit} onCancel={closeModalEdit} />
+            <EditModal
+                visible={modalVisibleEdit}
+                onCancel={closeModalEdit}
+                selectedRowData={selectedRowData}
+            />
         </div>
     );
 }

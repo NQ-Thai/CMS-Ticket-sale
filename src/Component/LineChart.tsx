@@ -1,82 +1,114 @@
-import { CategoryScale, Chart as ChartJS, LineElement, LinearScale, PointElement } from 'chart.js';
-import React from 'react';
+import { Chart, LinearScale } from 'chart.js/auto';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
+Chart.register(LinearScale);
 
-const LineChart: React.FC = () => {
-    // Dữ liệu cho biểu đồ
-    const data = {
-        labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'], // Các nhãn trục x
+interface MonthLabel {
+    day: string;
+    amount: string;
+}
+
+interface Data {
+    data: string[];
+    tension: number;
+    borderColor: string;
+    pointBorderColor: string;
+    backgroundColor: CanvasGradient;
+    fill: boolean;
+    spanGaps: boolean;
+}
+
+interface ChartLine {
+    labels: string[];
+    datasets: Data[];
+}
+
+const dataList: MonthLabel[] = [
+    { day: 'Thứ 2', amount: '100.0' },
+    { day: 'Thứ 3', amount: '125.0' },
+    { day: 'Thứ 4', amount: '130.0' },
+    { day: 'Thứ 5', amount: '180.0' },
+    { day: 'Thứ 6', amount: '160.0' },
+    { day: 'Thứ 7', amount: '170.0' },
+    { day: 'CN', amount: '150.0' },
+];
+
+function LineChart() {
+    const [chartData, setChartData] = useState<ChartLine>({
+        labels: [],
         datasets: [
             {
-                data: [160, 200, 180, 280, 220, 300, 180], // Dữ liệu y tương ứng với từng nhãn x
-                fill: true, // Đổ màu dưới đường cong
-                backgroundColor: (context: { chart: any }) => {
-                    const chart = context.chart;
-                    const { ctx, chartArea } = chart;
-                    if (!chartArea) {
-                        // Chưa có dữ liệu hoặc vùng biểu đồ chưa được tính toán
-                        return null;
-                    }
-
-                    // Lấy y tương ứng với label đầu tiên và cuối cùng
-                    const firstPoint = chart.getDatasetMeta(0)?.data?.[0];
-                    const lastPoint = chart.getDatasetMeta(0)?.data?.slice(-1)?.[0];
-                    if (!firstPoint || !lastPoint) {
-                        return null;
-                    }
-
-                    // Tạo gradient màu từ trên xuống dưới
-                    const gradient = ctx.createLinearGradient(
-                        chartArea.left,
-                        0,
-                        chartArea.right,
-                        0,
-                    );
-                    gradient.addColorStop(0, '#FF993C'); // Màu xuất phát (màu đường)
-                    gradient.addColorStop(1, '#FFFFFF'); // Màu đổ xuống (màu nền)
-
-                    return gradient;
-                },
-                borderColor: '#FF993C', // Màu đường (line)
-                tension: 0.5, // Điều chỉnh độ cong của đường (0 là thẳng, 1 là cong nhất)
-                pointRadius: 0,
+                data: [],
+                tension: 0.5,
+                borderColor: '#FF993C',
+                pointBorderColor: 'transparent',
+                backgroundColor: {} as CanvasGradient,
+                fill: true,
+                spanGaps: true,
             },
         ],
+    });
+
+    const LinearGradientBackground = () => {
+        const color = document.createElement('canvas').getContext('2d');
+        if (color) {
+            const gradient = color.createLinearGradient(0, 0, 0, 100);
+            gradient.addColorStop(0, '#FAA05F');
+            gradient.addColorStop(0.9, '#FFFFFF');
+            return gradient;
+        }
+        return {} as CanvasGradient;
     };
 
-    // Các tùy chọn cấu hình cho biểu đồ
-    const options = {
-        responsive: false, // Biểu đồ tự thích nghi với kích thước container
-        scales: {
-            x: {
-                display: true,
-                title: {
-                    display: true,
+    useEffect(() => {
+        setChartData({
+            labels: dataList.map((month) => month.day),
+            datasets: [
+                {
+                    data: dataList.map((month) => month.amount),
+                    tension: 0.5,
+                    fill: true,
+                    spanGaps: true,
+                    borderColor: '#FF993C',
+                    pointBorderColor: 'transparent',
+                    backgroundColor: LinearGradientBackground(),
                 },
-                grid: {
-                    display: false, // Bỏ gạch dọc trên trục x
+            ],
+        });
+    }, []);
+
+    const options = {
+        responsive: false,
+        scales: {
+            y: {
+                ticks: {
+                    stepSize: 40,
                 },
             },
-            y: {
-                display: true,
-                title: {
+            x: {
+                grid: {
                     display: false,
+                    drawTicks: false,
+                    drawBorder: false,
+                    drawOnChartArea: false,
                 },
-                ticks: {
-                    stepSize: 5, // Khoảng cách giữa các mốc trên trục y
-                    maxTicksLimit: 4, // Số lượng mốc tối đa hiển thị trên trục y
-                },
+            },
+        },
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        elements: {
+            point: {
+                radius: 0,
+                hoverRadius: 0,
             },
         },
     };
 
-    return (
-        <div className="chart-container">
-            <Line width={976} height={180} data={data} options={options} />
-        </div>
-    );
-};
+    return <Line width={976} data={chartData} height={180} options={options} />;
+}
 
 export default LineChart;

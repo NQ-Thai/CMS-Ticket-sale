@@ -1,13 +1,28 @@
-import { Button, Col, DatePicker, Layout, Radio, RadioChangeEvent, Row, Space } from 'antd';
+import {
+    Button,
+    Col,
+    DatePicker,
+    Layout,
+    Radio,
+    RadioChangeEvent,
+    Row,
+    Space,
+    message,
+} from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import { doc, writeBatch } from 'firebase/firestore';
 import { useState } from 'react';
+import { firestore, ticketCollection } from '../../lib/controller';
 import SearchDoisoatve from './Search';
-import TableDoiSoatVe from './Table'; // Thêm import kiểu NewTicketType
+import TableDoiSoatVe, { NewTicketType } from './Table';
 
 const Doisoatve: React.FC = () => {
     //Radio
     const [value, setValue] = useState(1);
     const [filterValue, setFilterValue] = useState(1);
+
+    // State for storing the filtered data
+    const [filteredData, setFilteredData] = useState<NewTicketType[]>([]);
 
     const [fromDate, setFromDate] = useState<any>(null);
     const [toDate, setToDate] = useState<any>(null);
@@ -33,6 +48,31 @@ const Doisoatve: React.FC = () => {
 
     const handleToDateChange = (date: any) => {
         setToDate(date);
+    };
+
+    // ... (previous code)
+
+    // Function to handle "Chốt đối soát" button click
+    const handleChotDoiSoatClick = async () => {
+        try {
+            console.log('Chốt đối soát button clicked.');
+            const batch = writeBatch(firestore);
+
+            // Loop through the filtered data (filteredData) and update the TrangThai field for each ticket to "Đã đối soát" in the batch
+            for (const ticket of filteredData) {
+                const ticketRef = doc(ticketCollection, ticket.id);
+                batch.update(ticketRef, { TrangThai: 'Đã đối soát' });
+            }
+
+            // Commit the batch write
+            await batch.commit();
+
+            // Optionally, you can display a success message after updating the documents.
+            message.success('Chốt đối soát thành công');
+        } catch (error: any) {
+            // Handle the error if the update operation fails
+            message.error('Lỗi khi chốt đối soát: ' + error.message);
+        }
     };
 
     return (
@@ -65,6 +105,7 @@ const Doisoatve: React.FC = () => {
                                             height: '40px',
                                             marginLeft: '180px',
                                         }}
+                                        onClick={handleChotDoiSoatClick} // Call the function when the button is clicked
                                     >
                                         <span
                                             className="text-button"
@@ -85,6 +126,9 @@ const Doisoatve: React.FC = () => {
                                         fromDate={fromDate}
                                         toDate={toDate}
                                         searchValue={searchValue}
+                                        filteredData={filteredData}
+                                        setFilteredData={setFilteredData}
+                                        // Pass the function as a prop
                                     />
                                 </div>
                             </div>

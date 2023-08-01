@@ -3,11 +3,30 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { Content } from 'antd/es/layout/layout';
 import { useRef, useState } from 'react';
 import { BsFunnel } from 'react-icons/bs';
-import ModalFilter from './Modal';
+import ModalFilter from './ModalFilter';
 import SearchQuanlive from './Search';
-import TableQuanLiVe from './Table';
+import TableGoidichvu from './TableGoidichvu';
+import TableGoigiadinh from './TableGoigiadinh';
 
 function Quanlive() {
+    const [selectedOption, setSelectedOption] = useState<'goi-gia-dinh' | 'goi-dich-vu'>(
+        'goi-gia-dinh',
+    );
+
+    const [selectedTable, setSelectedTable] = useState<'goi-gia-dinh' | 'goi-dich-vu'>(
+        'goi-gia-dinh',
+    );
+
+    const handleGoiGiaDinhClick = () => {
+        setSelectedOption('goi-gia-dinh');
+        setSelectedTable('goi-gia-dinh'); // Chọn bảng TableGoigiadinh khi chọn "Gói gia đình"
+    };
+
+    const handleGoiDichVuClick = () => {
+        setSelectedOption('goi-dich-vu');
+        setSelectedTable('goi-dich-vu'); // Chọn bảng TableGoidichvu khi chọn "Gói dịch vụ"
+    };
+
     const searchRef = useRef<HTMLInputElement | null>(null);
 
     const [filteredCheckboxes, setFilteredCheckboxes] = useState<CheckboxValueType[]>([]);
@@ -62,7 +81,31 @@ function Quanlive() {
                     <div style={{ font: 'Montserrat' }} className="content">
                         Danh sách vé
                     </div>
-                    <div>
+
+                    <div style={{ margin: '0 0 0 0' }}>
+                        {/* Use conditional styling for the "Gói gia đình" span */}
+                        <span
+                            className={`chart-text ${
+                                selectedOption === 'goi-gia-dinh' ? 'selected' : ''
+                            }`}
+                            style={{ font: 'Montserrat' }}
+                            onClick={handleGoiGiaDinhClick}
+                        >
+                            Gói gia đình
+                        </span>
+
+                        {/* Use conditional styling for the "Gói dịch vụ" span */}
+                        <span
+                            className={`chart-text ${
+                                selectedOption === 'goi-dich-vu' ? 'selected' : ''
+                            }`}
+                            style={{ font: 'Montserrat' }}
+                            onClick={handleGoiDichVuClick}
+                        >
+                            Gói dịch vụ
+                        </span>
+                    </div>
+                    <div style={{ marginTop: '20px' }}>
                         <SearchQuanlive searchValue={searchValue} onChange={handleSearchChange} />
 
                         <Button
@@ -72,9 +115,9 @@ function Quanlive() {
                             style={{
                                 color: '#FF993C',
                                 borderColor: '#FF993C',
-                                height: '35px',
+                                height: '36px',
                                 width: '120px',
-                                marginLeft: '380px',
+                                marginLeft: '370px',
                             }}
                             ghost
                         >
@@ -94,8 +137,8 @@ function Quanlive() {
                             style={{
                                 color: '#FF993C',
                                 borderColor: '#FF993C',
-                                height: '34px',
-                                width: '140px',
+                                height: '36px',
+                                width: '150px',
                                 marginLeft: '10px',
                             }}
                             ghost
@@ -104,12 +147,22 @@ function Quanlive() {
                         </Button>
                     </div>
                     <div style={{ marginTop: '5px' }}>
-                        <TableQuanLiVe
-                            selectedTinhTrangProp={selectedTinhTrangModal}
-                            handleRadioChangeProp={setSelectedTinhTrangModal}
-                            searchValue={searchValue}
-                            selectedCheckboxes={filteredCheckboxes} // Truyền giá trị của filteredCheckboxes vào TableQuanLiVe
-                        />
+                        {/* Dựa vào giá trị của selectedTable để hiển thị bảng tương ứng */}
+                        {selectedTable === 'goi-gia-dinh' ? (
+                            <TableGoigiadinh
+                                selectedTinhTrangProp={selectedTinhTrangModal}
+                                handleRadioChangeProp={setSelectedTinhTrangModal}
+                                searchValue={searchValue}
+                                selectedCheckboxes={filteredCheckboxes}
+                            />
+                        ) : (
+                            <TableGoidichvu
+                                selectedTinhTrangProp={selectedTinhTrangModal}
+                                handleRadioChangeProp={setSelectedTinhTrangModal}
+                                searchValue={searchValue}
+                                selectedCheckboxes={filteredCheckboxes}
+                            />
+                        )}
                     </div>
                 </Content>
             </Layout>
@@ -118,8 +171,8 @@ function Quanlive() {
                 onCancel={closeModalFilter}
                 selectedTinhTrangProp={selectedTinhTrangModal}
                 handleRadioChangeProp={handleRadioChange}
-                selectedCheckboxesProp={selectedCheckboxesQuanlive} // Truyền giá trị của filteredCheckboxes vào ModalFilter
-                handleCheckboxChangeProp={handleCheckboxChange} // Truyền callback để cập nhật trạng thái filteredCheckboxes
+                selectedCheckboxesProp={selectedCheckboxesQuanlive}
+                handleCheckboxChangeProp={handleCheckboxChange}
             />
         </div>
     );

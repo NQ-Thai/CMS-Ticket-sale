@@ -13,14 +13,109 @@ import {
     TimePicker,
     message,
 } from 'antd';
-import { FC } from 'react';
+import dayjs from 'dayjs';
+import { Timestamp, doc, updateDoc } from 'firebase/firestore';
+import { FC, useEffect, useState } from 'react';
+import { ticketPackageCollection } from '../../lib/controller';
+import { NewTicketPackageType } from './Table';
 
 interface EditModalProps {
     visible: boolean;
     onCancel: () => void;
+    selectedRowData: NewTicketPackageType | null;
 }
 
-const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
+// Hàm chuyển đổi giá trị Date sang Dayjs
+const convertToDayjs = (date: Date | undefined): dayjs.Dayjs | null => {
+    return date ? dayjs(date) : null;
+};
+
+const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) => {
+    // Thêm state để lưu trữ thông tin của dòng được chọn
+    const [formData, setFormData] = useState<NewTicketPackageType | null>(null);
+
+    useEffect(() => {
+        <a href=""></a>;
+        setFormData(selectedRowData);
+    }, [selectedRowData]);
+
+    const handleSave = async () => {
+        if (formData) {
+            try {
+                let docRef;
+                let dataToUpdate;
+                if (formData.id) {
+                    // Nếu formData.id đã tồn tại, có nghĩa là bạn đang cập nhật một document đã tồn tại
+                    docRef = doc(ticketPackageCollection, formData.id);
+                    dataToUpdate = {
+                        MaGoi: formData.MaGoi,
+                        TenGoiVe: formData.TenGoiVe,
+                        NgayApDung: formData.NgayApDung,
+                        NgayHetHan: formData.NgayHetHan
+                            ? Timestamp.fromDate(formData.NgayHetHan) // Convert to Firestore Timestamp
+                            : null, // If NgayHetHan is not set, set it to null
+                        GiaDon: formData.GiaDon,
+                        GiaCombo: formData.GiaCombo,
+                        SoVeCombo: formData.SoVeCombo,
+                        TinhTrangSuDung: formData.TinhTrangSuDung,
+                    };
+                } else {
+                    // Nếu formData.id không tồn tại, có nghĩa là bạn đang tạo một document mới
+                    docRef = doc(ticketPackageCollection); // Firestore sẽ tự tạo ID mới cho document
+                    dataToUpdate = {
+                        MaGoi: formData.MaGoi,
+                        TenGoiVe: formData.TenGoiVe,
+                        NgayApDung: formData.NgayApDung,
+                        NgayHetHan: formData.NgayHetHan
+                            ? Timestamp.fromDate(formData.NgayHetHan) // Convert to Firestore Timestamp
+                            : null, // If NgayHetHan is not set, set it to null
+                        GiaDon: formData.GiaDon,
+                        GiaCombo: formData.GiaCombo,
+                        SoVeCombo: formData.SoVeCombo,
+                        TinhTrangSuDung: formData.TinhTrangSuDung,
+                    };
+                }
+
+                await updateDoc(docRef, dataToUpdate); // Thực hiện cập nhật dữ liệu vào Firestore
+
+                message.success('Lưu thành công!');
+                onCancel();
+            } catch (error) {
+                console.error('Lỗi khi lưu dữ liệu: ', error);
+                message.error('Đã xảy ra lỗi khi lưu dữ liệu.');
+            }
+        }
+    };
+
+    // Cập nhật hàm handleDateChange
+    const handleDateChange = (date: dayjs.Dayjs | null, dateString: string, field: string) => {
+        if (formData) {
+            const dayjsDate = date ? date.toDate() : null; // Check if date is valid before conversion
+            const updatedFormData = { ...formData, [field]: dayjsDate };
+            setFormData(updatedFormData);
+        }
+    };
+
+    // Cập nhật hàm handleTimeChange
+    const handleTimeChange = (time: dayjs.Dayjs | null, timeString: string, field: string) => {
+        if (formData) {
+            const timeDate = time ? time.toDate() : null; // Check if time is valid before conversion
+            const updatedFormData = { ...formData, [field]: timeDate };
+            setFormData(updatedFormData);
+        }
+    };
+
+    // Cập nhật giá trị vào formData khi có sự thay đổi trong các trường input, DatePicker, TimePicker, Dropdown
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement> | Date | string,
+        field: string,
+    ) => {
+        if (formData) {
+            const updatedFormData = { ...formData, [field]: e };
+            setFormData(updatedFormData);
+        }
+    };
+
     //Dropdown
     const handleMenuClick: MenuProps['onClick'] = (e) => {
         message.info('Click on menu item.');
@@ -89,6 +184,9 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                         }}
                     >
                         <Input
+                            id="MaGoi"
+                            value={formData?.MaGoi}
+                            onChange={(e) => handleChange(e.target.value, 'MaGoi')}
                             style={{
                                 width: '245px',
                                 height: '40px',
@@ -97,6 +195,9 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                     </div>
                     <div style={{ display: 'inline' }}>
                         <Input
+                            id="TenGoiVe"
+                            value={formData?.TenGoiVe}
+                            onChange={(e) => handleChange(e.target.value, 'TenGoiVe')}
                             style={{
                                 width: '330px',
                                 height: '40px',
@@ -127,6 +228,11 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                         }}
                     >
                         <DatePicker
+                            id="NgayApDung"
+                            value={formData?.NgayApDung ? dayjs(formData.NgayApDung) : null} // Chuyển đổi giá trị sang Dayjs
+                            onChange={(date, dateString) =>
+                                handleDateChange(date, dateString, 'NgayApDung')
+                            }
                             className="custom-datepicker"
                             style={{
                                 width: '143px',
@@ -137,6 +243,11 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                         />
 
                         <TimePicker
+                            id="NgayApDung"
+                            value={formData?.NgayApDung ? dayjs(formData.NgayApDung) : null} // Chuyển đổi giá trị sang Dayjs
+                            onChange={(time, timeString) =>
+                                handleTimeChange(time, timeString, 'NgayApDung')
+                            }
                             suffixIcon={<ClockCircleOutlined style={suffixIconStyle} />}
                             className="custom-timepicker"
                             style={{
@@ -148,6 +259,11 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                     </div>
                     <div style={{ display: 'inline' }}>
                         <DatePicker
+                            id="NgayHetHan"
+                            value={formData?.NgayHetHan ? dayjs(formData.NgayHetHan) : null} // Chuyển đổi giá trị sang Dayjs
+                            onChange={(date, dateString) =>
+                                handleDateChange(date, dateString, 'NgayHetHan')
+                            }
                             className="custom-datepicker"
                             style={{
                                 width: '143px',
@@ -158,6 +274,11 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                         />
 
                         <TimePicker
+                            id="NgayHetHan"
+                            value={formData?.NgayHetHan ? dayjs(formData.NgayHetHan) : null} // Chuyển đổi giá trị sang Dayjs
+                            onChange={(time, timeString) =>
+                                handleTimeChange(time, timeString, 'NgayHetHan')
+                            }
                             suffixIcon={<ClockCircleOutlined style={suffixIconStyle} />}
                             className="custom-timepicker"
                             style={{
@@ -181,6 +302,9 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                                             Vé lẻ (vnđ/vé) với giá
                                         </span>
                                         <Input
+                                            id="GiaDon"
+                                            value={formData?.GiaDon}
+                                            onChange={(e) => handleChange(e.target.value, 'GiaDon')}
                                             style={{
                                                 width: '148px',
                                                 height: '40px',
@@ -200,6 +324,11 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                                             Combo vé với giá
                                         </span>
                                         <Input
+                                            id="GiaCombo"
+                                            value={formData?.GiaCombo}
+                                            onChange={(e) =>
+                                                handleChange(e.target.value, 'GiaCombo')
+                                            }
                                             style={{
                                                 width: '148px',
                                                 height: '40px',
@@ -211,6 +340,11 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                                             /
                                         </span>
                                         <Input
+                                            id="SoVeCombo"
+                                            value={formData?.SoVeCombo}
+                                            onChange={(e) =>
+                                                handleChange(e.target.value, 'SoVeCombo')
+                                            }
                                             style={{
                                                 width: '72px',
                                                 height: '40px',
@@ -236,7 +370,9 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                             <Dropdown menu={menuProps}>
                                 <Button style={{ borderColor: '#A5A8B1' }}>
                                     <Space>
-                                        <span className="dropdown-text">Đang áp dụng</span>
+                                        <span className="dropdown-text">
+                                            {formData?.TinhTrangSuDung}
+                                        </span>
                                         <DownOutlined
                                             style={{
                                                 width: '10.54px',
@@ -286,6 +422,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel }) => {
                             width: '140px',
                             marginLeft: '24px',
                         }}
+                        onClick={handleSave} // Gọi hàm handleSave khi nhấn nút "Lưu"
                     >
                         <span className="text-button">Lưu</span>
                     </Button>

@@ -7,6 +7,7 @@ import { ticketCollection } from '../../lib/controller';
 
 //Firebase
 export interface NewTicketType {
+    id: string; // Add the 'id' property here
     STT?: string;
     SoVe?: string;
     TenSuKien?: string;
@@ -23,6 +24,8 @@ interface TableDoiSoatVeProps {
     fromDate: any;
     toDate: any;
     searchValue: string;
+    filteredData: NewTicketType[]; // Add filteredData prop
+    setFilteredData: React.Dispatch<React.SetStateAction<NewTicketType[]>>;
 }
 
 const columns: ColumnsType<NewTicketType> = [
@@ -91,17 +94,21 @@ const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
     fromDate,
     toDate,
     searchValue,
+
+    filteredData,
+    setFilteredData,
 }) => {
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
-    const [filteredData, setFilteredData] = useState<NewTicketType[]>([]);
 
     const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
             const ticketsData = snapshot.docs.map((doc, index) => {
+                // Add 'index' argument here
                 const data = doc.data();
                 return {
+                    id: doc.id,
                     STT: `${index + 1}`,
                     ...data,
                     NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
