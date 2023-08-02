@@ -25,17 +25,14 @@ interface NewModalProps {
 }
 
 const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
-    const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null); // Define selectedStartDate state
-    const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null); // Define selectedEndDate state
+    const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null);
+    const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
 
-    const [TinhTrangSuDung, setTinhTrangSuDung] = useState<string>('ĐangApDung'); // Giá trị mặc định khi khởi tạo là "Đang áp dụng"
+    const [TinhTrangSuDung, setTinhTrangSuDung] = useState<string>('ĐangApDung');
 
-    const [veLeChecked, setVeLeChecked] = useState<boolean>(false); // State để theo dõi trạng thái checkbox "Vé lẻ (vnđ/vé) với giá"
-    const [comboVeChecked, setComboVeChecked] = useState<boolean>(false); // State để theo dõi trạng thái checkbox "Combo vé với giá"
+    const [veLeChecked, setVeLeChecked] = useState<boolean>(false);
+    const [comboVeChecked, setComboVeChecked] = useState<boolean>(false);
 
-    // Rest of the code remains unchanged.
-
-    // Các hàm xử lý khi checkbox thay đổi trạng thái
     const handleVeLeCheckboxChange = (checked: boolean) => {
         setVeLeChecked(checked);
     };
@@ -45,7 +42,6 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
     };
 
     const handleDropdownChange = (value: any) => {
-        // Make sure value.key is a valid string or set a default value if it's undefined
         const tinhTrangSuDungValue = value?.key || 'Đang áp dụng';
         setTinhTrangSuDung(tinhTrangSuDungValue);
     };
@@ -60,11 +56,6 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
             label: 'Tắt',
             key: '1',
         },
-        // {
-        //     label: '2nd menu item',
-        //     key: '2',
-        //     icon: <UserOutlined />,
-        // },
     ];
 
     const menu = <Menu onClick={handleMenuClick} items={items} />;
@@ -75,13 +66,10 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
     const [giaComboInput, setGiaComboInput] = useState<string>('');
     const [soVeComboInput, setSoVeComboInput] = useState<string>('');
 
-    // Convert selectedStartDate to Dayjs object
     const selectedStartDayjs = selectedStartDate ? dayjs(selectedStartDate) : null;
 
-    // Convert selectedEndDate to Dayjs object
     const selectedEndDayjs = selectedEndDate ? dayjs(selectedEndDate) : null;
 
-    // Function to reset the state values for input fields
     const resetInputFields = () => {
         setSelectedStartDate(null);
         setSelectedEndDate(null);
@@ -93,10 +81,8 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
     };
 
     const handleSave = async () => {
-        // Generate a random number
         const randomNumber = Math.floor(Math.random() * 100000000);
 
-        // Generate the MaGoi using the ALT prefix and the random number
         const MaGoi = `ALT${randomNumber}`;
 
         const tenGoiVe = (document.getElementById('tenGoiVe') as HTMLInputElement)?.value;
@@ -119,7 +105,6 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
         const giaCombo: number | '' = giaComboInput !== '' ? parseFloat(giaComboInput) : '';
         const soVeCombo: number | '' = soVeComboInput !== '' ? parseFloat(soVeComboInput) : '';
 
-        // Kiểm tra giá trị hợp lệ của giaDon và giaCombo
         if (
             (typeof giaDon === 'number' && isNaN(giaDon)) ||
             (typeof giaCombo === 'number' && isNaN(giaCombo))
@@ -129,13 +114,13 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
         }
 
         const newData = {
-            MaGoi: MaGoi, // Include the generated MaGoi in the data to be added to Firestore
+            MaGoi: MaGoi,
             TenGoiVe: tenGoiVe,
             NgayApDung: ngayApDung,
             NgayHetHan: ngayHetHan,
-            GiaDon: typeof giaDon === 'number' ? giaDon.toString() : '', // Thay đổi này
+            GiaDon: typeof giaDon === 'number' ? giaDon.toString() : '',
             GiaCombo: typeof giaCombo === 'number' ? giaCombo.toString() : '',
-            SoVeCombo: typeof soVeCombo === 'number' ? soVeCombo.toString() : '', // Thay đổi này
+            SoVeCombo: typeof soVeCombo === 'number' ? soVeCombo.toString() : '',
             TinhTrangSuDung: TinhTrangSuDung,
         };
 
@@ -147,32 +132,29 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
             }
             newData.GiaDon = giaDon.toString();
         } else {
-            // If the checkbox is not checked, set GiaDon to an empty string
             newData.GiaDon = '';
         }
 
         if (comboVeChecked) {
             const giaCombo = parseFloat(giaComboInput);
-            const soVeCombo = parseFloat(soVeComboInput); // Add this line to get the value of SoVeCombo
+            const soVeCombo = parseFloat(soVeComboInput);
             if (isNaN(giaCombo) || isNaN(soVeCombo)) {
                 message.error('Vui lòng nhập giá vé và số vé hợp lệ.');
                 return;
             }
-            newData.GiaCombo = giaCombo.toString(); // Update GiaCombo with the value from the input
-            newData.SoVeCombo = soVeCombo.toString(); // Set SoVeCombo with the value from the input
+            newData.GiaCombo = giaCombo.toString();
+            newData.SoVeCombo = soVeCombo.toString();
         } else {
-            newData.GiaCombo = ''; // If the checkbox is not checked, set GiaCombo to an empty string
-            newData.SoVeCombo = ''; // Set SoVeCombo to an empty string as well
+            newData.GiaCombo = '';
+            newData.SoVeCombo = '';
         }
 
         try {
-            // Thêm dữ liệu mới vào Firestore và lấy reference của document đã thêm
             const docRef = await addDoc(ticketPackageCollection, newData);
             message.success('Thêm gói vé thành công');
-            // Successfully saved data to Firestore, now reset the input fields
+
             resetInputFields();
 
-            // Close the modal after saving the data
             onCancel();
             console.log('Document added with ID:', docRef.id);
         } catch (error: any) {
@@ -220,7 +202,7 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                         }}
                     >
                         <Input
-                            id="tenGoiVe" // Add an ID to the input field
+                            id="tenGoiVe"
                             placeholder="Nhập tên gói vé"
                             style={{
                                 width: '367px',
@@ -253,7 +235,7 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                     >
                         <DatePicker
                             value={selectedStartDayjs || null}
-                            onChange={(date) => setSelectedStartDate(date ? date.toDate() : null)} // Kiểm tra date có tồn tại hay không trước khi cập nhật state
+                            onChange={(date) => setSelectedStartDate(date ? date.toDate() : null)}
                             className="custom-datepicker"
                             style={{
                                 width: '143px',
@@ -265,7 +247,7 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
 
                         <TimePicker
                             value={selectedStartDayjs || null}
-                            onChange={(time) => setSelectedStartDate(time ? time.toDate() : null)} // Kiểm tra time có tồn tại hay không trước khi cập nhật state
+                            onChange={(time) => setSelectedStartDate(time ? time.toDate() : null)}
                             suffixIcon={<ClockCircleOutlined style={suffixIconStyle} />}
                             className="custom-timepicker"
                             style={{
@@ -278,7 +260,7 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                     <div style={{ display: 'inline' }}>
                         <DatePicker
                             value={selectedEndDayjs || null}
-                            onChange={(date) => setSelectedEndDate(date ? date.toDate() : null)} // Kiểm tra date có tồn tại hay không trước khi cập nhật state
+                            onChange={(date) => setSelectedEndDate(date ? date.toDate() : null)}
                             className="custom-datepicker"
                             style={{
                                 width: '143px',
@@ -318,15 +300,15 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                                             Vé lẻ (vnđ/vé) với giá
                                         </span>
                                         <Input
-                                            id="giaDonInput" // Thêm ID cho ô Input này
-                                            value={giaDonInput} // Đọc giá trị đã nhập vào ô Input
-                                            onChange={(e) => setGiaDonInput(e.target.value)} // Cập nhật state khi giá trị thay đổi
+                                            id="giaDonInput"
+                                            value={giaDonInput}
+                                            onChange={(e) => setGiaDonInput(e.target.value)}
                                             style={{
                                                 width: '148px',
                                                 height: '40px',
                                                 backgroundColor: '#F1F4F8',
                                             }}
-                                            disabled={!veLeChecked} // Vô hiệu hóa nếu checkbox không được chọn
+                                            disabled={!veLeChecked}
                                         />
                                         <span style={{ opacity: '70%', marginLeft: '8px' }}>
                                             {' '}
@@ -346,30 +328,30 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                                             Combo vé với giá
                                         </span>
                                         <Input
-                                            id="giaComboInput" // Thêm ID cho ô Input này
-                                            value={giaComboInput} // Đọc giá trị đã nhập vào ô Input
-                                            onChange={(e) => setGiaComboInput(e.target.value)} // Cập nhật state khi giá trị thay đổi
+                                            id="giaComboInput"
+                                            value={giaComboInput}
+                                            onChange={(e) => setGiaComboInput(e.target.value)}
                                             style={{
                                                 width: '148px',
                                                 height: '40px',
                                                 backgroundColor: '#F1F4F8',
                                             }}
-                                            disabled={!comboVeChecked} // Vô hiệu hóa nếu checkbox không được chọn
+                                            disabled={!comboVeChecked}
                                         />
                                         <span style={{ opacity: '70%', margin: ' 0 8px 0 8px' }}>
                                             {' '}
                                             /
                                         </span>
                                         <Input
-                                            id="soVeComboInput" // Thêm ID cho ô Input này
-                                            value={soVeComboInput} // Đọc giá trị đã nhập vào ô Input
-                                            onChange={(e) => setSoVeComboInput(e.target.value)} // Cập nhật state khi giá trị thay đổi
+                                            id="soVeComboInput"
+                                            value={soVeComboInput}
+                                            onChange={(e) => setSoVeComboInput(e.target.value)}
                                             style={{
                                                 width: '72px',
                                                 height: '40px',
                                                 backgroundColor: '#F1F4F8',
                                             }}
-                                            disabled={!comboVeChecked} // Vô hiệu hóa nếu checkbox không được chọn
+                                            disabled={!comboVeChecked}
                                         />
                                         <span style={{ opacity: '70%', margin: ' 0 8px 0 8px' }}>
                                             {' '}
@@ -388,7 +370,6 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                     <div>
                         <Space wrap>
                             <Dropdown
-                                // Sử dụng Dropdown của Ant Design
                                 overlay={
                                     <Menu onClick={(e) => handleDropdownChange(e.key)}>
                                         <Menu.Item key="Đang áp dụng">Đang áp dụng</Menu.Item>
@@ -427,7 +408,6 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                     <Button
                         key="cancel"
                         onClick={onCancel}
-                        // onClick={() => setModalOpen(false)}
                         className="button"
                         type="primary"
                         style={{
@@ -454,7 +434,7 @@ const NewModal: FC<NewModalProps> = ({ visible, onCancel }) => {
                             width: '140px',
                             marginLeft: '24px',
                         }}
-                        onClick={handleSave} // Gọi hàm xử lý thêm dữ liệu vào Firestore khi người dùng nhấn nút "Lưu"
+                        onClick={handleSave}
                     >
                         <span className="text-button">Lưu</span>
                     </Button>

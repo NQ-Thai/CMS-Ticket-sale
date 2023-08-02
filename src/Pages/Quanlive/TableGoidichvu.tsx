@@ -184,15 +184,15 @@ function TableGoidichvu({
 
     //New Modal
     const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
-    const [selectedRowData, setSelectedRowData] = useState<NewTicketType | null>(null); // Thêm state để lưu trữ thông tin của dòng được chọn
+    const [selectedRowData, setSelectedRowData] = useState<NewTicketType | null>(null);
 
     const openModalEdit = (rowData: NewTicketType, id: string) => {
-        setSelectedRowData({ ...rowData, id }); // Bao gồm trường id vào selectedRowData
+        setSelectedRowData({ ...rowData, id });
         setModalVisibleEdit(true);
     };
 
     const closeModalEdit = () => {
-        setSelectedRowData(null); // Reset giá trị của selectedRowData khi đóng Modal
+        setSelectedRowData(null);
         setModalVisibleEdit(false);
     };
 
@@ -220,7 +220,6 @@ function TableGoidichvu({
 
     console.log(tickets, 'ticket');
 
-    // Filter the tickets based on the searchValue, selectedTinhTrangProp, and selectedCheckboxes received as props
     const filteredTickets = tickets.filter((ticket) => {
         const isMatchedSearch = searchValue === '' || ticket.SoVe?.startsWith(searchValue);
         const isMatchedTinhTrang =
@@ -228,7 +227,6 @@ function TableGoidichvu({
         const isMatchedCheckbox =
             selectedCheckboxes.length === 0 || selectedCheckboxes.includes(ticket.Checkin || '');
 
-        // Handle the "Tất cả" checkbox case separately
         if (selectedCheckboxes.includes('all')) {
             return isMatchedSearch && isMatchedTinhTrang;
         } else {
@@ -236,7 +234,6 @@ function TableGoidichvu({
         }
     });
 
-    // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
     const newDataWithSTT = filteredTickets.map((ticket, index) => ({
         ...ticket,
         STT: `${index + 1}`,

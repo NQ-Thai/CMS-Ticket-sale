@@ -1,10 +1,14 @@
 import { DatePicker, Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import moment from 'moment';
+import { useState } from 'react';
 import { DoughnutChart } from '../../Component/DonutChart';
 import { DoughnutChart2 } from '../../Component/DonutChart2';
 import LineChart from '../../Component/LineChart';
 
 const Trangchu: React.FC = () => {
+    const [selectedWeek, setSelectedWeek] = useState<moment.Moment | null>(null);
+
     return (
         <div>
             <Layout>
@@ -27,10 +31,18 @@ const Trangchu: React.FC = () => {
                         >
                             Doanh thu
                         </span>
-                        <DatePicker style={{ marginRight: '30px' }} className="custom-datepicker" />
+                        <DatePicker
+                            picker="week"
+                            style={{ marginRight: '30px' }}
+                            className="custom-datepicker"
+                            onChange={(date, dateString) =>
+                                setSelectedWeek(moment(dateString, 'YYYY-MM-W'))
+                            }
+                            // value={selectedWeek ? moment(selectedWeek).toDate() : null}
+                        />
                     </div>
                     <div style={{ margin: '0 0 5px 24px' }}>
-                        <LineChart />
+                        <LineChart selectedWeek={selectedWeek} />
                     </div>
                     <div className="total-div">
                         <span className="total-text">Tổng danh thu theo tuần</span>
@@ -47,7 +59,7 @@ const Trangchu: React.FC = () => {
                         }}
                     >
                         <div style={{ flexBasis: '25%' }}>
-                            <DatePicker className="custom-datepicker" />
+                            <DatePicker picker="month" className="custom-datepicker" />
                         </div>
                         <div className="chart-column">
                             <span className="chart-title">Gói gia đình</span>

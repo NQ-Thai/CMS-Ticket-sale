@@ -5,9 +5,7 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
     textField: {
         '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                border: 'none',
-            },
+            '& fieldset': { border: 'none' },
             height: '40px',
             width: '327px',
         },
@@ -29,10 +27,7 @@ const SearchQuanlive: React.FC<SearchQuanliveProps> = ({ searchValue, onChange }
 
     return (
         <TextField
-            style={{
-                marginLeft: '20px',
-                // marginTop: '20px',
-            }}
+            style={{ marginLeft: '20px' }}
             className={classes.textField}
             id="searchve"
             placeholder="Tìm bằng số vé"

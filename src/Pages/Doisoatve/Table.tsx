@@ -7,7 +7,7 @@ import { ticketCollection } from '../../lib/controller';
 
 //Firebase
 export interface NewTicketType {
-    id: string; // Add the 'id' property here
+    id: string;
     STT?: string;
     SoVe?: string;
     TenSuKien?: string;
@@ -24,7 +24,7 @@ interface TableDoiSoatVeProps {
     fromDate: any;
     toDate: any;
     searchValue: string;
-    filteredData: NewTicketType[]; // Add filteredData prop
+    filteredData: NewTicketType[];
     setFilteredData: React.Dispatch<React.SetStateAction<NewTicketType[]>>;
 }
 
@@ -40,11 +40,6 @@ const columns: ColumnsType<NewTicketType> = [
         dataIndex: 'SoVe',
         key: 'SoVe',
     },
-    // {
-    //     title: 'Tên sự kiện',
-    //     dataIndex: 'TenSuKien',
-    //     key: 'TenSuKien',
-    // },
     {
         title: 'Ngày sử dụng',
         key: 'NgaySuDung',
@@ -105,7 +100,6 @@ const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData>) => {
             const ticketsData = snapshot.docs.map((doc, index) => {
-                // Add 'index' argument here
                 const data = doc.data();
                 return {
                     id: doc.id,
@@ -119,10 +113,9 @@ const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
     }, []);
 
     useEffect(() => {
-        // Thêm một useEffect mới để lọc dữ liệu khi radio thay đổi hoặc ngày thay đổi
         const filteredByRadio =
             selectedRadioValue === 1
-                ? tickets // Sử dụng prop 'tickets' để lọc dữ liệu
+                ? tickets
                 : tickets.filter((ticket) =>
                       selectedRadioValue === 2
                           ? ticket.TrangThai === 'Đã đối soát'
@@ -132,33 +125,30 @@ const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
         const filteredByDate = filteredByRadio.filter((ticket) => {
             if (fromDate && toDate && ticket.NgaySuDung) {
                 const ticketDate = new Date(ticket.NgaySuDung);
-                // Để bao gồm cả ngày fromDate và toDate, ta sẽ so sánh từ 00:00:00 đến 23:59:59 của các ngày
+
                 const fromDateStart = new Date(fromDate);
                 const toDateEnd = new Date(toDate);
                 toDateEnd.setHours(23, 59, 59);
 
                 return ticketDate >= fromDateStart && ticketDate <= toDateEnd;
             }
-            // If fromDate or toDate is not selected, include all tickets
+
             return true;
         });
 
-        // Lọc theo số vé nếu có searchValue
         const filteredBySearchValue = searchValue
             ? filteredByDate.filter((ticket) => ticket.SoVe?.startsWith(searchValue))
             : filteredByDate;
 
-        // Cập nhật lại giá trị của biến đếm dựa trên số lượng kết quả sau khi lọc
         setSttCounter(filteredBySearchValue.length > 0 ? 1 : 0);
 
-        // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
         const newDataWithSTT = filteredBySearchValue.map((ticket, index) => ({
             ...ticket,
-            STT: `${sttCounter + index}`, // Gán giá trị STT bằng sttCounter + index
+            STT: `${sttCounter + index}`,
         }));
 
-        setFilteredData(newDataWithSTT); // Cập nhật filteredData với dữ liệu sau khi lọc
-    }, [selectedRadioValue, fromDate, toDate, tickets, searchValue, sttCounter]);
+        setFilteredData(newDataWithSTT);
+    }, [selectedRadioValue, fromDate, toDate, tickets, searchValue, sttCounter, setFilteredData]);
 
     return (
         <div>

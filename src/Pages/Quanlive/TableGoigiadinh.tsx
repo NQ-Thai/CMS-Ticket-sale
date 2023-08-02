@@ -145,7 +145,7 @@ function TableGoigiadinh({
                         style={{
                             color: 'black',
                             borderColor: 'white',
-                            display: 'flex', // Sử dụng flexbox
+                            display: 'flex',
                             alignItems: 'center',
                         }}
                         ghost
@@ -210,7 +210,6 @@ function TableGoigiadinh({
 
     console.log(tickets, 'ticket');
 
-    // Filter the tickets based on the searchValue, selectedTinhTrangProp, and selectedCheckboxes received as props
     const filteredTickets = tickets.filter((ticket) => {
         const isMatchedSearch = searchValue === '' || ticket.SoVe?.startsWith(searchValue);
         const isMatchedTinhTrang =
@@ -218,7 +217,6 @@ function TableGoigiadinh({
         const isMatchedCheckbox =
             selectedCheckboxes.length === 0 || selectedCheckboxes.includes(ticket.Checkin || '');
 
-        // Handle the "Tất cả" checkbox case separately
         if (selectedCheckboxes.includes('all')) {
             return isMatchedSearch && isMatchedTinhTrang;
         } else {
@@ -226,7 +224,6 @@ function TableGoigiadinh({
         }
     });
 
-    // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
     const newDataWithSTT = filteredTickets.map((ticket, index) => ({
         ...ticket,
         STT: `${index + 1}`,

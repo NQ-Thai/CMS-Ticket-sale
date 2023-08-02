@@ -20,19 +20,17 @@ const ModalFilter: FC<FilterModalProps> = ({
     selectedCheckboxesProp,
     handleCheckboxChangeProp,
 }) => {
-    // Sử dụng giá trị prop để khởi tạo trạng thái cục bộ
     const [selectedTinhTrangModal, setSelectedTinhTrangModal] = useState<string>(
         selectedTinhTrangProp ?? 'all',
     );
 
-    // Sử dụng giá trị prop để khởi tạo trạng thái cục bộ
     const [selectedCheckboxes, setSelectedCheckboxes] = useState<CheckboxValueType[]>(
         selectedCheckboxesProp ?? 'all',
     );
 
     const handleFilterClick = () => {
         handleRadioChangeProp(selectedTinhTrangModal);
-        handleCheckboxChangeProp(selectedCheckboxes); // Truyền giá trị của selectedCheckboxes về thành phần cha
+        handleCheckboxChangeProp(selectedCheckboxes);
         onCancel();
     };
 
@@ -41,21 +39,15 @@ const ModalFilter: FC<FilterModalProps> = ({
         setSelectedTinhTrangModal(value);
     };
 
-    // Sự kiện khi Checkbox thay đổi
     const onChangeCheckBox = (checkedValues: CheckboxValueType[]) => {
-        // Check if the "Tất cả" checkbox is checked
         const isAllChecked = checkedValues.includes('all');
 
-        // If "Tất cả" checkbox is checked, set all other checkboxes to an empty array
         const selectedCheckboxes = isAllChecked ? ['all'] : checkedValues;
 
-        setSelectedCheckboxes(selectedCheckboxes); // Cập nhật trạng thái cục bộ của selectedCheckboxes
-        console.log('checked = ', checkedValues); // Ghi log các giá trị checkbox đã chọn
+        setSelectedCheckboxes(selectedCheckboxes);
+        console.log('checked = ', checkedValues);
     };
 
-    // ...
-
-    // Sự kiện khi "Tất cả" checkbox thay đổi
     const onChangeCheckAll = (e: CheckboxChangeEvent) => {
         const checked = e.target.checked;
         const checkboxesWithoutAll = selectedCheckboxes.filter((checkbox) => checkbox !== 'all');

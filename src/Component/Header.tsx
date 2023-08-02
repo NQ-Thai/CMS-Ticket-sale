@@ -9,7 +9,6 @@ import SearchBar from './SearchBar';
 function Top() {
     return (
         <>
-            {/* <Layout> */}
             <Header className="top" style={{ backgroundColor: 'rgb(249, 247, 247)' }}>
                 <img
                     className="image-logo"
@@ -32,7 +31,6 @@ function Top() {
                     <img className="img-avata" src={avata} alt="" />
                 </div>
             </Header>
-            {/* </Layout> */}
         </>
     );
 }

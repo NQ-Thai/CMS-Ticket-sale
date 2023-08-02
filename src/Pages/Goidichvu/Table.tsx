@@ -136,7 +136,7 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
                             borderColor: 'white',
                             height: '35px',
                             width: '120px',
-                            display: 'flex', // Sử dụng flexbox
+                            display: 'flex',
                             alignItems: 'center',
                         }}
                         ghost
@@ -168,15 +168,15 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
 
     //New Modal
     const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
-    const [selectedRowData, setSelectedRowData] = useState<NewTicketPackageType | null>(null); // Thêm state để lưu trữ thông tin của dòng được chọn
+    const [selectedRowData, setSelectedRowData] = useState<NewTicketPackageType | null>(null);
 
     const openModalEdit = (rowData: NewTicketPackageType, id: string) => {
-        setSelectedRowData({ ...rowData, id }); // Bao gồm trường id vào selectedRowData
+        setSelectedRowData({ ...rowData, id });
         setModalVisibleEdit(true);
     };
 
     const closeModalEdit = () => {
-        setSelectedRowData(null); // Reset giá trị của selectedRowData khi đóng Modal
+        setSelectedRowData(null);
         setModalVisibleEdit(false);
     };
 
@@ -201,7 +201,6 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
         [],
     );
 
-    // Filter the tickets based on the searchValue
     const filteredTickets =
         searchValue !== ''
             ? ticketPackage.filter(
@@ -211,7 +210,6 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
               )
             : ticketPackage;
 
-    // Tính lại giá trị STT từ 1 đến số dòng sau khi lọc
     const newDataWithSTT = filteredTickets.map((ticketPackage, index) => ({
         ...ticketPackage,
         STT: `${index + 1}`,
@@ -227,7 +225,7 @@ function TableGoiDichVu({ searchValue }: TableGoidichvuProps) {
                     height: '437px',
                 }}
                 columns={columns}
-                dataSource={newDataWithSTT} // Truyền dữ liệu từ Firestore vào bảng
+                dataSource={newDataWithSTT}
                 pagination={paginationConfig}
                 bordered
             />

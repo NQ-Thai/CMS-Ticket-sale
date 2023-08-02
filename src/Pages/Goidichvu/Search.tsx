@@ -29,10 +29,7 @@ const SearchGoidichvu: React.FC<SearchGoidichvuProps> = ({ searchValue, onChange
 
     return (
         <TextField
-            style={{
-                marginLeft: '20px',
-                // marginTop: '20px',
-            }}
+            style={{ marginLeft: '20px' }}
             className={classes.textField}
             id="searchve"
             placeholder="Tìm bằng số vé"

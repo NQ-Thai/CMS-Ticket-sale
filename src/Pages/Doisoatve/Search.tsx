@@ -30,7 +30,6 @@ const SearchDoisoatve: React.FC<SearchDoisoatveProps> = ({ searchValue, onChange
         <TextField
             style={{
                 marginLeft: '20px',
-                // marginTop: '20px',
             }}
             className={classes.textField}
             id="searchve"

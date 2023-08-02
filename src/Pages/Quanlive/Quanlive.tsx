@@ -19,12 +19,12 @@ function Quanlive() {
 
     const handleGoiGiaDinhClick = () => {
         setSelectedOption('goi-gia-dinh');
-        setSelectedTable('goi-gia-dinh'); // Chọn bảng TableGoigiadinh khi chọn "Gói gia đình"
+        setSelectedTable('goi-gia-dinh');
     };
 
     const handleGoiDichVuClick = () => {
         setSelectedOption('goi-dich-vu');
-        setSelectedTable('goi-dich-vu'); // Chọn bảng TableGoidichvu khi chọn "Gói dịch vụ"
+        setSelectedTable('goi-dich-vu');
     };
 
     const searchRef = useRef<HTMLInputElement | null>(null);
@@ -59,7 +59,7 @@ function Quanlive() {
     };
 
     const handleCheckboxChange = (checkedValues: CheckboxValueType[]) => {
-        setFilteredCheckboxes(checkedValues); // Cập nhật trạng thái filteredCheckboxes
+        setFilteredCheckboxes(checkedValues);
     };
 
     const handleFilterClick = () => {
@@ -85,7 +85,6 @@ function Quanlive() {
                     </div>
 
                     <div style={{ margin: '0 0 0 0' }}>
-                        {/* Use conditional styling for the "Gói gia đình" span */}
                         <span
                             className={`chart-text ${
                                 selectedOption === 'goi-gia-dinh' ? 'selected' : ''
@@ -96,7 +95,6 @@ function Quanlive() {
                             Gói gia đình
                         </span>
 
-                        {/* Use conditional styling for the "Gói dịch vụ" span */}
                         <span
                             className={`chart-text ${
                                 selectedOption === 'goi-dich-vu' ? 'selected' : ''
@@ -149,7 +147,6 @@ function Quanlive() {
                         </Button>
                     </div>
                     <div style={{ marginTop: '5px' }}>
-                        {/* Dựa vào giá trị của selectedTable để hiển thị bảng tương ứng */}
                         {selectedTable === 'goi-gia-dinh' ? (
                             <TableGoigiadinh
                                 selectedTinhTrangProp={selectedTinhTrangModal}

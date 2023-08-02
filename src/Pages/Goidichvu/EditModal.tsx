@@ -25,13 +25,11 @@ interface EditModalProps {
     selectedRowData: NewTicketPackageType | null;
 }
 
-// Hàm chuyển đổi giá trị Date sang Dayjs
 const convertToDayjs = (date: Date | undefined): dayjs.Dayjs | null => {
     return date ? dayjs(date) : null;
 };
 
 const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) => {
-    // Thêm state để lưu trữ thông tin của dòng được chọn
     const [formData, setFormData] = useState<NewTicketPackageType | null>(null);
 
     useEffect(() => {
@@ -45,30 +43,28 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
                 let docRef;
                 let dataToUpdate;
                 if (formData.id) {
-                    // Nếu formData.id đã tồn tại, có nghĩa là bạn đang cập nhật một document đã tồn tại
                     docRef = doc(ticketPackageCollection, formData.id);
                     dataToUpdate = {
                         MaGoi: formData.MaGoi,
                         TenGoiVe: formData.TenGoiVe,
                         NgayApDung: formData.NgayApDung,
                         NgayHetHan: formData.NgayHetHan
-                            ? Timestamp.fromDate(formData.NgayHetHan) // Convert to Firestore Timestamp
-                            : null, // If NgayHetHan is not set, set it to null
+                            ? Timestamp.fromDate(formData.NgayHetHan)
+                            : null,
                         GiaDon: formData.GiaDon,
                         GiaCombo: formData.GiaCombo,
                         SoVeCombo: formData.SoVeCombo,
                         TinhTrangSuDung: formData.TinhTrangSuDung,
                     };
                 } else {
-                    // Nếu formData.id không tồn tại, có nghĩa là bạn đang tạo một document mới
-                    docRef = doc(ticketPackageCollection); // Firestore sẽ tự tạo ID mới cho document
+                    docRef = doc(ticketPackageCollection);
                     dataToUpdate = {
                         MaGoi: formData.MaGoi,
                         TenGoiVe: formData.TenGoiVe,
                         NgayApDung: formData.NgayApDung,
                         NgayHetHan: formData.NgayHetHan
-                            ? Timestamp.fromDate(formData.NgayHetHan) // Convert to Firestore Timestamp
-                            : null, // If NgayHetHan is not set, set it to null
+                            ? Timestamp.fromDate(formData.NgayHetHan)
+                            : null,
                         GiaDon: formData.GiaDon,
                         GiaCombo: formData.GiaCombo,
                         SoVeCombo: formData.SoVeCombo,
@@ -76,7 +72,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
                     };
                 }
 
-                await updateDoc(docRef, dataToUpdate); // Thực hiện cập nhật dữ liệu vào Firestore
+                await updateDoc(docRef, dataToUpdate);
 
                 message.success('Lưu thành công!');
                 onCancel();
@@ -87,25 +83,22 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
         }
     };
 
-    // Cập nhật hàm handleDateChange
     const handleDateChange = (date: dayjs.Dayjs | null, dateString: string, field: string) => {
         if (formData) {
-            const dayjsDate = date ? date.toDate() : null; // Check if date is valid before conversion
+            const dayjsDate = date ? date.toDate() : null;
             const updatedFormData = { ...formData, [field]: dayjsDate };
             setFormData(updatedFormData);
         }
     };
 
-    // Cập nhật hàm handleTimeChange
     const handleTimeChange = (time: dayjs.Dayjs | null, timeString: string, field: string) => {
         if (formData) {
-            const timeDate = time ? time.toDate() : null; // Check if time is valid before conversion
+            const timeDate = time ? time.toDate() : null;
             const updatedFormData = { ...formData, [field]: timeDate };
             setFormData(updatedFormData);
         }
     };
 
-    // Cập nhật giá trị vào formData khi có sự thay đổi trong các trường input, DatePicker, TimePicker, Dropdown
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement> | Date | string,
         field: string,
@@ -127,11 +120,6 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
             label: 'Tắt',
             key: '1',
         },
-        // {
-        //     label: '2nd menu item',
-        //     key: '2',
-        //     icon: <UserOutlined />,
-        // },
     ];
 
     const menuProps = {
@@ -229,7 +217,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
                     >
                         <DatePicker
                             id="NgayApDung"
-                            value={formData?.NgayApDung ? dayjs(formData.NgayApDung) : null} // Chuyển đổi giá trị sang Dayjs
+                            value={formData?.NgayApDung ? dayjs(formData.NgayApDung) : null}
                             onChange={(date, dateString) =>
                                 handleDateChange(date, dateString, 'NgayApDung')
                             }
@@ -244,7 +232,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
 
                         <TimePicker
                             id="NgayApDung"
-                            value={formData?.NgayApDung ? dayjs(formData.NgayApDung) : null} // Chuyển đổi giá trị sang Dayjs
+                            value={formData?.NgayApDung ? dayjs(formData.NgayApDung) : null}
                             onChange={(time, timeString) =>
                                 handleTimeChange(time, timeString, 'NgayApDung')
                             }
@@ -260,7 +248,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
                     <div style={{ display: 'inline' }}>
                         <DatePicker
                             id="NgayHetHan"
-                            value={formData?.NgayHetHan ? dayjs(formData.NgayHetHan) : null} // Chuyển đổi giá trị sang Dayjs
+                            value={formData?.NgayHetHan ? dayjs(formData.NgayHetHan) : null}
                             onChange={(date, dateString) =>
                                 handleDateChange(date, dateString, 'NgayHetHan')
                             }
@@ -275,7 +263,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
 
                         <TimePicker
                             id="NgayHetHan"
-                            value={formData?.NgayHetHan ? dayjs(formData.NgayHetHan) : null} // Chuyển đổi giá trị sang Dayjs
+                            value={formData?.NgayHetHan ? dayjs(formData.NgayHetHan) : null}
                             onChange={(time, timeString) =>
                                 handleTimeChange(time, timeString, 'NgayHetHan')
                             }
@@ -422,7 +410,7 @@ const EditModal: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) =
                             width: '140px',
                             marginLeft: '24px',
                         }}
-                        onClick={handleSave} // Gọi hàm handleSave khi nhấn nút "Lưu"
+                        onClick={handleSave}
                     >
                         <span className="text-button">Lưu</span>
                     </Button>

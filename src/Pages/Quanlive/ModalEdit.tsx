@@ -11,14 +11,11 @@ interface EditModalProps {
     selectedRowData: NewTicketType | null;
 }
 
-// Hàm chuyển đổi giá trị Date sang Dayjs
 const convertToDayjs = (date: Date | undefined): Dayjs | null => {
-    // Sử dụng kiểu Dayjs thay vì dayjs.Dayjs
     return date ? dayjs(date) : null;
 };
 
 const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) => {
-    // Thêm state để lưu trữ thông tin của dòng được chọn
     const [formData, setFormData] = useState<NewTicketType | null>(null);
 
     useEffect(() => {
@@ -35,18 +32,14 @@ const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowD
                     dataToUpdate = {
                         SoVe: formData.SoVe,
                         TenSuKien: formData.TenSuKien,
-                        HanSuDung: formData.HanSuDung
-                            ? dayjs(formData.HanSuDung).toDate() // Convert back to Date type
-                            : null,
+                        HanSuDung: formData.HanSuDung ? dayjs(formData.HanSuDung).toDate() : null,
                     };
                 } else {
                     docRef = doc(ticketCollection);
                     dataToUpdate = {
                         SoVe: formData.SoVe,
                         TenSuKien: formData.TenSuKien,
-                        HanSuDung: formData.HanSuDung
-                            ? dayjs(formData.HanSuDung).toDate() // Convert back to Date type
-                            : null,
+                        HanSuDung: formData.HanSuDung ? dayjs(formData.HanSuDung).toDate() : null,
                     };
                 }
 
@@ -62,12 +55,11 @@ const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowD
 
     const handleDateChange = (date: Dayjs | null, dateString: string, field: string) => {
         if (formData && date) {
-            const updatedFormData = { ...formData, [field]: date }; // Save Dayjs directly to the formData
+            const updatedFormData = { ...formData, [field]: date };
             setFormData(updatedFormData);
         }
     };
 
-    // Cập nhật giá trị vào formData khi có sự thay đổi trong các trường input, DatePicker, TimePicker, Dropdown
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement> | Date | string,
         field: string,
@@ -183,7 +175,7 @@ const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowD
                     </span>
                     <DatePicker
                         id="HanSuDung"
-                        value={formData?.HanSuDung ? dayjs(formData.HanSuDung) : null} // Chuyển đổi giá trị sang Dayjs
+                        value={formData?.HanSuDung ? dayjs(formData.HanSuDung) : null}
                         onChange={(date, dateString) =>
                             handleDateChange(date, dateString, 'HanSuDung')
                         }
