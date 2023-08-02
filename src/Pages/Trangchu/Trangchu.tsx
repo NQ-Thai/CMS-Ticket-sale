@@ -1,6 +1,5 @@
 import { DatePicker, Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import moment from 'moment';
 import { useState } from 'react';
 import { DoughnutChart } from '../../Component/DonutChart';
 import { DoughnutChart2 } from '../../Component/DonutChart2';
@@ -35,14 +34,10 @@ const Trangchu: React.FC = () => {
                             picker="week"
                             style={{ marginRight: '30px' }}
                             className="custom-datepicker"
-                            onChange={(date, dateString) =>
-                                setSelectedWeek(moment(dateString, 'YYYY-MM-W'))
-                            }
-                            // value={selectedWeek ? moment(selectedWeek).toDate() : null}
                         />
                     </div>
                     <div style={{ margin: '0 0 5px 24px' }}>
-                        <LineChart selectedWeek={selectedWeek} />
+                        <LineChart />
                     </div>
                     <div className="total-div">
                         <span className="total-text">Tổng danh thu theo tuần</span>
