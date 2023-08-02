@@ -50,27 +50,20 @@ const Doisoatve: React.FC = () => {
         setToDate(date);
     };
 
-    // ... (previous code)
-
-    // Function to handle "Chốt đối soát" button click
     const handleChotDoiSoatClick = async () => {
         try {
             console.log('Chốt đối soát button clicked.');
             const batch = writeBatch(firestore);
 
-            // Loop through the filtered data (filteredData) and update the TrangThai field for each ticket to "Đã đối soát" in the batch
             for (const ticket of filteredData) {
                 const ticketRef = doc(ticketCollection, ticket.id);
                 batch.update(ticketRef, { TrangThai: 'Đã đối soát' });
             }
 
-            // Commit the batch write
             await batch.commit();
 
-            // Optionally, you can display a success message after updating the documents.
             message.success('Chốt đối soát thành công');
         } catch (error: any) {
-            // Handle the error if the update operation fails
             message.error('Lỗi khi chốt đối soát: ' + error.message);
         }
     };
@@ -103,9 +96,9 @@ const Doisoatve: React.FC = () => {
                                             backgroundColor: '#FF993C',
                                             width: '130px',
                                             height: '40px',
-                                            marginLeft: '180px',
+                                            marginLeft: '175px',
                                         }}
-                                        onClick={handleChotDoiSoatClick} // Call the function when the button is clicked
+                                        onClick={handleChotDoiSoatClick}
                                     >
                                         <span
                                             className="text-button"
@@ -128,7 +121,6 @@ const Doisoatve: React.FC = () => {
                                         searchValue={searchValue}
                                         filteredData={filteredData}
                                         setFilteredData={setFilteredData}
-                                        // Pass the function as a prop
                                     />
                                 </div>
                             </div>
@@ -179,9 +171,9 @@ const Doisoatve: React.FC = () => {
                                             <Space direction="vertical">
                                                 <Radio
                                                     className="custom-radio"
-                                                    // style={{
-                                                    //     font: 'Montserrat',
-                                                    // }}
+                                                    style={{
+                                                        font: 'Montserrat',
+                                                    }}
                                                     value={1}
                                                 >
                                                     Tất cả

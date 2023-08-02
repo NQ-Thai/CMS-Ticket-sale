@@ -1,14 +1,13 @@
 import { Button, Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+
 import { FC, useState } from 'react';
 import NewModal from './NewModal';
 import SearchGoidichvu from './Search';
 import TableGoiDichVu from './Table';
 
 const Goidichvu: FC = () => {
-    // Add Modal
     const [modalVisible, setModalVisible] = useState(false);
-
     const [searchValue, setSearchValue] = useState<string>('');
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +26,7 @@ const Goidichvu: FC = () => {
         <div>
             <Layout
                 style={{
+                    width: '1010px',
                     backgroundColor: '#FFFFFF',
                     margin: '0 20px 1px 0',
                     borderRadius: '15px',
@@ -44,7 +44,7 @@ const Goidichvu: FC = () => {
                                 borderColor: '#FF993C',
                                 height: '36px',
                                 width: '150px',
-                                marginLeft: '355px',
+                                marginLeft: '350px',
                             }}
                             ghost
                         >

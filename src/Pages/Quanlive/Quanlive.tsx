@@ -73,6 +73,8 @@ function Quanlive() {
                 <Content
                     className="layout-content"
                     style={{
+                        width: '1020px',
+                        height: '600px',
                         backgroundColor: '#FFFFFF',
                         margin: '0 20px 0 0',
                         borderRadius: '15px',

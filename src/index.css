@@ -994,7 +994,7 @@ a:hover {
 }
 
 .custom-datepicker {
-    width: 155px;
+    width: 140px;
     height: 40px;
     align-self: flex-end;
     border-color: #a5a8b1;
@@ -1181,4 +1181,72 @@ a:hover {
 .selected {
     color: #ff993c;
     text-decoration: underline 3px;
+}
+
+.custom-table .ant-table {
+    height: 380px; /* Kích thước chiều cao tùy chỉnh */
+    width: 975px;
+}
+
+.custom-table .ant-table-container {
+    height: 100%; /* Cân chỉnh chiều cao của container để bảng lấp đầy không gian được chỉ định */
+    overflow: auto; /* Tạo thanh cuộn nếu nội dung bảng quá lớn */
+}
+
+/* Table Doisoatve */
+.custom-table-doisoatve .ant-table-thead > tr > th {
+    background-color: #f1f4f8; /* Màu nền tiêu đề */
+    color: #1e0d03; /* Màu chữ tiêu đề */
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.custom-table-doisoatve .ant-table-tbody > tr:nth-child(even) {
+    background-color: #f5f5f5; /* Màu nền cho dòng chẵn */
+}
+
+.custom-table-doisoatve .ant-table-tbody > tr:nth-child(odd) {
+    background-color: #ffffff; /* Màu nền cho dòng lẻ */
+}
+
+/* Định dạng cột 1 */
+.custom-doisoatve-col1 {
+    width: 670px;
+    background: #ffffff;
+    height: 88vh;
+    border-radius: 15px;
+}
+
+/* Định dạng cột 2 */
+.custom-doisoatve-col2 {
+    background: #ffffff;
+    width: 330px;
+    height: 88vh;
+    margin: 0 20px 0 10px;
+    border-radius: 15px;
+    position: sticky;
+    top: 20px;
+    right: 0;
+}
+
+/* Table Quanlive */
+.custom-table-quanlive .ant-table-thead > tr > th {
+    background-color: #f1f4f8; /* Màu nền tiêu đề */
+    color: #1e0d03; /* Màu chữ tiêu đề */
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.custom-table-quanlive .ant-table-tbody > tr:nth-child(even) {
+    background-color: #f5f5f5; /* Màu nền cho dòng chẵn */
+}
+
+.custom-table-quanlive .ant-table-tbody > tr:nth-child(odd) {
+    background-color: #ffffff; /* Màu nền cho dòng lẻ */
 }

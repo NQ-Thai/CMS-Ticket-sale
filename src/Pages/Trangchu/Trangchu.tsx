@@ -1,8 +1,8 @@
 import { DatePicker, Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import { DoughnutChart } from '../Component/DonutChart';
-import { DoughnutChart2 } from '../Component/DonutChart2';
-import LineChart from '../Component/LineChart';
+import { DoughnutChart } from '../../Component/DonutChart';
+import { DoughnutChart2 } from '../../Component/DonutChart2';
+import LineChart from '../../Component/LineChart';
 
 const Trangchu: React.FC = () => {
     return (
@@ -11,7 +11,7 @@ const Trangchu: React.FC = () => {
                 <Content
                     className="layout-content"
                     style={{
-                        // width: '100%',
+                        width: '1020px',
                         display: 'flex',
                         flexDirection: 'column',
                         backgroundColor: '#FFFFFF',
@@ -27,10 +27,9 @@ const Trangchu: React.FC = () => {
                         >
                             Doanh thu
                         </span>
-                        <DatePicker style={{ marginRight: '35px' }} className="custom-datepicker" />
+                        <DatePicker style={{ marginRight: '30px' }} className="custom-datepicker" />
                     </div>
                     <div style={{ margin: '0 0 5px 24px' }}>
-                        {/* <LineChartComponent /> */}
                         <LineChart />
                     </div>
                     <div className="total-div">

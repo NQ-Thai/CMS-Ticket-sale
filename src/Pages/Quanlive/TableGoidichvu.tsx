@@ -245,7 +245,7 @@ function TableGoidichvu({
     return (
         <div>
             <Table
-                className="custom-table"
+                className="custom-table-quanlive"
                 style={{
                     margin: '5px 20px 0 20px',
                     height: '437px',

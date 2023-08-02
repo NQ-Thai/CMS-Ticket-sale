@@ -192,7 +192,7 @@ function TableGoigiadinh({
     const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
-        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData>) => {
             setTickets(
                 snapshot.docs.map((doc, index) => {
                     const data = doc.data();
@@ -235,7 +235,7 @@ function TableGoigiadinh({
     return (
         <div>
             <Table
-                className="custom-table"
+                className="custom-table-quanlive"
                 style={{
                     margin: '5px 20px 0 20px',
                     height: '437px',

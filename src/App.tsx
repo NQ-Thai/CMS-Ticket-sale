@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Top from './Component/Header';
 import NavBar from './Component/NavBar';
-const Trangchu = lazy(() => import('./Pages/Trangchu'));
+const Trangchu = lazy(() => import('./Pages/Trangchu/Trangchu'));
 const Quanlive = lazy(() => import('./Pages/Quanlive/Quanlive'));
 const Doisoatve = lazy(() => import('./Pages/Doisoatve/Doisoatve'));
 const Goidichvu = lazy(() => import('./Pages/Goidichvu/Goidichvu'));

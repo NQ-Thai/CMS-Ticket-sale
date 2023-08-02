@@ -103,7 +103,7 @@ const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
     const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
-        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+        onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData>) => {
             const ticketsData = snapshot.docs.map((doc, index) => {
                 // Add 'index' argument here
                 const data = doc.data();
@@ -163,7 +163,7 @@ const TableDoiSoatVe: React.FC<TableDoiSoatVeProps> = ({
     return (
         <div>
             <Table
-                className="custom-table"
+                className="custom-table-doisoatve"
                 size="small"
                 style={{
                     font: 'Montserrat',
