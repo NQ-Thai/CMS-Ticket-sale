@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { ticketCollection } from '../../lib/controller';
-import ModalEditQuanlive from './ModalEdit';
+import ModalEditDichvu from './ModalEditDichvu';
 
 //Firebase
 export interface NewTicketType {
@@ -75,7 +75,6 @@ const renderStatus = (TinhTrangSuDung: string | undefined) => {
 };
 function TableGoidichvu({
     selectedTinhTrangProp,
-    handleRadioChangeProp,
     searchValue,
     selectedCheckboxes,
 }: TableQuanLiVeProps) {
@@ -84,12 +83,13 @@ function TableGoidichvu({
             title: 'STT',
             dataIndex: 'STT',
             key: 'STT',
+            width: '30px',
         },
         {
             title: 'Booking Code',
             dataIndex: 'BookingCode',
             key: 'BookingCode',
-            width: '40px',
+            width: '35px',
         },
         {
             title: 'Số vé',
@@ -100,11 +100,13 @@ function TableGoidichvu({
             title: 'Tên sự kiện',
             dataIndex: 'TenSuKien',
             key: 'TenSuKien',
+            width: '170px',
         },
         {
             title: 'Tình trạng sử dụng',
             key: 'TinhTrangSuDung',
             dataIndex: 'TinhTrangSuDung',
+            width: '220px',
             render: renderStatus,
         },
 
@@ -137,10 +139,12 @@ function TableGoidichvu({
             title: 'Cổng check-in',
             key: 'Checkin',
             dataIndex: 'Checkin',
+            width: '120px',
         },
         {
             title: ' ',
             key: 'action',
+            width: '5px',
             render: (_, record) => (
                 <Space size="middle">
                     <Button
@@ -162,25 +166,12 @@ function TableGoidichvu({
         },
     ];
 
-    const getTagColor = (tag: string) => {
-        if (tag === 'Hết hạn') {
-            return 'red';
-        } else if (tag === 'Chưa sử dụng') {
-            return 'green';
-        } else if (tag.length > 5) {
-            return 'geekblue';
-        }
-        return 'green';
-    };
-
     const paginationConfig: TablePaginationConfig = {
         position: ['bottomCenter'],
         size: 'small',
         pageSize: 4,
         pageSizeOptions: ['4', '8', '12', '16'],
     };
-
-    const [newHanSuDung, setNewHanSuDung] = useState<Date | null>(null);
 
     //New Modal
     const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
@@ -197,8 +188,6 @@ function TableGoidichvu({
     };
 
     const [tickets, setTickets] = useState<NewTicketType[]>([]);
-
-    const [sttCounter, setSttCounter] = useState<number>(1);
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData>) => {
@@ -252,7 +241,7 @@ function TableGoidichvu({
                 pagination={paginationConfig}
                 bordered
             />
-            <ModalEditQuanlive
+            <ModalEditDichvu
                 visible={modalVisibleEdit}
                 onCancel={closeModalEdit}
                 selectedRowData={selectedRowData}

@@ -1,4 +1,4 @@
-import { Button, DatePicker, MenuProps, Modal, message } from 'antd';
+import { Button, DatePicker, Modal, message } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { doc, updateDoc } from 'firebase/firestore';
 import { FC, useEffect, useState } from 'react';
@@ -11,11 +11,7 @@ interface EditModalProps {
     selectedRowData: NewTicketType | null;
 }
 
-const convertToDayjs = (date: Date | undefined): Dayjs | null => {
-    return date ? dayjs(date) : null;
-};
-
-const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) => {
+const ModalEditDichvu: FC<EditModalProps> = ({ visible, onCancel, selectedRowData }) => {
     const [formData, setFormData] = useState<NewTicketType | null>(null);
 
     useEffect(() => {
@@ -60,35 +56,6 @@ const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowD
         }
     };
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement> | Date | string,
-        field: string,
-    ) => {
-        if (formData) {
-            const updatedFormData = { ...formData, [field]: e };
-            setFormData(updatedFormData);
-        }
-    };
-
-    //Dropdown
-    const handleMenuClick: MenuProps['onClick'] = (e) => {
-        message.info('Click on menu item.');
-        console.log('click', e);
-    };
-
-    const items: MenuProps['items'] = [
-        {
-            label: 'Tắt',
-            key: '1',
-        },
-    ];
-
-    const menuProps = {
-        items,
-        onClick: handleMenuClick,
-    };
-
-    const suffixIconStyle = { fontSize: '24px', width: '24px', height: '24px', color: '#ff993c' };
     return (
         <div>
             <Modal
@@ -229,4 +196,4 @@ const ModalEditQuanlive: FC<EditModalProps> = ({ visible, onCancel, selectedRowD
     );
 };
 
-export default ModalEditQuanlive;
+export default ModalEditDichvu;

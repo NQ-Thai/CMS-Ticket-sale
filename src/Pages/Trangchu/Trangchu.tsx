@@ -68,7 +68,34 @@ const Trangchu: React.FC = () => {
                                 <DoughnutChart2 />
                             </div>
                         </div>
-                        <div className="chart-column"></div>
+                        <div className="chart-column">
+                            <div style={{ margin: '30px 15px 0 0', display: 'flex' }}>
+                                <div
+                                    style={{
+                                        backgroundColor: '#4F75FF',
+                                        padding: '5px',
+                                        height: '20px',
+                                        width: '44px',
+                                        borderRadius: '4px',
+                                        marginRight: '8px',
+                                    }}
+                                />
+                                <span>Vé đã sử dụng</span>
+                            </div>
+                            <div style={{ marginTop: '17px', display: 'flex' }}>
+                                <div
+                                    style={{
+                                        backgroundColor: '#FF8A48',
+                                        padding: '5px',
+                                        height: '20px',
+                                        width: '44px',
+                                        borderRadius: '4px',
+                                        marginRight: '8px',
+                                    }}
+                                />
+                                <span>Vé chưa sử dụng</span>
+                            </div>
+                        </div>
                     </div>
                 </Content>
             </Layout>

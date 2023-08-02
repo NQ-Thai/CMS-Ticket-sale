@@ -7,17 +7,18 @@ import { useEffect, useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { ticketCollection } from '../../lib/controller';
-import { NewTicketPackageType } from '../Goidichvu/Table';
-import ModalEditQuanlive from './ModalEdit';
+import ModalEditQuanlive from './ModalEditGiaDinh';
 
 //Firebase
-interface NewTicketType {
+export interface NewTicketTypeGiadinh {
+    id?: string;
     STT?: string;
     SoVe?: string;
     BookingCode?: string;
     Checkin?: string;
     NgaySuDung?: Date;
     NgayXuatVe?: Date;
+    TenSuKien?: string;
     TinhTrangSuDung: string;
 }
 
@@ -74,11 +75,10 @@ const renderStatus = (TinhTrangSuDung: string | undefined) => {
 };
 function TableGoigiadinh({
     selectedTinhTrangProp,
-    handleRadioChangeProp,
     searchValue,
     selectedCheckboxes,
 }: TableQuanLiVeProps) {
-    const columns: ColumnsType<NewTicketType> = [
+    const columns: ColumnsType<NewTicketTypeGiadinh> = [
         {
             title: 'STT',
             dataIndex: 'STT',
@@ -135,11 +135,10 @@ function TableGoigiadinh({
         {
             title: ' ',
             key: 'action',
-
             render: (_, record) => (
                 <Space size="middle">
                     <Button
-                        onClick={openModalEdit}
+                        onClick={() => openModalEdit(record, record.id ? record.id : '')}
                         className="modalEdit"
                         type="primary"
                         style={{
@@ -157,17 +156,6 @@ function TableGoigiadinh({
         },
     ];
 
-    const getTagColor = (tag: string) => {
-        if (tag === 'Hết hạn') {
-            return 'red';
-        } else if (tag === 'Chưa sử dụng') {
-            return 'green';
-        } else if (tag.length > 5) {
-            return 'geekblue';
-        }
-        return 'green';
-    };
-
     const paginationConfig: TablePaginationConfig = {
         position: ['bottomCenter'],
         size: 'small',
@@ -177,19 +165,19 @@ function TableGoigiadinh({
 
     //New Modal
     const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
-    const [selectedEditRecord, setSelectedEditRecord] = useState<NewTicketPackageType | null>(null);
+    const [selectedRowData, setSelectedRowData] = useState<NewTicketTypeGiadinh | null>(null);
 
-    const openModalEdit = () => {
+    const openModalEdit = (rowData: NewTicketTypeGiadinh, id: string) => {
+        setSelectedRowData({ ...rowData, id });
         setModalVisibleEdit(true);
     };
 
     const closeModalEdit = () => {
+        setSelectedRowData(null);
         setModalVisibleEdit(false);
     };
 
-    const [tickets, setTickets] = useState<NewTicketType[]>([]);
-
-    const [sttCounter, setSttCounter] = useState<number>(1);
+    const [tickets, setTickets] = useState<NewTicketTypeGiadinh[]>([]);
 
     useEffect(() => {
         onSnapshot(ticketCollection, (snapshot: QuerySnapshot<DocumentData>) => {
@@ -197,13 +185,14 @@ function TableGoigiadinh({
                 snapshot.docs.map((doc, index) => {
                     const data = doc.data();
                     return {
+                        id: doc.id,
                         STT: `${index + 1}`,
                         ...data,
                         NgaySuDung: data.NgaySuDung ? data.NgaySuDung.toDate() : null,
                         NgayXuatVe: data.NgayXuatVe ? data.NgayXuatVe.toDate() : null,
                         TinhTrangSuDung: data.TinhTrangSuDung || '',
                     };
-                }) as NewTicketType[],
+                }) as NewTicketTypeGiadinh[],
             );
         });
     }, []);
@@ -245,7 +234,7 @@ function TableGoigiadinh({
             <ModalEditQuanlive
                 visible={modalVisibleEdit}
                 onCancel={closeModalEdit}
-                selectedRowData={null}
+                selectedRowData={selectedRowData}
             />
         </div>
     );
